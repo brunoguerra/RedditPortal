@@ -16,9 +16,14 @@
 		9D18D5021681A49C00927859 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D18D5011681A49C00927859 /* Default.png */; };
 		9D18D5041681A49C00927859 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D18D5031681A49C00927859 /* Default@2x.png */; };
 		9D18D5061681A49C00927859 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D18D5051681A49C00927859 /* Default-568h@2x.png */; };
+		9D5E20FF1681A8C400A236E6 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D5E20FE1681A8C400A236E6 /* MainViewController.m */; };
+		9D5E21031681AE1F00A236E6 /* StoryTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D5E21021681AE1F00A236E6 /* StoryTableViewController.m */; };
+		FDD42166DD2F4730B748E978 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82F1ACF22EB84A28A0C04266 /* libPods.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7D95CB74730343FB97E240D1 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
+		82F1ACF22EB84A28A0C04266 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D18D4EB1681A49B00927859 /* RocketNews.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RocketNews.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D18D4EF1681A49B00927859 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		9D18D4F11681A49B00927859 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -32,6 +37,10 @@
 		9D18D5011681A49C00927859 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		9D18D5031681A49C00927859 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		9D18D5051681A49C00927859 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		9D5E20FD1681A8C400A236E6 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
+		9D5E20FE1681A8C400A236E6 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
+		9D5E21011681AE1F00A236E6 /* StoryTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoryTableViewController.h; sourceTree = "<group>"; };
+		9D5E21021681AE1F00A236E6 /* StoryTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoryTableViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -42,6 +51,7 @@
 				9D18D4F01681A49B00927859 /* UIKit.framework in Frameworks */,
 				9D18D4F21681A49B00927859 /* Foundation.framework in Frameworks */,
 				9D18D4F41681A49B00927859 /* CoreGraphics.framework in Frameworks */,
+				FDD42166DD2F4730B748E978 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -54,6 +64,7 @@
 				9D18D4F51681A49B00927859 /* RocketNews */,
 				9D18D4EE1681A49B00927859 /* Frameworks */,
 				9D18D4EC1681A49B00927859 /* Products */,
+				7D95CB74730343FB97E240D1 /* Pods.xcconfig */,
 			);
 			sourceTree = "<group>";
 		};
@@ -71,6 +82,7 @@
 				9D18D4EF1681A49B00927859 /* UIKit.framework */,
 				9D18D4F11681A49B00927859 /* Foundation.framework */,
 				9D18D4F31681A49B00927859 /* CoreGraphics.framework */,
+				82F1ACF22EB84A28A0C04266 /* libPods.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -78,6 +90,8 @@
 		9D18D4F51681A49B00927859 /* RocketNews */ = {
 			isa = PBXGroup;
 			children = (
+				9D5E21051681AE2B00A236E6 /* TableViewControllers */,
+				9D5E21041681AE2300A236E6 /* ViewControllers */,
 				9D18D4FE1681A49B00927859 /* AppDelegate.h */,
 				9D18D4FF1681A49B00927859 /* AppDelegate.m */,
 				9D18D4F61681A49B00927859 /* Supporting Files */,
@@ -99,6 +113,24 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		9D5E21041681AE2300A236E6 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				9D5E20FD1681A8C400A236E6 /* MainViewController.h */,
+				9D5E20FE1681A8C400A236E6 /* MainViewController.m */,
+			);
+			name = ViewControllers;
+			sourceTree = "<group>";
+		};
+		9D5E21051681AE2B00A236E6 /* TableViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				9D5E21011681AE1F00A236E6 /* StoryTableViewController.h */,
+				9D5E21021681AE1F00A236E6 /* StoryTableViewController.m */,
+			);
+			name = TableViewControllers;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -109,6 +141,7 @@
 				9D18D4E71681A49B00927859 /* Sources */,
 				9D18D4E81681A49B00927859 /* Frameworks */,
 				9D18D4E91681A49B00927859 /* Resources */,
+				8DC85C356E1240E58D758AF0 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -159,6 +192,23 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		8DC85C356E1240E58D758AF0 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		9D18D4E71681A49B00927859 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -166,6 +216,8 @@
 			files = (
 				9D18D4FC1681A49B00927859 /* main.m in Sources */,
 				9D18D5001681A49B00927859 /* AppDelegate.m in Sources */,
+				9D5E20FF1681A8C400A236E6 /* MainViewController.m in Sources */,
+				9D5E21031681AE1F00A236E6 /* StoryTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -237,6 +289,7 @@
 		};
 		9D18D50A1681A49C00927859 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7D95CB74730343FB97E240D1 /* Pods.xcconfig */;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "RocketNews/RocketNews-Prefix.pch";
@@ -248,6 +301,7 @@
 		};
 		9D18D50B1681A49C00927859 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7D95CB74730343FB97E240D1 /* Pods.xcconfig */;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "RocketNews/RocketNews-Prefix.pch";
@@ -276,6 +330,7 @@
 				9D18D50B1681A49C00927859 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
