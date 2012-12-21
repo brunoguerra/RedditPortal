@@ -10,6 +10,7 @@
 #import "AppDelegate.h"
 #import <QuartzCore/QuartzCore.h>
 #import <AFNetworking.h>
+#import <SSPullToRefresh.h>
 
 #define AUTO_FETCH_BUFFER 5
 #define SLIDE_OFFSET 230
@@ -25,7 +26,7 @@
 
 @implementation StoryViewController
 
-@synthesize webView = _webView, reddit = _reddit, storyTableView = _storyTableView;
+@synthesize webView = _webView, reddit = _reddit, storyTableView = _storyTableView, pullToRefreshView = _pullToRefreshView;
 
 - (void)viewDidLoad
 {
@@ -42,6 +43,10 @@
     
     [self.view addSubview:_storyTableView];
 
+    
+    _pullToRefreshView = [[SSPullToRefreshView alloc]
+                              initWithScrollView:_storyTableView
+                              delegate:self];
     
     /*
      * The main navigation title and buttons:
@@ -145,6 +150,18 @@ int i = 0;
     i++;
 }
 
+
+- (void)refresh
+{
+    [self.pullToRefreshView startLoading];
+    [_reddit fetchFrontPage];
+    NSLog(@"Refreshing Data");
+    [self.pullToRefreshView finishLoading];
+}
+
+- (void)pullToRefreshViewDidStartLoading:(SSPullToRefreshView *)view {
+    [self refresh];
+}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {

@@ -29,6 +29,7 @@
 }
 - (void) fetchFrontPage {
     
+    [_stories removeAllObjects];
     
     NSURL *url = [NSURL URLWithString:@"http://www.reddit.com/.json"];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
@@ -46,7 +47,6 @@
                                                 
                                                  [_stories addObject:[dic objectForKey:@"data"]];
                                              }
-                                             
                                              
                                              _numOfStoriesLoaded += STORIES_PER_PAGE;
                                              _nextPageToken = [resultsDictionary objectForKey:@"after"];

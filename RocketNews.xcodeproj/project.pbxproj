@@ -34,6 +34,7 @@
 		9D5E21141681B8B900A236E6 /* RedditAPIObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D5E21131681B8B900A236E6 /* RedditAPIObject.m */; };
 		9D7017EE168233CD00472835 /* RedditTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D7017ED168233CD00472835 /* RedditTableViewCell.m */; };
 		9D7017FE16828FD600472835 /* StoryWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D7017FD16828FD600472835 /* StoryWebViewController.m */; };
+		9DE5C8C016845581005C2EB2 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9DE5C8BF16845581005C2EB2 /* Icon@2x.png */; };
 		FDD42166DD2F4730B748E978 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82F1ACF22EB84A28A0C04266 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -78,6 +79,7 @@
 		9D7017ED168233CD00472835 /* RedditTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RedditTableViewCell.m; sourceTree = "<group>"; };
 		9D7017FC16828FD600472835 /* StoryWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoryWebViewController.h; sourceTree = "<group>"; };
 		9D7017FD16828FD600472835 /* StoryWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoryWebViewController.m; sourceTree = "<group>"; };
+		9DE5C8BF16845581005C2EB2 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,6 +144,7 @@
 		9D18D4F61681A49B00927859 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				9DE5C8BF16845581005C2EB2 /* Icon@2x.png */,
 				9D2922901683D82900B8BF86 /* background.png */,
 				9D29228E1683D23700B8BF86 /* backgroundCell.png */,
 				9D29228C1683CB9F00B8BF86 /* comments@2x.png */,
@@ -280,6 +283,7 @@
 				9D29228D1683CB9F00B8BF86 /* comments@2x.png in Resources */,
 				9D29228F1683D23800B8BF86 /* backgroundCell.png in Resources */,
 				9D2922911683D82A00B8BF86 /* background.png in Resources */,
+				9DE5C8C016845581005C2EB2 /* Icon@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

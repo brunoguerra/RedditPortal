@@ -74,7 +74,7 @@
 - (void) loadNewStory
 {
     // TODO: fade out effect.
-    
+        
     [_HUD show:YES];
     NSLog(@"Loading story: %@", _storyURL);
     [_webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:_storyURL]]];
