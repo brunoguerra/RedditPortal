@@ -15,6 +15,10 @@
 #define SLIDE_OFFSET 230
 #define SLIDE_DURATION 0.2
 
+#define CELL_PADDING 10.0
+#define TITLE_PADDING 20.0
+#define THUMBNAIL_SIZE 75.0
+
 @interface StoryViewController ()
 
 @end
@@ -163,18 +167,53 @@ int i = 0;
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    CGSize maximumLabelSize = CGSizeMake(220, FLT_MAX);
-    CGSize expectedLabelSize = [[[_reddit.stories objectAtIndex:indexPath.row]
-                                 objectForKey:@"title"]
-                                sizeWithFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:16.0]
-                                constrainedToSize:maximumLabelSize lineBreakMode:YES];
-
-    if (expectedLabelSize.height + 50 < 100) {
-        return 100;
+    BOOL thumbnailEmpty = NO;
+    if ([[[_reddit.stories objectAtIndex:indexPath.row] objectForKey:@"thumbnail"] length] == 0 || [[[_reddit.stories objectAtIndex:indexPath.row] objectForKey:@"thumbnail"] isEqualToString:@"self"] ){
+        
+        thumbnailEmpty = YES;
     }
     
+    UILabel *titleLabel = [[UILabel alloc] init];
+    titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:14.0];
+    titleLabel.numberOfLines = 0;
+    titleLabel.textColor = [UIColor blackColor];
+    titleLabel.backgroundColor = [UIColor clearColor];
+    
+    NSInteger thumbnailOffset = THUMBNAIL_SIZE + (2 * CELL_PADDING);
+    if (thumbnailEmpty) {
+        thumbnailOffset = CELL_PADDING;
+    }
+    
+    titleLabel.frame = CGRectMake( thumbnailOffset , CELL_PADDING, 320 - thumbnailOffset - CELL_PADDING, 0);
+    titleLabel.text = [[_reddit.stories objectAtIndex:indexPath.row] objectForKey:@"title"];
+    [titleLabel sizeToFit];
+    
+    UILabel *authorLabel = [[UILabel alloc] init];
+    authorLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:14.0];
+    authorLabel.numberOfLines = 1;
+    authorLabel.textColor = [UIColor blackColor];
+    authorLabel.backgroundColor = [UIColor clearColor];
+    authorLabel.text = [[_reddit.stories objectAtIndex:indexPath.row] objectForKey:@"author"];
+    [authorLabel sizeToFit];
+    
+    UILabel *scoreLabel = [[UILabel alloc] init];
+    scoreLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:14.0];
+    scoreLabel.numberOfLines = 1;
+    scoreLabel.textColor = [UIColor blackColor];
+    scoreLabel.backgroundColor = [UIColor clearColor];
+    scoreLabel.text = [[_reddit.stories objectAtIndex:indexPath.row] objectForKey:@"domain"];
+    [scoreLabel sizeToFit];
+    
+    CGFloat cellHeight = titleLabel.frame.size.height + authorLabel.frame.size.height + scoreLabel.frame.size.height + (2 * CELL_PADDING);
+    
+    
+    if (!thumbnailEmpty && cellHeight < THUMBNAIL_SIZE + (2 * CELL_PADDING) ) {
+        
+        return THUMBNAIL_SIZE + (2 * CELL_PADDING);
+    }
 
-    return expectedLabelSize.height + 50;
+
+    return cellHeight;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -193,6 +232,7 @@ int i = 0;
     UILabel *dateLabel = nil;
     UILabel *scoreLabel = nil;
     UILabel *commentsCount = nil;
+    UILabel *authorLabel = nil;
     UIImageView *imageView = nil;
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
@@ -237,12 +277,20 @@ int i = 0;
         [cell.contentView addSubview: scoreLabel];
         
         commentsCount = [[UILabel alloc] init];
-        commentsCount.tag = 5;
+        commentsCount.tag = 6;
         commentsCount.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:10.0];
         commentsCount.numberOfLines = 1;
         commentsCount.textColor = [UIColor blackColor];
         commentsCount.backgroundColor = [UIColor clearColor];
         [cell.contentView addSubview: commentsCount];
+        
+        authorLabel = [[UILabel alloc] init];
+        authorLabel.tag = 7;
+        authorLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:10.0];
+        authorLabel.numberOfLines = 1;
+        authorLabel.textColor = [UIColor blackColor];
+        authorLabel.backgroundColor = [UIColor clearColor];
+        [cell.contentView addSubview: authorLabel];
         
     }
     else {
@@ -252,35 +300,86 @@ int i = 0;
         storyUrlLabel = (UILabel *)[cell.contentView viewWithTag:3];
         dateLabel = (UILabel *)[cell.contentView viewWithTag:4];
         scoreLabel = (UILabel *)[cell.contentView viewWithTag:5];
+        commentsCount = (UILabel *)[cell.contentView viewWithTag:6];
+        authorLabel = (UILabel *)[cell.contentView viewWithTag:7];
     }
     
-    CGSize maximumLabelSize = CGSizeMake(220, FLT_MAX);
-    CGSize expectedLabelSize = [[[_reddit.stories objectAtIndex:indexPath.row]
-                                 objectForKey:@"title"]
-                                sizeWithFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:16.0]
-                                constrainedToSize:maximumLabelSize lineBreakMode:YES];
+    
+    imageView.frame = CGRectMake( CELL_PADDING, CELL_PADDING, THUMBNAIL_SIZE, THUMBNAIL_SIZE);
+    [imageView setImageWithURL:[NSURL URLWithString:[[_reddit.stories objectAtIndex:indexPath.row] objectForKey:@"thumbnail"]]
+              placeholderImage:nil];
+    
+
+
+    // Calcuate the offset for the labels around the thumbnail
+    NSInteger thumbnailOffset = imageView.frame.size.width + (CELL_PADDING * 2);
+    if ([[[_reddit.stories objectAtIndex:indexPath.row] objectForKey:@"thumbnail"] length] == 0 || [[[_reddit.stories objectAtIndex:indexPath.row] objectForKey:@"thumbnail"] isEqualToString:@"self"] ) {
+        thumbnailOffset = CELL_PADDING;
+    }
     
     
-    titleLabel.frame = CGRectMake(95.0, 5.0, expectedLabelSize.width, expectedLabelSize.height);
+    //
+    // Title 
+    //
+    
+    titleLabel.frame = CGRectMake( thumbnailOffset , CELL_PADDING, 320 - thumbnailOffset - CELL_PADDING, 0);
     titleLabel.text = [[_reddit.stories objectAtIndex:indexPath.row] objectForKey:@"title"];
     [titleLabel sizeToFit];
     
+    NSInteger titleOffset = titleLabel.frame.size.height + TITLE_PADDING;
     
-    storyUrlLabel.frame = CGRectMake(95.0, expectedLabelSize.height + 5, expectedLabelSize.width, expectedLabelSize.height);
+    //
+    // Story url
+    //
+    
+    storyUrlLabel.frame = CGRectMake( thumbnailOffset, titleOffset, 0, 0);
     storyUrlLabel.text = [[_reddit.stories objectAtIndex:indexPath.row] objectForKey:@"domain"];
     [storyUrlLabel sizeToFit];
 
-    dateLabel.frame = CGRectMake(storyUrlLabel.frame.size.width + 105, expectedLabelSize.height + 5, expectedLabelSize.width, expectedLabelSize.height);
+    
+    NSInteger runningOffset = thumbnailOffset + storyUrlLabel.frame.size.width + CELL_PADDING;
+    
+    
+    //
+    // Date Label
+    //
+    
+    dateLabel.frame = CGRectMake(runningOffset, titleOffset, 0, 0);
     dateLabel.text = [self dateDiff:[[_reddit.stories objectAtIndex:indexPath.row] objectForKey:@"created_utc"]];
     [dateLabel sizeToFit];
     
-    scoreLabel.frame = CGRectMake(storyUrlLabel.frame.size.width + 115 + dateLabel.frame.size.width, expectedLabelSize.height + 5, expectedLabelSize.width, expectedLabelSize.height);
+    
+    runningOffset += dateLabel.frame.size.width + CELL_PADDING;
+    
+    //
+    // Story Score
+    //
+    
+    scoreLabel.frame = CGRectMake(runningOffset, titleOffset, 0, 0);
     scoreLabel.text = [NSString stringWithFormat:@"%@",[[_reddit.stories objectAtIndex:indexPath.row] objectForKey:@"score"]];
     [scoreLabel sizeToFit];
 
-    imageView.frame = CGRectMake(10.0, 10.0, 75.0f, 75.0f);
-    [imageView setImageWithURL:[NSURL URLWithString:[[_reddit.stories objectAtIndex:indexPath.row] objectForKey:@"thumbnail"]]
-              placeholderImage:[UIImage imageNamed:@"x"]];
+    
+    //
+    // Number of comments
+    //
+    
+    titleOffset += storyUrlLabel.frame.size.height;
+    
+    commentsCount.frame = CGRectMake( thumbnailOffset, titleOffset, 0, 0);
+    commentsCount.text = [NSString stringWithFormat:@"%@ comments",[[_reddit.stories objectAtIndex:indexPath.row] objectForKey:@"num_comments"]];
+    [commentsCount sizeToFit];
+    
+    
+    runningOffset = thumbnailOffset + commentsCount.frame.size.width + CELL_PADDING;
+    
+    //
+    // Author of Post
+    //
+    
+    authorLabel.frame = CGRectMake( runningOffset, titleOffset, 0, 0);
+    authorLabel.text = [[_reddit.stories objectAtIndex:indexPath.row] objectForKey:@"author"];
+    [authorLabel sizeToFit];
     
     
     [cell.contentView addSubview: imageView];
