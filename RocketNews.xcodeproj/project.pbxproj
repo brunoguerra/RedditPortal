@@ -16,8 +16,24 @@
 		9D18D5021681A49C00927859 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D18D5011681A49C00927859 /* Default.png */; };
 		9D18D5041681A49C00927859 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D18D5031681A49C00927859 /* Default@2x.png */; };
 		9D18D5061681A49C00927859 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D18D5051681A49C00927859 /* Default-568h@2x.png */; };
-		9D5E20FF1681A8C400A236E6 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D5E20FE1681A8C400A236E6 /* MainViewController.m */; };
-		9D5E21031681AE1F00A236E6 /* StoryTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D5E21021681AE1F00A236E6 /* StoryTableViewController.m */; };
+		9D29227A1683A2C900B8BF86 /* BackGroundViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D2922791683A2C900B8BF86 /* BackGroundViewController.m */; };
+		9D29227C1683B45300B8BF86 /* backgroundNavigationBar.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D29227B1683B45300B8BF86 /* backgroundNavigationBar.png */; };
+		9D2922811683BB9500B8BF86 /* backArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D29227D1683BB9400B8BF86 /* backArrow@2x.png */; };
+		9D2922821683BB9500B8BF86 /* bookmark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D29227E1683BB9400B8BF86 /* bookmark@2x.png */; };
+		9D2922831683BB9500B8BF86 /* action@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D29227F1683BB9500B8BF86 /* action@2x.png */; };
+		9D2922841683BB9500B8BF86 /* flag@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D2922801683BB9500B8BF86 /* flag@2x.png */; };
+		9D29228B1683C8A600B8BF86 /* BarButtonItemObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D29228A1683C8A600B8BF86 /* BarButtonItemObject.m */; };
+		9D29228D1683CB9F00B8BF86 /* comments@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D29228C1683CB9F00B8BF86 /* comments@2x.png */; };
+		9D29228F1683D23800B8BF86 /* backgroundCell.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D29228E1683D23700B8BF86 /* backgroundCell.png */; };
+		9D2922911683D82A00B8BF86 /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D2922901683D82900B8BF86 /* background.png */; };
+		9D2AC1101683DD40002F2F7F /* SupportedSitesObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D2AC10F1683DD40002F2F7F /* SupportedSitesObject.m */; };
+		9D4FEE541682B07200842A2E /* navigationBar.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D4FEE531682B07200842A2E /* navigationBar.png */; };
+		9D4FEE561682B2E300842A2E /* slider@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D4FEE551682B2E300842A2E /* slider@2x.png */; };
+		9D4FEE5816830F9C00842A2E /* options@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D4FEE5716830F9C00842A2E /* options@2x.png */; };
+		9D5E20FF1681A8C400A236E6 /* StoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D5E20FE1681A8C400A236E6 /* StoryViewController.m */; };
+		9D5E21141681B8B900A236E6 /* RedditAPIObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D5E21131681B8B900A236E6 /* RedditAPIObject.m */; };
+		9D7017EE168233CD00472835 /* RedditTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D7017ED168233CD00472835 /* RedditTableViewCell.m */; };
+		9D7017FE16828FD600472835 /* StoryWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D7017FD16828FD600472835 /* StoryWebViewController.m */; };
 		FDD42166DD2F4730B748E978 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82F1ACF22EB84A28A0C04266 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -37,10 +53,31 @@
 		9D18D5011681A49C00927859 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		9D18D5031681A49C00927859 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		9D18D5051681A49C00927859 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
-		9D5E20FD1681A8C400A236E6 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
-		9D5E20FE1681A8C400A236E6 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
-		9D5E21011681AE1F00A236E6 /* StoryTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoryTableViewController.h; sourceTree = "<group>"; };
-		9D5E21021681AE1F00A236E6 /* StoryTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoryTableViewController.m; sourceTree = "<group>"; };
+		9D2922781683A2C800B8BF86 /* BackGroundViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BackGroundViewController.h; sourceTree = "<group>"; };
+		9D2922791683A2C900B8BF86 /* BackGroundViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BackGroundViewController.m; sourceTree = "<group>"; };
+		9D29227B1683B45300B8BF86 /* backgroundNavigationBar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = backgroundNavigationBar.png; sourceTree = "<group>"; };
+		9D29227D1683BB9400B8BF86 /* backArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "backArrow@2x.png"; sourceTree = "<group>"; };
+		9D29227E1683BB9400B8BF86 /* bookmark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bookmark@2x.png"; sourceTree = "<group>"; };
+		9D29227F1683BB9500B8BF86 /* action@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "action@2x.png"; sourceTree = "<group>"; };
+		9D2922801683BB9500B8BF86 /* flag@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "flag@2x.png"; sourceTree = "<group>"; };
+		9D2922891683C8A600B8BF86 /* BarButtonItemObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BarButtonItemObject.h; sourceTree = "<group>"; };
+		9D29228A1683C8A600B8BF86 /* BarButtonItemObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BarButtonItemObject.m; sourceTree = "<group>"; };
+		9D29228C1683CB9F00B8BF86 /* comments@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "comments@2x.png"; sourceTree = "<group>"; };
+		9D29228E1683D23700B8BF86 /* backgroundCell.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = backgroundCell.png; sourceTree = "<group>"; };
+		9D2922901683D82900B8BF86 /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background.png; sourceTree = "<group>"; };
+		9D2AC10E1683DD40002F2F7F /* SupportedSitesObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SupportedSitesObject.h; sourceTree = "<group>"; };
+		9D2AC10F1683DD40002F2F7F /* SupportedSitesObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SupportedSitesObject.m; sourceTree = "<group>"; };
+		9D4FEE531682B07200842A2E /* navigationBar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = navigationBar.png; sourceTree = "<group>"; };
+		9D4FEE551682B2E300842A2E /* slider@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slider@2x.png"; sourceTree = "<group>"; };
+		9D4FEE5716830F9C00842A2E /* options@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "options@2x.png"; sourceTree = "<group>"; };
+		9D5E20FD1681A8C400A236E6 /* StoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoryViewController.h; sourceTree = "<group>"; };
+		9D5E20FE1681A8C400A236E6 /* StoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoryViewController.m; sourceTree = "<group>"; };
+		9D5E21121681B8B900A236E6 /* RedditAPIObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RedditAPIObject.h; sourceTree = "<group>"; };
+		9D5E21131681B8B900A236E6 /* RedditAPIObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RedditAPIObject.m; sourceTree = "<group>"; };
+		9D7017EC168233CD00472835 /* RedditTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RedditTableViewCell.h; sourceTree = "<group>"; };
+		9D7017ED168233CD00472835 /* RedditTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RedditTableViewCell.m; sourceTree = "<group>"; };
+		9D7017FC16828FD600472835 /* StoryWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoryWebViewController.h; sourceTree = "<group>"; };
+		9D7017FD16828FD600472835 /* StoryWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoryWebViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,7 +127,10 @@
 		9D18D4F51681A49B00927859 /* RocketNews */ = {
 			isa = PBXGroup;
 			children = (
-				9D5E21051681AE2B00A236E6 /* TableViewControllers */,
+				9D2922851683C84D00B8BF86 /* Helpers */,
+				9D7017F8168244B300472835 /* WebViewControllers */,
+				9D7017EA168233A300472835 /* TableViewCells */,
+				9D5E21101681B6A900A236E6 /* APIs */,
 				9D5E21041681AE2300A236E6 /* ViewControllers */,
 				9D18D4FE1681A49B00927859 /* AppDelegate.h */,
 				9D18D4FF1681A49B00927859 /* AppDelegate.m */,
@@ -102,6 +142,17 @@
 		9D18D4F61681A49B00927859 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				9D2922901683D82900B8BF86 /* background.png */,
+				9D29228E1683D23700B8BF86 /* backgroundCell.png */,
+				9D29228C1683CB9F00B8BF86 /* comments@2x.png */,
+				9D29227D1683BB9400B8BF86 /* backArrow@2x.png */,
+				9D29227E1683BB9400B8BF86 /* bookmark@2x.png */,
+				9D29227F1683BB9500B8BF86 /* action@2x.png */,
+				9D2922801683BB9500B8BF86 /* flag@2x.png */,
+				9D29227B1683B45300B8BF86 /* backgroundNavigationBar.png */,
+				9D4FEE5716830F9C00842A2E /* options@2x.png */,
+				9D4FEE551682B2E300842A2E /* slider@2x.png */,
+				9D4FEE531682B07200842A2E /* navigationBar.png */,
 				9D18D4F71681A49B00927859 /* RocketNews-Info.plist */,
 				9D18D4F81681A49B00927859 /* InfoPlist.strings */,
 				9D18D4FB1681A49B00927859 /* main.m */,
@@ -113,22 +164,53 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		9D2922851683C84D00B8BF86 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				9D2922891683C8A600B8BF86 /* BarButtonItemObject.h */,
+				9D29228A1683C8A600B8BF86 /* BarButtonItemObject.m */,
+			);
+			name = Helpers;
+			sourceTree = "<group>";
+		};
 		9D5E21041681AE2300A236E6 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				9D5E20FD1681A8C400A236E6 /* MainViewController.h */,
-				9D5E20FE1681A8C400A236E6 /* MainViewController.m */,
+				9D5E20FD1681A8C400A236E6 /* StoryViewController.h */,
+				9D5E20FE1681A8C400A236E6 /* StoryViewController.m */,
+				9D2922781683A2C800B8BF86 /* BackGroundViewController.h */,
+				9D2922791683A2C900B8BF86 /* BackGroundViewController.m */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
 		};
-		9D5E21051681AE2B00A236E6 /* TableViewControllers */ = {
+		9D5E21101681B6A900A236E6 /* APIs */ = {
 			isa = PBXGroup;
 			children = (
-				9D5E21011681AE1F00A236E6 /* StoryTableViewController.h */,
-				9D5E21021681AE1F00A236E6 /* StoryTableViewController.m */,
+				9D5E21121681B8B900A236E6 /* RedditAPIObject.h */,
+				9D5E21131681B8B900A236E6 /* RedditAPIObject.m */,
+				9D2AC10E1683DD40002F2F7F /* SupportedSitesObject.h */,
+				9D2AC10F1683DD40002F2F7F /* SupportedSitesObject.m */,
 			);
-			name = TableViewControllers;
+			name = APIs;
+			sourceTree = "<group>";
+		};
+		9D7017EA168233A300472835 /* TableViewCells */ = {
+			isa = PBXGroup;
+			children = (
+				9D7017EC168233CD00472835 /* RedditTableViewCell.h */,
+				9D7017ED168233CD00472835 /* RedditTableViewCell.m */,
+			);
+			name = TableViewCells;
+			sourceTree = "<group>";
+		};
+		9D7017F8168244B300472835 /* WebViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				9D7017FC16828FD600472835 /* StoryWebViewController.h */,
+				9D7017FD16828FD600472835 /* StoryWebViewController.m */,
+			);
+			name = WebViewControllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -187,6 +269,17 @@
 				9D18D5021681A49C00927859 /* Default.png in Resources */,
 				9D18D5041681A49C00927859 /* Default@2x.png in Resources */,
 				9D18D5061681A49C00927859 /* Default-568h@2x.png in Resources */,
+				9D4FEE541682B07200842A2E /* navigationBar.png in Resources */,
+				9D4FEE561682B2E300842A2E /* slider@2x.png in Resources */,
+				9D4FEE5816830F9C00842A2E /* options@2x.png in Resources */,
+				9D29227C1683B45300B8BF86 /* backgroundNavigationBar.png in Resources */,
+				9D2922811683BB9500B8BF86 /* backArrow@2x.png in Resources */,
+				9D2922821683BB9500B8BF86 /* bookmark@2x.png in Resources */,
+				9D2922831683BB9500B8BF86 /* action@2x.png in Resources */,
+				9D2922841683BB9500B8BF86 /* flag@2x.png in Resources */,
+				9D29228D1683CB9F00B8BF86 /* comments@2x.png in Resources */,
+				9D29228F1683D23800B8BF86 /* backgroundCell.png in Resources */,
+				9D2922911683D82A00B8BF86 /* background.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -216,8 +309,13 @@
 			files = (
 				9D18D4FC1681A49B00927859 /* main.m in Sources */,
 				9D18D5001681A49B00927859 /* AppDelegate.m in Sources */,
-				9D5E20FF1681A8C400A236E6 /* MainViewController.m in Sources */,
-				9D5E21031681AE1F00A236E6 /* StoryTableViewController.m in Sources */,
+				9D5E20FF1681A8C400A236E6 /* StoryViewController.m in Sources */,
+				9D5E21141681B8B900A236E6 /* RedditAPIObject.m in Sources */,
+				9D7017EE168233CD00472835 /* RedditTableViewCell.m in Sources */,
+				9D7017FE16828FD600472835 /* StoryWebViewController.m in Sources */,
+				9D29227A1683A2C900B8BF86 /* BackGroundViewController.m in Sources */,
+				9D29228B1683C8A600B8BF86 /* BarButtonItemObject.m in Sources */,
+				9D2AC1101683DD40002F2F7F /* SupportedSitesObject.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -7,22 +7,57 @@
 //
 
 #import "AppDelegate.h"
-#import "MainViewController.h"
+#import "StoryViewController.h"
+#import "BackGroundViewController.h"
+
+#define SLIDE_OFFSET 200
+#define SLIDE_DURATION 0.2
 
 @implementation AppDelegate
+
+@synthesize storyViewController = _storyViewController, backGroundViewController = _backGroundViewController, storyNavigationController = _storyNavigationController, backGroundNavigationController = _backGroundNavigationController;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
     
-    UIViewController *_mainViewController = [[MainViewController alloc] init];
+    // Changing the status bar to black
+    [[UIApplication sharedApplication] setStatusBarStyle: UIStatusBarStyleBlackOpaque];
     
-    self.window.rootViewController = _mainViewController;
+    
+    
+    // Create the top story view controller.
+    _storyViewController = [[StoryViewController alloc] init];
+    _storyNavigationController = [[UINavigationController alloc] initWithRootViewController:_storyViewController];
+        
+    [_storyNavigationController.navigationBar setBackgroundImage:[UIImage imageNamed: @"navigationBar.png"]
+                                                   forBarMetrics:UIBarMetricsDefault];
+    
+    
+    
+    // Create the bottom background view controller
+    _backGroundViewController = [[BackGroundViewController alloc] init];
+    _backGroundNavigationController = [[UINavigationController alloc] initWithRootViewController:_backGroundViewController];
+    
+    [_backGroundNavigationController.navigationBar setBackgroundImage:[UIImage imageNamed: @"backgroundNavigationBar.png"]
+                                                        forBarMetrics:UIBarMetricsDefault];
+    
+    _backGroundNavigationController.view.frame = CGRectMake([[UIScreen mainScreen] bounds].origin.x, 20, 230, [[UIScreen mainScreen] bounds].size.height);
+    
+    self.window.rootViewController = _storyNavigationController;
+    [self.window addSubview:_backGroundNavigationController.view];
     [self.window makeKeyAndVisible];
     return YES;
 }
+
+
+- (void) messageFromChild {
+    
+    NSLog(@"Message Recieved");
+}
+
+
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {

@@ -1,5 +1,5 @@
 //
-//  StoryTableViewController.h
+//  RedditTableViewCell.h
 //  RocketNews
 //
 //  Created by Travis Hoover on 12/19/12.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface StoryTableViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource>
+@interface RedditTableViewCell : UITableViewCell
 
 @end
