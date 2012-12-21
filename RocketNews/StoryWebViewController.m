@@ -18,15 +18,6 @@
 
 @synthesize storyURL = _storyURL, webView = _webView, HUD = _HUD;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -47,6 +38,7 @@
     _HUD.delegate = self;
 	_HUD.labelText = @"Loading";
     
+    [_HUD show:YES];
     
     UIBarButtonItem *backBarButton = [BarButtonItemObject createButtonItemForTarget:self.navigationController
                                                                          withAction:@selector(popViewControllerAnimated:)
@@ -76,29 +68,21 @@
     self.navigationItem.leftBarButtonItem = backBarButton;
     self.navigationItem.rightBarButtonItems = [[NSArray alloc] initWithObjects:actionBarButton, bookmarkBarButton, commentBarButton, flagBarButton, nil];
 
-}
-
-- (void) newStory
-{
-
-	[_HUD showWhileExecuting:@selector(myProgressTask) onTarget:self withObject:nil animated:YES];
-    
-}
-
-- (void) myProgressTask {
-    
     [_webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:_storyURL]]];
 }
 
-
-- (void)webViewDidStartLoad:(UIWebView *)webView
+- (void) loadNewStory
 {
+    // TODO: fade out effect.
     
+    [_HUD show:YES];
+    NSLog(@"Loading story: %@", _storyURL);
+    [_webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:_storyURL]]];
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView
 {
-    
+    [_HUD hide:YES];
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error

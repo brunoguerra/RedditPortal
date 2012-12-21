@@ -15,7 +15,6 @@
 @property (nonatomic, retain) UIWebView *webView;
 @property (nonatomic, retain) MBProgressHUD *HUD;
 
-
-- (void) newStory;
+- (void)loadNewStory;
 
 @end

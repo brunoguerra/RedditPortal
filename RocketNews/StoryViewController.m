@@ -148,8 +148,11 @@ int i = 0;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
     _webView.storyURL = [[_reddit.stories objectAtIndex:indexPath.row] objectForKey:@"url"];
-    [_webView newStory];
+    [_webView loadNewStory];
+    
     [self.navigationController pushViewController:_webView
                                          animated:YES];
 }
@@ -168,7 +171,7 @@ int i = 0;
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     BOOL thumbnailEmpty = NO;
-    if ([[[_reddit.stories objectAtIndex:indexPath.row] objectForKey:@"thumbnail"] length] == 0 || [[[_reddit.stories objectAtIndex:indexPath.row] objectForKey:@"thumbnail"] isEqualToString:@"self"] ){
+    if ([[[_reddit.stories objectAtIndex:indexPath.row] objectForKey:@"thumbnail"] length] == 0 || [[[_reddit.stories objectAtIndex:indexPath.row] objectForKey:@"thumbnail"] isEqualToString:@"self"] || [[[_reddit.stories objectAtIndex:indexPath.row] objectForKey:@"thumbnail"] isEqualToString:@"default"] ){
         
         thumbnailEmpty = YES;
     }
@@ -313,7 +316,7 @@ int i = 0;
 
     // Calcuate the offset for the labels around the thumbnail
     NSInteger thumbnailOffset = imageView.frame.size.width + (CELL_PADDING * 2);
-    if ([[[_reddit.stories objectAtIndex:indexPath.row] objectForKey:@"thumbnail"] length] == 0 || [[[_reddit.stories objectAtIndex:indexPath.row] objectForKey:@"thumbnail"] isEqualToString:@"self"] ) {
+    if ([[[_reddit.stories objectAtIndex:indexPath.row] objectForKey:@"thumbnail"] length] == 0 || [[[_reddit.stories objectAtIndex:indexPath.row] objectForKey:@"thumbnail"] isEqualToString:@"self"] || [[[_reddit.stories objectAtIndex:indexPath.row] objectForKey:@"thumbnail"] isEqualToString:@"default"] ) {
         thumbnailOffset = CELL_PADDING;
     }
     
