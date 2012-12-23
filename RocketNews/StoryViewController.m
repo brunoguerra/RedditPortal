@@ -8,7 +8,6 @@
 
 #import "StoryViewController.h"
 #import "AppDelegate.h"
-#import <QuartzCore/QuartzCore.h>
 #import <AFNetworking.h>
 #import <SSPullToRefresh.h>
 
@@ -26,7 +25,9 @@
 
 @implementation StoryViewController
 
-@synthesize webView = _webView, reddit = _reddit, storyTableView = _storyTableView, pullToRefreshView = _pullToRefreshView;
+@synthesize webView = _webView, storyTableView = _storyTableView, pullToRefreshView = _pullToRefreshView;
+
+AppDelegate *_delegate;
 
 - (void)viewDidLoad
 {
@@ -35,9 +36,7 @@
     _webView = [[StoryWebViewController alloc] init];
     _storyTableView = [[UITableView alloc] initWithFrame:[[UIScreen mainScreen] bounds]
                                                    style:UITableViewStylePlain];
-    
-    _reddit = [[RedditAPIObject alloc] initWithTableView:_storyTableView];
-    
+        
     _storyTableView.delegate = self;
     _storyTableView.dataSource = self;
     
@@ -74,10 +73,9 @@
     self.navigationItem.rightBarButtonItem = optionsBarButton;
 
     
-    AppDelegate *delegate = [[UIApplication sharedApplication] delegate];
-    [delegate messageFromChild];
+    _delegate = [[UIApplication sharedApplication] delegate];
     
-    [_reddit fetchFrontPage];
+    
     
     [self addGestureRecognizers];
 }
@@ -154,12 +152,16 @@ int i = 0;
 - (void)refresh
 {
     [self.pullToRefreshView startLoading];
-    [_reddit fetchFrontPage];
-    NSLog(@"Refreshing Data");
+    [_delegate.reddit refresh];
+}
+
+- (void) stopRefreshing
+{
     [self.pullToRefreshView finishLoading];
 }
 
-- (void)pullToRefreshViewDidStartLoading:(SSPullToRefreshView *)view {
+- (void)pullToRefreshViewDidStartLoading:(SSPullToRefreshView *)view
+{
     [self refresh];
 }
 
@@ -167,7 +169,7 @@ int i = 0;
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    _webView.storyURL = [[_reddit.stories objectAtIndex:indexPath.row] objectForKey:@"url"];
+    _webView.storyURL = [[_delegate.reddit.stories objectAtIndex:indexPath.row] objectForKey:@"url"];
     [_webView loadNewStory];
     
     [self.navigationController pushViewController:_webView
@@ -182,13 +184,13 @@ int i = 0;
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return _reddit.stories.count;
+    return _delegate.reddit.stories.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     BOOL thumbnailEmpty = NO;
-    if ([[[_reddit.stories objectAtIndex:indexPath.row] objectForKey:@"thumbnail"] length] == 0 || [[[_reddit.stories objectAtIndex:indexPath.row] objectForKey:@"thumbnail"] isEqualToString:@"self"] || [[[_reddit.stories objectAtIndex:indexPath.row] objectForKey:@"thumbnail"] isEqualToString:@"default"] ){
+    if ([[[_delegate.reddit.stories objectAtIndex:indexPath.row] objectForKey:@"thumbnail"] length] == 0 || [[[_delegate.reddit.stories objectAtIndex:indexPath.row] objectForKey:@"thumbnail"] isEqualToString:@"self"] || [[[_delegate.reddit.stories objectAtIndex:indexPath.row] objectForKey:@"thumbnail"] isEqualToString:@"default"] ){
         
         thumbnailEmpty = YES;
     }
@@ -205,7 +207,7 @@ int i = 0;
     }
     
     titleLabel.frame = CGRectMake( thumbnailOffset , CELL_PADDING, 320 - thumbnailOffset - CELL_PADDING, 0);
-    titleLabel.text = [[_reddit.stories objectAtIndex:indexPath.row] objectForKey:@"title"];
+    titleLabel.text = [[_delegate.reddit.stories objectAtIndex:indexPath.row] objectForKey:@"title"];
     [titleLabel sizeToFit];
     
     UILabel *authorLabel = [[UILabel alloc] init];
@@ -213,7 +215,7 @@ int i = 0;
     authorLabel.numberOfLines = 1;
     authorLabel.textColor = [UIColor blackColor];
     authorLabel.backgroundColor = [UIColor clearColor];
-    authorLabel.text = [[_reddit.stories objectAtIndex:indexPath.row] objectForKey:@"author"];
+    authorLabel.text = [[_delegate.reddit.stories objectAtIndex:indexPath.row] objectForKey:@"author"];
     [authorLabel sizeToFit];
     
     UILabel *scoreLabel = [[UILabel alloc] init];
@@ -221,7 +223,7 @@ int i = 0;
     scoreLabel.numberOfLines = 1;
     scoreLabel.textColor = [UIColor blackColor];
     scoreLabel.backgroundColor = [UIColor clearColor];
-    scoreLabel.text = [[_reddit.stories objectAtIndex:indexPath.row] objectForKey:@"domain"];
+    scoreLabel.text = [[_delegate.reddit.stories objectAtIndex:indexPath.row] objectForKey:@"domain"];
     [scoreLabel sizeToFit];
     
     CGFloat cellHeight = titleLabel.frame.size.height + authorLabel.frame.size.height + scoreLabel.frame.size.height + (2 * CELL_PADDING);
@@ -240,9 +242,9 @@ int i = 0;
 {
     
     // This is where the auto fetching happens
-    if (_reddit.numOfStoriesLoaded == indexPath.row + AUTO_FETCH_BUFFER) {
+    if (_delegate.reddit.numOfStoriesLoaded == indexPath.row + AUTO_FETCH_BUFFER) {
         
-        [_reddit loadNextPage];
+        [_delegate.reddit loadNextPage];
     }
     
     static NSString *cellIdentifier = @"cellIdentifierStories";
@@ -326,14 +328,14 @@ int i = 0;
     
     
     imageView.frame = CGRectMake( CELL_PADDING, CELL_PADDING, THUMBNAIL_SIZE, THUMBNAIL_SIZE);
-    [imageView setImageWithURL:[NSURL URLWithString:[[_reddit.stories objectAtIndex:indexPath.row] objectForKey:@"thumbnail"]]
+    [imageView setImageWithURL:[NSURL URLWithString:[[_delegate.reddit.stories objectAtIndex:indexPath.row] objectForKey:@"thumbnail"]]
               placeholderImage:nil];
     
 
 
     // Calcuate the offset for the labels around the thumbnail
     NSInteger thumbnailOffset = imageView.frame.size.width + (CELL_PADDING * 2);
-    if ([[[_reddit.stories objectAtIndex:indexPath.row] objectForKey:@"thumbnail"] length] == 0 || [[[_reddit.stories objectAtIndex:indexPath.row] objectForKey:@"thumbnail"] isEqualToString:@"self"] || [[[_reddit.stories objectAtIndex:indexPath.row] objectForKey:@"thumbnail"] isEqualToString:@"default"] ) {
+    if ([[[_delegate.reddit.stories objectAtIndex:indexPath.row] objectForKey:@"thumbnail"] length] == 0 || [[[_delegate.reddit.stories objectAtIndex:indexPath.row] objectForKey:@"thumbnail"] isEqualToString:@"self"] || [[[_delegate.reddit.stories objectAtIndex:indexPath.row] objectForKey:@"thumbnail"] isEqualToString:@"default"] ) {
         thumbnailOffset = CELL_PADDING;
     }
     
@@ -343,7 +345,7 @@ int i = 0;
     //
     
     titleLabel.frame = CGRectMake( thumbnailOffset , CELL_PADDING, 320 - thumbnailOffset - CELL_PADDING, 0);
-    titleLabel.text = [[_reddit.stories objectAtIndex:indexPath.row] objectForKey:@"title"];
+    titleLabel.text = [[_delegate.reddit.stories objectAtIndex:indexPath.row] objectForKey:@"title"];
     [titleLabel sizeToFit];
     
     NSInteger titleOffset = titleLabel.frame.size.height + TITLE_PADDING;
@@ -353,7 +355,7 @@ int i = 0;
     //
     
     storyUrlLabel.frame = CGRectMake( thumbnailOffset, titleOffset, 0, 0);
-    storyUrlLabel.text = [[_reddit.stories objectAtIndex:indexPath.row] objectForKey:@"domain"];
+    storyUrlLabel.text = [[_delegate.reddit.stories objectAtIndex:indexPath.row] objectForKey:@"domain"];
     [storyUrlLabel sizeToFit];
 
     
@@ -365,7 +367,7 @@ int i = 0;
     //
     
     dateLabel.frame = CGRectMake(runningOffset, titleOffset, 0, 0);
-    dateLabel.text = [self dateDiff:[[_reddit.stories objectAtIndex:indexPath.row] objectForKey:@"created_utc"]];
+    dateLabel.text = [self dateDiff:[[_delegate.reddit.stories objectAtIndex:indexPath.row] objectForKey:@"created_utc"]];
     [dateLabel sizeToFit];
     
     
@@ -376,7 +378,7 @@ int i = 0;
     //
     
     scoreLabel.frame = CGRectMake(runningOffset, titleOffset, 0, 0);
-    scoreLabel.text = [NSString stringWithFormat:@"%@",[[_reddit.stories objectAtIndex:indexPath.row] objectForKey:@"score"]];
+    scoreLabel.text = [NSString stringWithFormat:@"%@",[[_delegate.reddit.stories objectAtIndex:indexPath.row] objectForKey:@"score"]];
     [scoreLabel sizeToFit];
 
     
@@ -387,7 +389,7 @@ int i = 0;
     titleOffset += storyUrlLabel.frame.size.height;
     
     commentsCount.frame = CGRectMake( thumbnailOffset, titleOffset, 0, 0);
-    commentsCount.text = [NSString stringWithFormat:@"%@ comments",[[_reddit.stories objectAtIndex:indexPath.row] objectForKey:@"num_comments"]];
+    commentsCount.text = [NSString stringWithFormat:@"%@ comments",[[_delegate.reddit.stories objectAtIndex:indexPath.row] objectForKey:@"num_comments"]];
     [commentsCount sizeToFit];
     
     
@@ -398,7 +400,7 @@ int i = 0;
     //
     
     authorLabel.frame = CGRectMake( runningOffset, titleOffset, 0, 0);
-    authorLabel.text = [[_reddit.stories objectAtIndex:indexPath.row] objectForKey:@"author"];
+    authorLabel.text = [[_delegate.reddit.stories objectAtIndex:indexPath.row] objectForKey:@"author"];
     [authorLabel sizeToFit];
     
     

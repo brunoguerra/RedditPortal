@@ -14,10 +14,9 @@
 @property (nonatomic, copy) NSString *baseURL;
 @property (nonatomic, copy) NSString *nextPageToken;
 @property (nonatomic, assign) NSInteger numOfStoriesLoaded;
-@property (nonatomic, retain) UITableView *tableView;
 
-- (void) fetchFrontPage;
 - (void) loadNextPage;
-- (id) initWithTableView:(UITableView *) tableView;
+- (void) refresh;
+- (void) changeSubRedditTo:(NSString *)subReddit;
 
 @end

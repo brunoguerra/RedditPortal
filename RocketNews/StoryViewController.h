@@ -10,16 +10,17 @@
 #import "StoryWebViewController.h"
 #import "RedditAPIObject.h"
 #import <SSPullToRefresh.h>
+#import "AppDelegate.h"
 
 @interface StoryViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, SSPullToRefreshViewDelegate>
 
 @property (nonatomic, retain) StoryWebViewController *webView;
-@property (nonatomic, retain) RedditAPIObject *reddit;
 
 @property (nonatomic, strong) SSPullToRefreshView *pullToRefreshView;
 
 @property (nonatomic, retain) UITableView *storyTableView;
 
 - (void)refresh;
+- (void)stopRefreshing;
 
 @end

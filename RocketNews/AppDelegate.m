@@ -10,13 +10,14 @@
 #import "StoryViewController.h"
 #import "BackGroundViewController.h"
 
-#define SLIDE_OFFSET 200
-#define SLIDE_DURATION 0.2
+#define BACKGROUND_NAV_WIDTH 230
+#define BACKGROUND_NAV_HEIGHT_OFFSET 20
 
 @implementation AppDelegate
 
-@synthesize storyViewController = _storyViewController, backGroundViewController = _backGroundViewController, storyNavigationController = _storyNavigationController, backGroundNavigationController = _backGroundNavigationController;
+@synthesize backGroundViewController = _backGroundViewController, storyNavigationController = _storyNavigationController,backGroundNavigationController = _backGroundNavigationController, reddit = _reddit;
 
+StoryViewController *_storyViewController;
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
@@ -26,24 +27,33 @@
     [[UIApplication sharedApplication] setStatusBarStyle: UIStatusBarStyleBlackOpaque];
     
     
+    //
+    // The reddit object holds all the logic for fetching stories from reddit.
+    //
+    _reddit = [[RedditAPIObject alloc] init];
+    [_reddit loadNextPage];
     
+    
+    //
     // Create the top story view controller.
+    //
     _storyViewController = [[StoryViewController alloc] init];
     _storyNavigationController = [[UINavigationController alloc] initWithRootViewController:_storyViewController];
-        
+    
     [_storyNavigationController.navigationBar setBackgroundImage:[UIImage imageNamed: @"navigationBar.png"]
                                                    forBarMetrics:UIBarMetricsDefault];
     
     
-    
+    //
     // Create the bottom background view controller
+    //
     _backGroundViewController = [[BackGroundViewController alloc] init];
     _backGroundNavigationController = [[UINavigationController alloc] initWithRootViewController:_backGroundViewController];
     
     [_backGroundNavigationController.navigationBar setBackgroundImage:[UIImage imageNamed: @"backgroundNavigationBar.png"]
                                                         forBarMetrics:UIBarMetricsDefault];
     
-    _backGroundNavigationController.view.frame = CGRectMake([[UIScreen mainScreen] bounds].origin.x, 20, 230, [[UIScreen mainScreen] bounds].size.height);
+    _backGroundNavigationController.view.frame = CGRectMake([[UIScreen mainScreen] bounds].origin.x, BACKGROUND_NAV_HEIGHT_OFFSET, BACKGROUND_NAV_WIDTH, [[UIScreen mainScreen] bounds].size.height);
     
     self.window.rootViewController = _storyNavigationController;
     [self.window addSubview:_backGroundNavigationController.view];
@@ -51,13 +61,12 @@
     return YES;
 }
 
-
-- (void) messageFromChild {
+- (void) didFinishLoadingStories
+{
+    [_storyViewController stopRefreshing];
+    [_storyViewController.storyTableView reloadData];
     
-    NSLog(@"Message Recieved");
 }
-
-
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {
