@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "9D18D4EA1681A49B00927859"
-               BuildableName = "RocketNews.app"
-               BlueprintName = "RocketNews"
-               ReferencedContainer = "container:RocketNews.xcodeproj">
+               BuildableName = "Reddit Portal.app"
+               BlueprintName = "Reddit Portal"
+               ReferencedContainer = "container:Reddit Portal.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "9D18D4EA1681A49B00927859"
-            BuildableName = "RocketNews.app"
-            BlueprintName = "RocketNews"
-            ReferencedContainer = "container:RocketNews.xcodeproj">
+            BuildableName = "Reddit Portal.app"
+            BlueprintName = "Reddit Portal"
+            ReferencedContainer = "container:Reddit Portal.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -52,9 +52,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "9D18D4EA1681A49B00927859"
-            BuildableName = "RocketNews.app"
-            BlueprintName = "RocketNews"
-            ReferencedContainer = "container:RocketNews.xcodeproj">
+            BuildableName = "Reddit Portal.app"
+            BlueprintName = "Reddit Portal"
+            ReferencedContainer = "container:Reddit Portal.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -70,9 +70,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "9D18D4EA1681A49B00927859"
-            BuildableName = "RocketNews.app"
-            BlueprintName = "RocketNews"
-            ReferencedContainer = "container:RocketNews.xcodeproj">
+            BuildableName = "Reddit Portal.app"
+            BlueprintName = "Reddit Portal"
+            ReferencedContainer = "container:Reddit Portal.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
