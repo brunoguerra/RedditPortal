@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9D17A00F1688E47A002EDBEC /* UILabel+NavigationTitle.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D17A00E1688E47A002EDBEC /* UILabel+NavigationTitle.m */; };
+		9D17A0131688E974002EDBEC /* TimeAgoObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D17A0121688E974002EDBEC /* TimeAgoObject.m */; };
 		9D18D4F01681A49B00927859 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D18D4EF1681A49B00927859 /* UIKit.framework */; };
 		9D18D4F21681A49B00927859 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D18D4F11681A49B00927859 /* Foundation.framework */; };
 		9D18D4F41681A49B00927859 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D18D4F31681A49B00927859 /* CoreGraphics.framework */; };
@@ -30,8 +32,6 @@
 		9D41A7DB1688DC630045C46E /* settings@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D41A7C91688DC630045C46E /* settings@2x.png */; };
 		9D41A7DC1688DC630045C46E /* slider@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D41A7CA1688DC630045C46E /* slider@2x.png */; };
 		9D41A7E31688DC7E0045C46E /* RedditAPIObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D41A7DE1688DC7E0045C46E /* RedditAPIObject.m */; };
-		9D41A7E41688DC7E0045C46E /* StoriesObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D41A7E01688DC7E0045C46E /* StoriesObject.m */; };
-		9D41A7E51688DC7E0045C46E /* SupportedSitesObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D41A7E21688DC7E0045C46E /* SupportedSitesObject.m */; };
 		9D41A7EA1688DC930045C46E /* BackGroundViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D41A7E71688DC930045C46E /* BackGroundViewController.m */; };
 		9D41A7EB1688DC930045C46E /* StoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D41A7E91688DC930045C46E /* StoryViewController.m */; };
 		9D41A7EE1688DCB20045C46E /* RedditTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D41A7ED1688DCB20045C46E /* RedditTableViewCell.m */; };
@@ -44,6 +44,10 @@
 /* Begin PBXFileReference section */
 		7D95CB74730343FB97E240D1 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
 		82F1ACF22EB84A28A0C04266 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		9D17A00D1688E47A002EDBEC /* UILabel+NavigationTitle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+NavigationTitle.h"; sourceTree = SOURCE_ROOT; };
+		9D17A00E1688E47A002EDBEC /* UILabel+NavigationTitle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+NavigationTitle.m"; sourceTree = SOURCE_ROOT; };
+		9D17A0111688E974002EDBEC /* TimeAgoObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimeAgoObject.h; sourceTree = SOURCE_ROOT; };
+		9D17A0121688E974002EDBEC /* TimeAgoObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimeAgoObject.m; sourceTree = SOURCE_ROOT; };
 		9D18D4EB1681A49B00927859 /* Reddit Portal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Reddit Portal.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D18D4EF1681A49B00927859 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		9D18D4F11681A49B00927859 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -71,10 +75,6 @@
 		9D41A7CA1688DC630045C46E /* slider@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "slider@2x.png"; path = "Reddit Portal/slider@2x.png"; sourceTree = SOURCE_ROOT; };
 		9D41A7DD1688DC7E0045C46E /* RedditAPIObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RedditAPIObject.h; path = "Reddit Portal/RedditAPIObject.h"; sourceTree = SOURCE_ROOT; };
 		9D41A7DE1688DC7E0045C46E /* RedditAPIObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RedditAPIObject.m; path = "Reddit Portal/RedditAPIObject.m"; sourceTree = SOURCE_ROOT; };
-		9D41A7DF1688DC7E0045C46E /* StoriesObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StoriesObject.h; path = "Reddit Portal/StoriesObject.h"; sourceTree = SOURCE_ROOT; };
-		9D41A7E01688DC7E0045C46E /* StoriesObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StoriesObject.m; path = "Reddit Portal/StoriesObject.m"; sourceTree = SOURCE_ROOT; };
-		9D41A7E11688DC7E0045C46E /* SupportedSitesObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SupportedSitesObject.h; path = "Reddit Portal/SupportedSitesObject.h"; sourceTree = SOURCE_ROOT; };
-		9D41A7E21688DC7E0045C46E /* SupportedSitesObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SupportedSitesObject.m; path = "Reddit Portal/SupportedSitesObject.m"; sourceTree = SOURCE_ROOT; };
 		9D41A7E61688DC930045C46E /* BackGroundViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BackGroundViewController.h; path = "Reddit Portal/BackGroundViewController.h"; sourceTree = SOURCE_ROOT; };
 		9D41A7E71688DC930045C46E /* BackGroundViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BackGroundViewController.m; path = "Reddit Portal/BackGroundViewController.m"; sourceTree = SOURCE_ROOT; };
 		9D41A7E81688DC930045C46E /* StoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StoryViewController.h; path = "Reddit Portal/StoryViewController.h"; sourceTree = SOURCE_ROOT; };
@@ -180,6 +180,10 @@
 			children = (
 				9D41A7F21688DCD20045C46E /* BarButtonItemObject.h */,
 				9D41A7F31688DCD20045C46E /* BarButtonItemObject.m */,
+				9D17A00D1688E47A002EDBEC /* UILabel+NavigationTitle.h */,
+				9D17A00E1688E47A002EDBEC /* UILabel+NavigationTitle.m */,
+				9D17A0111688E974002EDBEC /* TimeAgoObject.h */,
+				9D17A0121688E974002EDBEC /* TimeAgoObject.m */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -209,10 +213,6 @@
 			children = (
 				9D41A7DD1688DC7E0045C46E /* RedditAPIObject.h */,
 				9D41A7DE1688DC7E0045C46E /* RedditAPIObject.m */,
-				9D41A7DF1688DC7E0045C46E /* StoriesObject.h */,
-				9D41A7E01688DC7E0045C46E /* StoriesObject.m */,
-				9D41A7E11688DC7E0045C46E /* SupportedSitesObject.h */,
-				9D41A7E21688DC7E0045C46E /* SupportedSitesObject.m */,
 			);
 			name = APIs;
 			sourceTree = "<group>";
@@ -335,13 +335,13 @@
 				9D41A7B71688DC290045C46E /* AppDelegate.m in Sources */,
 				9D41A7D71688DC630045C46E /* main.m in Sources */,
 				9D41A7E31688DC7E0045C46E /* RedditAPIObject.m in Sources */,
-				9D41A7E41688DC7E0045C46E /* StoriesObject.m in Sources */,
-				9D41A7E51688DC7E0045C46E /* SupportedSitesObject.m in Sources */,
 				9D41A7EA1688DC930045C46E /* BackGroundViewController.m in Sources */,
 				9D41A7EB1688DC930045C46E /* StoryViewController.m in Sources */,
 				9D41A7EE1688DCB20045C46E /* RedditTableViewCell.m in Sources */,
 				9D41A7F11688DCC20045C46E /* StoryWebViewController.m in Sources */,
 				9D41A7F41688DCD20045C46E /* BarButtonItemObject.m in Sources */,
+				9D17A00F1688E47A002EDBEC /* UILabel+NavigationTitle.m in Sources */,
+				9D17A0131688E974002EDBEC /* TimeAgoObject.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

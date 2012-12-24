@@ -23,4 +23,7 @@
 - (void)refresh;
 - (void)stopRefreshing;
 
+- (void) slideRight;
+- (void) slideLeft;
+
 @end

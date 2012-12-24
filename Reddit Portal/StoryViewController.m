@@ -10,6 +10,10 @@
 #import "AppDelegate.h"
 #import <AFNetworking.h>
 #import <SSPullToRefresh.h>
+#import "UILabel+NavigationTitle.h"
+#import "TimeAgoObject.h"
+#import "BarButtonItemObject.h"
+
 
 #define AUTO_FETCH_BUFFER 5
 #define SLIDE_OFFSET 230
@@ -27,93 +31,61 @@
 
 @synthesize webView = _webView, storyTableView = _storyTableView, pullToRefreshView = _pullToRefreshView;
 
-AppDelegate *_delegate;
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
     _webView = [[StoryWebViewController alloc] init];
+    
     _storyTableView = [[UITableView alloc] initWithFrame:[[UIScreen mainScreen] bounds]
                                                    style:UITableViewStylePlain];
-        
+    _pullToRefreshView = [[SSPullToRefreshView alloc]
+                          initWithScrollView:_storyTableView
+                          delegate:self];
+    
     _storyTableView.delegate = self;
     _storyTableView.dataSource = self;
+
     
+    //
+    // Navigation Title
+    //
+    UILabel *navTitle = [[UILabel alloc] initWithTitle:@"Front Page" withColor:[UIColor darkGrayColor]];
+    self.navigationItem.titleView = navTitle;
+    
+    
+    UIBarButtonItem *slideButton = [BarButtonItemObject createButtonItemForTarget:self
+                                                                       withAction:@selector(toggleSlider)
+                                                                        withImage:@"slider.png"
+                                                                       withOffset:0];
+    
+    UIBarButtonItem *optionsButton = [BarButtonItemObject createButtonItemForTarget:self
+                                                                         withAction:@selector(toggleSlider)
+                                                                          withImage:@"options"
+                                                                         withOffset:0];
+    
+    self.navigationItem.leftBarButtonItem = slideButton;
+    self.navigationItem.rightBarButtonItem = optionsButton;
+
     [self.view addSubview:_storyTableView];
-
-    
-    _pullToRefreshView = [[SSPullToRefreshView alloc]
-                              initWithScrollView:_storyTableView
-                              delegate:self];
-    
-    
-    _delegate = [[UIApplication sharedApplication] delegate];
-    
-    /*
-     * The main navigation title and buttons:
-     *
-     */
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
-    label.backgroundColor = [UIColor clearColor];
-    label.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18.0];
-    label.textColor = [UIColor darkGrayColor];
-    self.navigationItem.titleView = label;
-    label.text = @"Front Page";
-    [label sizeToFit];
-
-    
-    UIImage *slideImage = [UIImage imageNamed:@"slider.png"];
-    UIButton *slideButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    slideButton.bounds = CGRectMake( 0, 0, slideImage.size.width, slideImage.size.height );
-    [slideButton setImage:slideImage forState:UIControlStateNormal];
-    [slideButton addTarget:self action:@selector(toggleSlider) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *sliderBarButton = [[UIBarButtonItem alloc] initWithCustomView:slideButton];
-    self.navigationItem.leftBarButtonItem = sliderBarButton;
-    
-    UIImageView *optionsImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"options.png"]];
-    UIBarButtonItem *optionsBarButton = [[UIBarButtonItem alloc] initWithCustomView:optionsImageView];
-    self.navigationItem.rightBarButtonItem = optionsBarButton;
-
-    
-    
-    
-    [self addGestureRecognizers];
 }
 
-
-- (void)addGestureRecognizers
-{
-    UISwipeGestureRecognizer *rightSwipeRecognizer;
-    rightSwipeRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self
-                                                                     action:@selector(handleSwipeFromRight:)];
-    [rightSwipeRecognizer setDirection:(UISwipeGestureRecognizerDirectionRight)];
-    [[self view] addGestureRecognizer:rightSwipeRecognizer];
-    
-    UISwipeGestureRecognizer *leftSwipeRecognizer;
-    leftSwipeRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self
-                                                                    action:@selector(handleSwipeFromLeft:)];
-    [leftSwipeRecognizer setDirection:(UISwipeGestureRecognizerDirectionLeft)];
-    [[self view] addGestureRecognizer:leftSwipeRecognizer];
-
-}
-
-int i = 0;
-- (void)handleSwipeFromRight:(UISwipeGestureRecognizer *)recognizer
+bool isOffScreen = false;
+- (void) slideRight
 {
     [UIView beginAnimations:nil
                     context:nil];
     [UIView setAnimationDuration:SLIDE_DURATION];
     [UIView setAnimationDelegate:self];
-
+    
     CGRect rect = [[UIScreen mainScreen] bounds];
     rect.origin.x += SLIDE_OFFSET;
     self.navigationController.view.frame = rect;
     [UIView commitAnimations];
-    i++;
+    isOffScreen = true;
 }
 
-- (void)handleSwipeFromLeft:(UISwipeGestureRecognizer *)recognizer
+- (void) slideLeft
 {
     [UIView beginAnimations:nil
                     context:nil];
@@ -121,39 +93,24 @@ int i = 0;
     [UIView setAnimationDelegate:self];
     self.navigationController.view.frame = [[UIScreen mainScreen] bounds];
     [UIView commitAnimations];
-    i++;
+    isOffScreen = false;
 }
 
 - (void) toggleSlider
 {    
-    if( i % 2 == 0 ) {
-        [UIView beginAnimations:nil
-                        context:nil];
-        [UIView setAnimationDuration:SLIDE_DURATION];
-        [UIView setAnimationDelegate:self];
-        
-        CGRect rect = [[UIScreen mainScreen] bounds];
-        rect.origin.x += SLIDE_OFFSET;
-        self.navigationController.view.frame = rect;
-        [UIView commitAnimations];
+    if( isOffScreen ) {
+        [self slideLeft];
     }
     else {
-        [UIView beginAnimations:nil
-                        context:nil];
-        [UIView setAnimationDuration:SLIDE_DURATION];
-        [UIView setAnimationDelegate:self];
-        self.navigationController.view.frame = [[UIScreen mainScreen] bounds];
-        [UIView commitAnimations];
+        [self slideRight];
     }
-    
-    i++;
 }
 
 
 - (void)refresh
 {
     [self.pullToRefreshView startLoading];
-    [_delegate.reddit refresh];
+    [[AppDelegate sharedAppdelegate].reddit refresh];
 }
 
 - (void) stopRefreshing
@@ -171,7 +128,7 @@ int i = 0;
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    _webView.storyURL = [[_delegate.reddit.stories objectAtIndex:indexPath.row] objectForKey:@"url"];
+    _webView.storyURL = [[[AppDelegate sharedAppdelegate].reddit.stories objectAtIndex:indexPath.row] objectForKey:@"url"];
     [_webView loadNewStory];
     
     [self.navigationController pushViewController:_webView
@@ -186,13 +143,13 @@ int i = 0;
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return _delegate.reddit.stories.count;
+    return [AppDelegate sharedAppdelegate].reddit.stories.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     BOOL thumbnailEmpty = NO;
-    if ([[[_delegate.reddit.stories objectAtIndex:indexPath.row] objectForKey:@"thumbnail"] length] == 0 || [[[_delegate.reddit.stories objectAtIndex:indexPath.row] objectForKey:@"thumbnail"] isEqualToString:@"self"] || [[[_delegate.reddit.stories objectAtIndex:indexPath.row] objectForKey:@"thumbnail"] isEqualToString:@"default"] ){
+    if ([[[[AppDelegate sharedAppdelegate].reddit.stories objectAtIndex:indexPath.row] objectForKey:@"thumbnail"] length] == 0 || [[[[AppDelegate sharedAppdelegate].reddit.stories objectAtIndex:indexPath.row] objectForKey:@"thumbnail"] isEqualToString:@"self"] || [[[[AppDelegate sharedAppdelegate].reddit.stories objectAtIndex:indexPath.row] objectForKey:@"thumbnail"] isEqualToString:@"default"] ){
         
         thumbnailEmpty = YES;
     }
@@ -209,7 +166,7 @@ int i = 0;
     }
     
     titleLabel.frame = CGRectMake( thumbnailOffset , CELL_PADDING, 320 - thumbnailOffset - CELL_PADDING, 0);
-    titleLabel.text = [[_delegate.reddit.stories objectAtIndex:indexPath.row] objectForKey:@"title"];
+    titleLabel.text = [[[AppDelegate sharedAppdelegate].reddit.stories objectAtIndex:indexPath.row] objectForKey:@"title"];
     [titleLabel sizeToFit];
     
     UILabel *authorLabel = [[UILabel alloc] init];
@@ -217,7 +174,7 @@ int i = 0;
     authorLabel.numberOfLines = 1;
     authorLabel.textColor = [UIColor blackColor];
     authorLabel.backgroundColor = [UIColor clearColor];
-    authorLabel.text = [[_delegate.reddit.stories objectAtIndex:indexPath.row] objectForKey:@"author"];
+    authorLabel.text = [[[AppDelegate sharedAppdelegate].reddit.stories objectAtIndex:indexPath.row] objectForKey:@"author"];
     [authorLabel sizeToFit];
     
     UILabel *scoreLabel = [[UILabel alloc] init];
@@ -225,7 +182,7 @@ int i = 0;
     scoreLabel.numberOfLines = 1;
     scoreLabel.textColor = [UIColor blackColor];
     scoreLabel.backgroundColor = [UIColor clearColor];
-    scoreLabel.text = [[_delegate.reddit.stories objectAtIndex:indexPath.row] objectForKey:@"domain"];
+    scoreLabel.text = [[[AppDelegate sharedAppdelegate].reddit.stories objectAtIndex:indexPath.row] objectForKey:@"domain"];
     [scoreLabel sizeToFit];
     
     CGFloat cellHeight = titleLabel.frame.size.height + authorLabel.frame.size.height + scoreLabel.frame.size.height + (2 * CELL_PADDING);
@@ -244,9 +201,9 @@ int i = 0;
 {
     
     // This is where the auto fetching happens
-    if (_delegate.reddit.numOfStoriesLoaded == indexPath.row + AUTO_FETCH_BUFFER) {
+    if ([AppDelegate sharedAppdelegate].reddit.numOfStoriesLoaded == indexPath.row + AUTO_FETCH_BUFFER) {
         
-        [_delegate.reddit loadNextPage];
+        [[AppDelegate sharedAppdelegate].reddit loadNextPage];
     }
     
     static NSString *cellIdentifier = @"cellIdentifierStories";
@@ -280,7 +237,7 @@ int i = 0;
         storyUrlLabel.tag = 3;
         storyUrlLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:10.0];
         storyUrlLabel.numberOfLines = 1;
-        storyUrlLabel.textColor = [UIColor blackColor];
+        storyUrlLabel.textColor = [UIColor darkGrayColor];
         storyUrlLabel.backgroundColor = [UIColor clearColor];
         [cell.contentView addSubview: storyUrlLabel];
         
@@ -288,7 +245,7 @@ int i = 0;
         dateLabel.tag = 4;
         dateLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:10.0];
         dateLabel.numberOfLines = 1;
-        dateLabel.textColor = [UIColor blackColor];
+        dateLabel.textColor = [UIColor darkGrayColor];
         dateLabel.backgroundColor = [UIColor clearColor];
         [cell.contentView addSubview: dateLabel];
         
@@ -296,7 +253,7 @@ int i = 0;
         scoreLabel.tag = 5;
         scoreLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:10.0];
         scoreLabel.numberOfLines = 1;
-        scoreLabel.textColor = [UIColor blackColor];
+        scoreLabel.textColor = [UIColor darkGrayColor];
         scoreLabel.backgroundColor = [UIColor clearColor];
         [cell.contentView addSubview: scoreLabel];
         
@@ -304,7 +261,7 @@ int i = 0;
         commentsCount.tag = 6;
         commentsCount.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:10.0];
         commentsCount.numberOfLines = 1;
-        commentsCount.textColor = [UIColor blackColor];
+        commentsCount.textColor = [UIColor darkGrayColor];
         commentsCount.backgroundColor = [UIColor clearColor];
         [cell.contentView addSubview: commentsCount];
         
@@ -312,7 +269,7 @@ int i = 0;
         authorLabel.tag = 7;
         authorLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:10.0];
         authorLabel.numberOfLines = 1;
-        authorLabel.textColor = [UIColor blackColor];
+        authorLabel.textColor = [UIColor darkGrayColor];
         authorLabel.backgroundColor = [UIColor clearColor];
         [cell.contentView addSubview: authorLabel];
         
@@ -330,14 +287,14 @@ int i = 0;
     
     
     imageView.frame = CGRectMake( CELL_PADDING, CELL_PADDING, THUMBNAIL_SIZE, THUMBNAIL_SIZE);
-    [imageView setImageWithURL:[NSURL URLWithString:[[_delegate.reddit.stories objectAtIndex:indexPath.row] objectForKey:@"thumbnail"]]
+    [imageView setImageWithURL:[NSURL URLWithString:[[[AppDelegate sharedAppdelegate].reddit.stories objectAtIndex:indexPath.row] objectForKey:@"thumbnail"]]
               placeholderImage:nil];
     
 
 
     // Calcuate the offset for the labels around the thumbnail
     NSInteger thumbnailOffset = imageView.frame.size.width + (CELL_PADDING * 2);
-    if ([[[_delegate.reddit.stories objectAtIndex:indexPath.row] objectForKey:@"thumbnail"] length] == 0 || [[[_delegate.reddit.stories objectAtIndex:indexPath.row] objectForKey:@"thumbnail"] isEqualToString:@"self"] || [[[_delegate.reddit.stories objectAtIndex:indexPath.row] objectForKey:@"thumbnail"] isEqualToString:@"default"] ) {
+    if ([[[[AppDelegate sharedAppdelegate].reddit.stories objectAtIndex:indexPath.row] objectForKey:@"thumbnail"] length] == 0 || [[[[AppDelegate sharedAppdelegate].reddit.stories objectAtIndex:indexPath.row] objectForKey:@"thumbnail"] isEqualToString:@"self"] || [[[[AppDelegate sharedAppdelegate].reddit.stories objectAtIndex:indexPath.row] objectForKey:@"thumbnail"] isEqualToString:@"default"] ) {
         thumbnailOffset = CELL_PADDING;
     }
     
@@ -347,7 +304,7 @@ int i = 0;
     //
     
     titleLabel.frame = CGRectMake( thumbnailOffset , CELL_PADDING, 320 - thumbnailOffset - CELL_PADDING, 0);
-    titleLabel.text = [[_delegate.reddit.stories objectAtIndex:indexPath.row] objectForKey:@"title"];
+    titleLabel.text = [[[AppDelegate sharedAppdelegate].reddit.stories objectAtIndex:indexPath.row] objectForKey:@"title"];
     [titleLabel sizeToFit];
     
     NSInteger titleOffset = titleLabel.frame.size.height + TITLE_PADDING;
@@ -357,7 +314,7 @@ int i = 0;
     //
     
     storyUrlLabel.frame = CGRectMake( thumbnailOffset, titleOffset, 0, 0);
-    storyUrlLabel.text = [[_delegate.reddit.stories objectAtIndex:indexPath.row] objectForKey:@"domain"];
+    storyUrlLabel.text = [[[AppDelegate sharedAppdelegate].reddit.stories objectAtIndex:indexPath.row] objectForKey:@"domain"];
     [storyUrlLabel sizeToFit];
 
     
@@ -369,7 +326,7 @@ int i = 0;
     //
     
     dateLabel.frame = CGRectMake(runningOffset, titleOffset, 0, 0);
-    dateLabel.text = [self dateDiff:[[_delegate.reddit.stories objectAtIndex:indexPath.row] objectForKey:@"created_utc"]];
+    dateLabel.text = [TimeAgoObject dateDiff:[[[AppDelegate sharedAppdelegate].reddit.stories objectAtIndex:indexPath.row] objectForKey:@"created_utc"]];
     [dateLabel sizeToFit];
     
     
@@ -380,7 +337,7 @@ int i = 0;
     //
     
     scoreLabel.frame = CGRectMake(runningOffset, titleOffset, 0, 0);
-    scoreLabel.text = [NSString stringWithFormat:@"%@",[[_delegate.reddit.stories objectAtIndex:indexPath.row] objectForKey:@"score"]];
+    scoreLabel.text = [NSString stringWithFormat:@"%@",[[[AppDelegate sharedAppdelegate].reddit.stories objectAtIndex:indexPath.row] objectForKey:@"score"]];
     [scoreLabel sizeToFit];
 
     
@@ -391,7 +348,7 @@ int i = 0;
     titleOffset += storyUrlLabel.frame.size.height;
     
     commentsCount.frame = CGRectMake( thumbnailOffset, titleOffset, 0, 0);
-    commentsCount.text = [NSString stringWithFormat:@"%@ comments",[[_delegate.reddit.stories objectAtIndex:indexPath.row] objectForKey:@"num_comments"]];
+    commentsCount.text = [NSString stringWithFormat:@"%@ comments",[[[AppDelegate sharedAppdelegate].reddit.stories objectAtIndex:indexPath.row] objectForKey:@"num_comments"]];
     [commentsCount sizeToFit];
     
     
@@ -402,7 +359,7 @@ int i = 0;
     //
     
     authorLabel.frame = CGRectMake( runningOffset, titleOffset, 0, 0);
-    authorLabel.text = [[_delegate.reddit.stories objectAtIndex:indexPath.row] objectForKey:@"author"];
+    authorLabel.text = [[[AppDelegate sharedAppdelegate].reddit.stories objectAtIndex:indexPath.row] objectForKey:@"author"];
     [authorLabel sizeToFit];
     
     
@@ -412,32 +369,6 @@ int i = 0;
     return cell;
 }
 
-- (NSString *)dateDiff:(NSNumber *)timestamp
-{
-    
-    NSDate *convertedDate = [NSDate dateWithTimeIntervalSince1970:[timestamp doubleValue]];
-    NSDate *todayDate = [NSDate date];
-    
-    double ti = [convertedDate timeIntervalSinceDate:todayDate];
-    ti = ti * -1;
-    
-    if(ti < 1) {
-    	return @"never";
-    } else 	if (ti < 60) {
-    	return @"less than a minute ago";
-    } else if (ti < 3600) {
-    	int diff = round(ti / 60);
-    	return [NSString stringWithFormat:@"%d minutes ago", diff];
-    } else if (ti < 86400) {
-    	int diff = round(ti / 60 / 60);
-    	return[NSString stringWithFormat:@"%d hours ago", diff];
-    } else if (ti < 2629743) {
-    	int diff = round(ti / 60 / 60 / 24);
-    	return[NSString stringWithFormat:@"%d days ago", diff];
-    }
-    
-    return @"never";
-}
 
 
 - (void)didReceiveMemoryWarning

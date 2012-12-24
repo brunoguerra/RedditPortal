@@ -7,11 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "SupportedSitesObject.h"
 
 @interface BackGroundViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate>
 
 @property (nonatomic, retain) UITableView *backGroundTableView;
-@property (nonatomic, retain) SupportedSitesObject *supportedSitesObject;
 
 @end

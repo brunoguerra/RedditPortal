@@ -21,6 +21,8 @@
 //@property (nonatomic, retain) StoryViewController *storyViewController;
 @property (nonatomic, retain) RedditAPIObject *reddit;
 
+
 - (void) didFinishLoadingStories;
++ (AppDelegate *)sharedAppdelegate;
 
 @end

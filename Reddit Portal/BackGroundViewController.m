@@ -9,6 +9,9 @@
 #import "BackGroundViewController.h"
 #import "BarButtonItemObject.h"
 #import "AppDelegate.h"
+#import "UILabel+NavigationTitle.h"
+
+#define NAV_TITLE @"My Reddit"
 
 @interface BackGroundViewController ()
 
@@ -16,51 +19,38 @@
 
 @implementation BackGroundViewController
 
-@synthesize backGroundTableView = _backGroundTableView, supportedSitesObject = _supportedSitesObject;
-
-AppDelegate *_delegate;
+@synthesize backGroundTableView = _backGroundTableView;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
-    
-    self.view.backgroundColor = [UIColor blackColor];
-    
+        
     _backGroundTableView = [[UITableView alloc] initWithFrame:[[UIScreen mainScreen] bounds]
                                                    style:UITableViewStylePlain];
-    
-    
-    _supportedSitesObject = [[SupportedSitesObject alloc] init];
-    
-    //_backGroundTableView.backgroundColor = [UIColor blackColor];
+    _backGroundTableView.delegate = self;
+    _backGroundTableView.dataSource = self;
     
     UIImageView *tempImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background.png"]];
     [tempImageView setFrame:_backGroundTableView.frame];
     
     [_backGroundTableView setSeparatorColor:[UIColor clearColor]];
     _backGroundTableView.backgroundView = tempImageView;
-    
-    _backGroundTableView.delegate = self;
-    _backGroundTableView.dataSource = self;
-    
-    
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
-    label.backgroundColor = [UIColor clearColor];
-    label.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18.0];
-    label.textColor = [UIColor whiteColor];
-    self.navigationItem.titleView = label;
-    label.text = @"My Reddit";
-    [label sizeToFit];
+        
+    //
+    // Navigation Title
+    //
+    UILabel *navTitle = [[UILabel alloc] initWithTitle:NAV_TITLE withColor:[UIColor whiteColor]];
+    self.navigationItem.titleView = navTitle;
     
     
-    UIBarButtonItem *flagBarButton = [BarButtonItemObject createButtonItemForTarget:self.navigationController
-                                                                         withAction:@selector(popViewControllerAnimated:)
-                                                                          withImage:@"settings.png"
-                                                                         withOffset:5];
-    self.navigationItem.leftBarButtonItem = flagBarButton;
-    
-    _delegate = [[UIApplication sharedApplication] delegate];
+    //
+    // Settings Button
+    //
+    self.navigationItem.leftBarButtonItem = [BarButtonItemObject createButtonItemForTarget:self.navigationController
+                                                                                withAction:@selector(popViewControllerAnimated:)
+                                                                                 withImage:@"settings.png"
+                                                                                withOffset:5];
+
     
     [self.view addSubview:_backGroundTableView];
 }
@@ -68,9 +58,10 @@ AppDelegate *_delegate;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    [tableView deselectRowAtIndexPath:indexPath
+                             animated:YES];
     
-    if ([[_delegate.reddit.subreddits objectAtIndex:indexPath.row] isEqualToString:@"Enter Subreddit"]) {
+    if ([[[AppDelegate sharedAppdelegate].reddit.subreddits objectAtIndex:indexPath.row] isEqualToString:@"Enter Subreddit"]) {
         
         UIAlertView *subreddit = [[UIAlertView alloc] initWithTitle:@"Enter Subreddit"
                                                             message:nil
@@ -79,20 +70,25 @@ AppDelegate *_delegate;
                                                   otherButtonTitles:@"Go", nil];
         
         subreddit.alertViewStyle = UIAlertViewStylePlainTextInput;
-        
         [subreddit show];
-        
     }
     else {
         
-        [_delegate.reddit changeSubRedditTo:[_delegate.reddit.subreddits objectAtIndex:indexPath.row]];
+        [self changeSubRedditTo:[[AppDelegate sharedAppdelegate].reddit.subreddits objectAtIndex:indexPath.row]];
     }
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    [_delegate.reddit changeSubRedditTo:[alertView textFieldAtIndex:0].text];
+    [self changeSubRedditTo:[alertView textFieldAtIndex:0].text];
 }
+
+
+- (void) changeSubRedditTo:(NSString *)subreddit
+{
+    [[AppDelegate sharedAppdelegate].reddit changeSubRedditTo:subreddit];
+}
+
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -101,7 +97,7 @@ AppDelegate *_delegate;
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return _delegate.reddit.subreddits.count;
+    return [AppDelegate sharedAppdelegate].reddit.subreddits.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -116,7 +112,7 @@ AppDelegate *_delegate;
     }
     
     cell.backgroundView = [[UIImageView alloc] initWithImage:[ [UIImage imageNamed:@"backgroundCell.png"] stretchableImageWithLeftCapWidth:0.0 topCapHeight:5.0] ];
-    cell.textLabel.text = [_delegate.reddit.subreddits objectAtIndex:indexPath.row];
+    cell.textLabel.text = [[AppDelegate sharedAppdelegate].reddit.subreddits objectAtIndex:indexPath.row];
     cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:16.0];
     cell.textLabel.textColor = [UIColor whiteColor];
 
