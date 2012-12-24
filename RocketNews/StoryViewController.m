@@ -53,7 +53,7 @@ AppDelegate *_delegate;
      */
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
     label.backgroundColor = [UIColor clearColor];
-    label.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:20.0];
+    label.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18.0];
     label.textColor = [UIColor darkGrayColor];
     self.navigationItem.titleView = label;
     label.text = @"Front Page";

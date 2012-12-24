@@ -7,6 +7,8 @@
 //
 
 #import "BackGroundViewController.h"
+#import "BarButtonItemObject.h"
+#import "AppDelegate.h"
 
 @interface BackGroundViewController ()
 
@@ -15,6 +17,8 @@
 @implementation BackGroundViewController
 
 @synthesize backGroundTableView = _backGroundTableView, supportedSitesObject = _supportedSitesObject;
+
+AppDelegate *_delegate;
 
 - (void)viewDidLoad
 {
@@ -43,11 +47,20 @@
     
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
     label.backgroundColor = [UIColor clearColor];
-    label.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:20.0];
+    label.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18.0];
     label.textColor = [UIColor whiteColor];
     self.navigationItem.titleView = label;
-    label.text = @"Sites";
+    label.text = @"My Reddit";
     [label sizeToFit];
+    
+    
+    UIBarButtonItem *flagBarButton = [BarButtonItemObject createButtonItemForTarget:self.navigationController
+                                                                         withAction:@selector(popViewControllerAnimated:)
+                                                                          withImage:@"settings.png"
+                                                                         withOffset:5];
+    self.navigationItem.leftBarButtonItem = flagBarButton;
+    
+    _delegate = [[UIApplication sharedApplication] delegate];
     
     [self.view addSubview:_backGroundTableView];
 }
@@ -55,8 +68,8 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [self.navigationController pushViewController:nil
-                                         animated:YES];
+    
+    [_delegate.reddit changeSubRedditTo:[_delegate.reddit.subreddits objectAtIndex:indexPath.row]];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -66,7 +79,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return _supportedSitesObject.supportSites.count;
+    return _delegate.reddit.subreddits.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -81,9 +94,10 @@
     }
     
     cell.backgroundView = [[UIImageView alloc] initWithImage:[ [UIImage imageNamed:@"backgroundCell.png"] stretchableImageWithLeftCapWidth:0.0 topCapHeight:5.0] ];
+    cell.textLabel.text = [_delegate.reddit.subreddits objectAtIndex:indexPath.row];
+    cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:16.0];
+    cell.textLabel.textColor = [UIColor whiteColor];
 
-    
-    cell.textLabel.text = [_supportedSitesObject.supportSites objectAtIndex:indexPath.row];
     
     return cell;
 }

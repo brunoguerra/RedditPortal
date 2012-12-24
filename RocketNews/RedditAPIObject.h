@@ -15,8 +15,12 @@
 @property (nonatomic, copy) NSString *nextPageToken;
 @property (nonatomic, assign) NSInteger numOfStoriesLoaded;
 
+@property (nonatomic, retain) NSMutableArray *subreddits;
+@property (nonatomic, retain) NSMutableArray *loggedInCategories;
+
 - (void) loadNextPage;
 - (void) refresh;
 - (void) changeSubRedditTo:(NSString *)subReddit;
+- (void) setupSubReddits;
 
 @end

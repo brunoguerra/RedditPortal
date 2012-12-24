@@ -11,22 +11,32 @@
 #import "AppDelegate.h"
 
 #define STORIES_PER_PAGE 25
-#define REDDIT_BASE_URL @"http://www.reddit.com/.json"
+#define REDDIT_BASE_URL @"http://www.reddit.com/"
 
 @implementation RedditAPIObject
 
-@synthesize stories = _stories, baseURL = _baseURL, nextPageToken = _nextPageToken, numOfStoriesLoaded = _numOfStoriesLoaded;
+@synthesize stories = _stories, baseURL = _baseURL, nextPageToken = _nextPageToken, numOfStoriesLoaded = _numOfStoriesLoaded, subreddits = _subreddits;
 
 - (id) init
 {    
     if (self = [super init]) {
         
         _stories = [[NSMutableArray alloc] init];
-        _baseURL = @"http://www.reddit.com/.json";
+        [self setupSubReddits];
+        _baseURL = [NSString stringWithFormat:@"%@.json", REDDIT_BASE_URL];
         _numOfStoriesLoaded = 0;
     }
     
     return self;
+}
+
+
+- (void) setupSubReddits
+{
+    NSArray *subreddits = [[NSArray alloc] initWithObjects:@"Front Page", @"All Reddits", @"Enter Subreddit", @"Pics", @"Funny", @"Politics", @"Gaming", @"ASKReddit", @"WorldNews", @"Videos", @"IAMA", @"TodayILearned", @"WTF", @"AWW", @"Atheism", @"Technology", @"AdviceAnimal", @"Science", @"Music", @"Movies", @"BestOf", nil];
+    
+    _subreddits = [[NSMutableArray alloc] initWithArray:subreddits];
+    
 }
 
 
@@ -114,7 +124,7 @@
     
     if (_numOfStoriesLoaded == 0 || [_nextPageToken length] == 0) {
  
-        return [NSURL URLWithString:_baseURL];
+        return [NSURL URLWithString:[NSString stringWithFormat:@"%@.json", REDDIT_BASE_URL]];
     }
     
     return [NSURL URLWithString:[NSString stringWithFormat:@"%@?count=%d&after=%@", _baseURL, _numOfStoriesLoaded, _nextPageToken]];
@@ -123,7 +133,20 @@
 
 - (void) changeSubRedditTo:(NSString *)subReddit
 {
-    _baseURL = [NSString stringWithFormat:@"%@/r/%@", REDDIT_BASE_URL, subReddit];
+    
+    if ([subReddit isEqualToString:@"Front Page"]) {
+        _baseURL = [NSString stringWithFormat:@"%@.json", REDDIT_BASE_URL];
+    }
+    else if([subReddit isEqualToString:@"All Reddits"]) {
+         _baseURL = [NSString stringWithFormat:@"%@r/%@.json", REDDIT_BASE_URL, @"all"];
+    }
+    else {
+        _baseURL = [NSString stringWithFormat:@"%@r/%@.json", REDDIT_BASE_URL, subReddit];
+    }
+    
+    NSLog(@"Changing to: %@", _baseURL );
+    
+    [self refresh];
 }
 
 @end
