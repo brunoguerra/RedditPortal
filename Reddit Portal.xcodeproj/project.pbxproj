@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		9D17A00F1688E47A002EDBEC /* UILabel+NavigationTitle.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D17A00E1688E47A002EDBEC /* UILabel+NavigationTitle.m */; };
-		9D17A0131688E974002EDBEC /* TimeAgoObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D17A0121688E974002EDBEC /* TimeAgoObject.m */; };
+		9D17A0181688EF0B002EDBEC /* TimeAgoObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D17A0151688EF0B002EDBEC /* TimeAgoObject.m */; };
+		9D17A0191688EF0B002EDBEC /* UILabel+NavigationTitle.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D17A0171688EF0B002EDBEC /* UILabel+NavigationTitle.m */; };
 		9D18D4F01681A49B00927859 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D18D4EF1681A49B00927859 /* UIKit.framework */; };
 		9D18D4F21681A49B00927859 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D18D4F11681A49B00927859 /* Foundation.framework */; };
 		9D18D4F41681A49B00927859 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D18D4F31681A49B00927859 /* CoreGraphics.framework */; };
@@ -44,10 +44,10 @@
 /* Begin PBXFileReference section */
 		7D95CB74730343FB97E240D1 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
 		82F1ACF22EB84A28A0C04266 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		9D17A00D1688E47A002EDBEC /* UILabel+NavigationTitle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+NavigationTitle.h"; sourceTree = SOURCE_ROOT; };
-		9D17A00E1688E47A002EDBEC /* UILabel+NavigationTitle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+NavigationTitle.m"; sourceTree = SOURCE_ROOT; };
-		9D17A0111688E974002EDBEC /* TimeAgoObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimeAgoObject.h; sourceTree = SOURCE_ROOT; };
-		9D17A0121688E974002EDBEC /* TimeAgoObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimeAgoObject.m; sourceTree = SOURCE_ROOT; };
+		9D17A0141688EF0B002EDBEC /* TimeAgoObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TimeAgoObject.h; path = "Reddit Portal/TimeAgoObject.h"; sourceTree = SOURCE_ROOT; };
+		9D17A0151688EF0B002EDBEC /* TimeAgoObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TimeAgoObject.m; path = "Reddit Portal/TimeAgoObject.m"; sourceTree = SOURCE_ROOT; };
+		9D17A0161688EF0B002EDBEC /* UILabel+NavigationTitle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UILabel+NavigationTitle.h"; path = "Reddit Portal/UILabel+NavigationTitle.h"; sourceTree = SOURCE_ROOT; };
+		9D17A0171688EF0B002EDBEC /* UILabel+NavigationTitle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UILabel+NavigationTitle.m"; path = "Reddit Portal/UILabel+NavigationTitle.m"; sourceTree = SOURCE_ROOT; };
 		9D18D4EB1681A49B00927859 /* Reddit Portal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Reddit Portal.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D18D4EF1681A49B00927859 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		9D18D4F11681A49B00927859 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -178,12 +178,12 @@
 		9D2922851683C84D00B8BF86 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				9D17A0141688EF0B002EDBEC /* TimeAgoObject.h */,
+				9D17A0151688EF0B002EDBEC /* TimeAgoObject.m */,
+				9D17A0161688EF0B002EDBEC /* UILabel+NavigationTitle.h */,
+				9D17A0171688EF0B002EDBEC /* UILabel+NavigationTitle.m */,
 				9D41A7F21688DCD20045C46E /* BarButtonItemObject.h */,
 				9D41A7F31688DCD20045C46E /* BarButtonItemObject.m */,
-				9D17A00D1688E47A002EDBEC /* UILabel+NavigationTitle.h */,
-				9D17A00E1688E47A002EDBEC /* UILabel+NavigationTitle.m */,
-				9D17A0111688E974002EDBEC /* TimeAgoObject.h */,
-				9D17A0121688E974002EDBEC /* TimeAgoObject.m */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -340,8 +340,8 @@
 				9D41A7EE1688DCB20045C46E /* RedditTableViewCell.m in Sources */,
 				9D41A7F11688DCC20045C46E /* StoryWebViewController.m in Sources */,
 				9D41A7F41688DCD20045C46E /* BarButtonItemObject.m in Sources */,
-				9D17A00F1688E47A002EDBEC /* UILabel+NavigationTitle.m in Sources */,
-				9D17A0131688E974002EDBEC /* TimeAgoObject.m in Sources */,
+				9D17A0181688EF0B002EDBEC /* TimeAgoObject.m in Sources */,
+				9D17A0191688EF0B002EDBEC /* UILabel+NavigationTitle.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
