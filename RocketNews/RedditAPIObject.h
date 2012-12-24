@@ -15,6 +15,8 @@
 @property (nonatomic, copy) NSString *nextPageToken;
 @property (nonatomic, assign) NSInteger numOfStoriesLoaded;
 
+@property (nonatomic, copy) NSString *currentRedditTitle;
+
 @property (nonatomic, retain) NSMutableArray *subreddits;
 @property (nonatomic, retain) NSMutableArray *loggedInCategories;
 

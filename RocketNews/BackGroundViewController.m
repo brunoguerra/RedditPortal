@@ -68,8 +68,30 @@ AppDelegate *_delegate;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    [_delegate.reddit changeSubRedditTo:[_delegate.reddit.subreddits objectAtIndex:indexPath.row]];
+    if ([[_delegate.reddit.subreddits objectAtIndex:indexPath.row] isEqualToString:@"Enter Subreddit"]) {
+        
+        UIAlertView *subreddit = [[UIAlertView alloc] initWithTitle:@"Enter Subreddit"
+                                                            message:nil
+                                                           delegate:self
+                                                  cancelButtonTitle:@"Cancel"
+                                                  otherButtonTitles:@"Go", nil];
+        
+        subreddit.alertViewStyle = UIAlertViewStylePlainTextInput;
+        
+        [subreddit show];
+        
+    }
+    else {
+        
+        [_delegate.reddit changeSubRedditTo:[_delegate.reddit.subreddits objectAtIndex:indexPath.row]];
+    }
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    [_delegate.reddit changeSubRedditTo:[alertView textFieldAtIndex:0].text];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView

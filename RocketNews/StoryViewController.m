@@ -47,6 +47,9 @@ AppDelegate *_delegate;
                               initWithScrollView:_storyTableView
                               delegate:self];
     
+    
+    _delegate = [[UIApplication sharedApplication] delegate];
+    
     /*
      * The main navigation title and buttons:
      *
@@ -72,8 +75,6 @@ AppDelegate *_delegate;
     UIBarButtonItem *optionsBarButton = [[UIBarButtonItem alloc] initWithCustomView:optionsImageView];
     self.navigationItem.rightBarButtonItem = optionsBarButton;
 
-    
-    _delegate = [[UIApplication sharedApplication] delegate];
     
     
     
@@ -157,6 +158,7 @@ int i = 0;
 
 - (void) stopRefreshing
 {
+    // TODO: change the title of the page
     [self.pullToRefreshView finishLoading];
 }
 

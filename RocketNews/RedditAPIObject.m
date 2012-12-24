@@ -15,13 +15,14 @@
 
 @implementation RedditAPIObject
 
-@synthesize stories = _stories, baseURL = _baseURL, nextPageToken = _nextPageToken, numOfStoriesLoaded = _numOfStoriesLoaded, subreddits = _subreddits;
+@synthesize stories = _stories, baseURL = _baseURL, nextPageToken = _nextPageToken, numOfStoriesLoaded = _numOfStoriesLoaded, subreddits = _subreddits, currentRedditTitle = _currentRedditTitle;
 
 - (id) init
 {    
     if (self = [super init]) {
         
         _stories = [[NSMutableArray alloc] init];
+        _currentRedditTitle = @"Front Page";
         [self setupSubReddits];
         _baseURL = [NSString stringWithFormat:@"%@.json", REDDIT_BASE_URL];
         _numOfStoriesLoaded = 0;
@@ -143,6 +144,8 @@
     else {
         _baseURL = [NSString stringWithFormat:@"%@r/%@.json", REDDIT_BASE_URL, subReddit];
     }
+    
+    _currentRedditTitle = subReddit;
     
     NSLog(@"Changing to: %@", _baseURL );
     
