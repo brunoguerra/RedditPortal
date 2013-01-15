@@ -376,7 +376,22 @@ bool isOffScreen = false;
     return cell;
 }
 
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+    
+    // Change the size of the front story table.
+    if (toInterfaceOrientation == UIInterfaceOrientationPortrait) {
+        _storyTableView.frame = CGRectMake(0, 0, 320, 480);
+    }
+    else {
+        _storyTableView.frame = CGRectMake(0, 0, 480, 320);
+    }
+    
+    NSLog(@"I am starting to rotate");
+}
 
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
+    NSLog(@"I have finished rotating");
+}
 
 - (void)didReceiveMemoryWarning
 {
