@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		9D17A0181688EF0B002EDBEC /* TimeAgoObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D17A0151688EF0B002EDBEC /* TimeAgoObject.m */; };
 		9D17A0191688EF0B002EDBEC /* UILabel+NavigationTitle.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D17A0171688EF0B002EDBEC /* UILabel+NavigationTitle.m */; };
+		9D17A01F1688F7A1002EDBEC /* CommentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D17A01E1688F7A0002EDBEC /* CommentsViewController.m */; };
+		9D17A02C1688FEDF002EDBEC /* EmptyThumbnailObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D17A02B1688FEDF002EDBEC /* EmptyThumbnailObject.m */; };
 		9D18D4F01681A49B00927859 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D18D4EF1681A49B00927859 /* UIKit.framework */; };
 		9D18D4F21681A49B00927859 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D18D4F11681A49B00927859 /* Foundation.framework */; };
 		9D18D4F41681A49B00927859 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D18D4F31681A49B00927859 /* CoreGraphics.framework */; };
@@ -48,6 +50,10 @@
 		9D17A0151688EF0B002EDBEC /* TimeAgoObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TimeAgoObject.m; path = "Reddit Portal/TimeAgoObject.m"; sourceTree = SOURCE_ROOT; };
 		9D17A0161688EF0B002EDBEC /* UILabel+NavigationTitle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UILabel+NavigationTitle.h"; path = "Reddit Portal/UILabel+NavigationTitle.h"; sourceTree = SOURCE_ROOT; };
 		9D17A0171688EF0B002EDBEC /* UILabel+NavigationTitle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UILabel+NavigationTitle.m"; path = "Reddit Portal/UILabel+NavigationTitle.m"; sourceTree = SOURCE_ROOT; };
+		9D17A01D1688F7A0002EDBEC /* CommentsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CommentsViewController.h; path = "Reddit Portal/CommentsViewController.h"; sourceTree = SOURCE_ROOT; };
+		9D17A01E1688F7A0002EDBEC /* CommentsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CommentsViewController.m; path = "Reddit Portal/CommentsViewController.m"; sourceTree = SOURCE_ROOT; };
+		9D17A02A1688FEDF002EDBEC /* EmptyThumbnailObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmptyThumbnailObject.h; sourceTree = "<group>"; };
+		9D17A02B1688FEDF002EDBEC /* EmptyThumbnailObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmptyThumbnailObject.m; sourceTree = "<group>"; };
 		9D18D4EB1681A49B00927859 /* Reddit Portal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Reddit Portal.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D18D4EF1681A49B00927859 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		9D18D4F11681A49B00927859 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -144,8 +150,7 @@
 				9D41A7B61688DC290045C46E /* AppDelegate.m */,
 				9D18D4F61681A49B00927859 /* Supporting Files */,
 			);
-			name = "Reddit Portal";
-			path = RocketNews;
+			path = "Reddit Portal";
 			sourceTree = "<group>";
 		};
 		9D18D4F61681A49B00927859 /* Supporting Files */ = {
@@ -184,6 +189,8 @@
 				9D17A0171688EF0B002EDBEC /* UILabel+NavigationTitle.m */,
 				9D41A7F21688DCD20045C46E /* BarButtonItemObject.h */,
 				9D41A7F31688DCD20045C46E /* BarButtonItemObject.m */,
+				9D17A02A1688FEDF002EDBEC /* EmptyThumbnailObject.h */,
+				9D17A02B1688FEDF002EDBEC /* EmptyThumbnailObject.m */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -200,6 +207,8 @@
 		9D5E21041681AE2300A236E6 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				9D17A01D1688F7A0002EDBEC /* CommentsViewController.h */,
+				9D17A01E1688F7A0002EDBEC /* CommentsViewController.m */,
 				9D41A7E61688DC930045C46E /* BackGroundViewController.h */,
 				9D41A7E71688DC930045C46E /* BackGroundViewController.m */,
 				9D41A7E81688DC930045C46E /* StoryViewController.h */,
@@ -342,6 +351,8 @@
 				9D41A7F41688DCD20045C46E /* BarButtonItemObject.m in Sources */,
 				9D17A0181688EF0B002EDBEC /* TimeAgoObject.m in Sources */,
 				9D17A0191688EF0B002EDBEC /* UILabel+NavigationTitle.m in Sources */,
+				9D17A01F1688F7A1002EDBEC /* CommentsViewController.m in Sources */,
+				9D17A02C1688FEDF002EDBEC /* EmptyThumbnailObject.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

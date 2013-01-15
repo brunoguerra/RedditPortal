@@ -13,6 +13,7 @@
 #import "UILabel+NavigationTitle.h"
 #import "TimeAgoObject.h"
 #import "BarButtonItemObject.h"
+#import "EmptyThumbnailObject.h"
 
 
 #define AUTO_FETCH_BUFFER 5
@@ -50,7 +51,7 @@
     //
     // Navigation Title
     //
-    UILabel *navTitle = [[UILabel alloc] initWithTitle:@"Front Page" withColor:[UIColor darkGrayColor]];
+    UILabel *navTitle = [[UILabel alloc] initWithTitle:[AppDelegate sharedAppdelegate].reddit.currentRedditTitle withColor:[UIColor darkGrayColor]];
     self.navigationItem.titleView = navTitle;
     
     
@@ -115,7 +116,14 @@ bool isOffScreen = false;
 
 - (void) stopRefreshing
 {
-    // TODO: change the title of the page
+    // TODO: Instead of creating a new label everytime just change the text of the current one.
+    UILabel *navTitle = [[UILabel alloc] initWithTitle:[AppDelegate sharedAppdelegate].reddit.currentRedditTitle withColor:[UIColor darkGrayColor]];
+    self.navigationItem.titleView = navTitle;
+
+    if( isOffScreen ) {
+        [self slideLeft];
+    }
+    
     [self.pullToRefreshView finishLoading];
 }
 
@@ -148,11 +156,8 @@ bool isOffScreen = false;
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    BOOL thumbnailEmpty = NO;
-    if ([[[[AppDelegate sharedAppdelegate].reddit.stories objectAtIndex:indexPath.row] objectForKey:@"thumbnail"] length] == 0 || [[[[AppDelegate sharedAppdelegate].reddit.stories objectAtIndex:indexPath.row] objectForKey:@"thumbnail"] isEqualToString:@"self"] || [[[[AppDelegate sharedAppdelegate].reddit.stories objectAtIndex:indexPath.row] objectForKey:@"thumbnail"] isEqualToString:@"default"] ){
-        
-        thumbnailEmpty = YES;
-    }
+    
+    BOOL thumbnailEmpty = [EmptyThumbnailObject isThumbnailEmpty:[[[AppDelegate sharedAppdelegate].reddit.stories objectAtIndex:indexPath.row] objectForKey:@"thumbnail"]];
     
     UILabel *titleLabel = [[UILabel alloc] init];
     titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:14.0];
@@ -294,7 +299,9 @@ bool isOffScreen = false;
 
     // Calcuate the offset for the labels around the thumbnail
     NSInteger thumbnailOffset = imageView.frame.size.width + (CELL_PADDING * 2);
-    if ([[[[AppDelegate sharedAppdelegate].reddit.stories objectAtIndex:indexPath.row] objectForKey:@"thumbnail"] length] == 0 || [[[[AppDelegate sharedAppdelegate].reddit.stories objectAtIndex:indexPath.row] objectForKey:@"thumbnail"] isEqualToString:@"self"] || [[[[AppDelegate sharedAppdelegate].reddit.stories objectAtIndex:indexPath.row] objectForKey:@"thumbnail"] isEqualToString:@"default"] ) {
+    BOOL thumbnailEmpty = [EmptyThumbnailObject isThumbnailEmpty:[[[AppDelegate sharedAppdelegate].reddit.stories objectAtIndex:indexPath.row] objectForKey:@"thumbnail"]];
+    
+    if (thumbnailEmpty) {
         thumbnailOffset = CELL_PADDING;
     }
     
