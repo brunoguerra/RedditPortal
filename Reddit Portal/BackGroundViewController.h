@@ -12,4 +12,6 @@
 
 @property (nonatomic, retain) UITableView *backGroundTableView;
 
+- (void) orientationChanged;
+
 @end

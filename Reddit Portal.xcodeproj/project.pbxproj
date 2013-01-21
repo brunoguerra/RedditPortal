@@ -40,6 +40,9 @@
 		9D41A7F11688DCC20045C46E /* StoryWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D41A7F01688DCC20045C46E /* StoryWebViewController.m */; };
 		9D41A7F41688DCD20045C46E /* BarButtonItemObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D41A7F31688DCD20045C46E /* BarButtonItemObject.m */; };
 		9D41A7F81688DCE20045C46E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9D41A7F61688DCE20045C46E /* InfoPlist.strings */; };
+		9D607B2F16AD245700C89001 /* Reddit.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D607B2E16AD245700C89001 /* Reddit.m */; };
+		9D607B3316AD254500C89001 /* RedditManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D607B3216AD254500C89001 /* RedditManager.m */; };
+		9D607B3C16AD37BF00C89001 /* reveal-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D607B3B16AD37BF00C89001 /* reveal-icon@2x.png */; };
 		FDD42166DD2F4730B748E978 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82F1ACF22EB84A28A0C04266 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -92,6 +95,11 @@
 		9D41A7F21688DCD20045C46E /* BarButtonItemObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BarButtonItemObject.h; path = "Reddit Portal/BarButtonItemObject.h"; sourceTree = SOURCE_ROOT; };
 		9D41A7F31688DCD20045C46E /* BarButtonItemObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BarButtonItemObject.m; path = "Reddit Portal/BarButtonItemObject.m"; sourceTree = SOURCE_ROOT; };
 		9D41A7F71688DCE20045C46E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = InfoPlist.strings; sourceTree = "<group>"; };
+		9D607B2D16AD245700C89001 /* Reddit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reddit.h; sourceTree = "<group>"; };
+		9D607B2E16AD245700C89001 /* Reddit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reddit.m; sourceTree = "<group>"; };
+		9D607B3116AD254500C89001 /* RedditManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RedditManager.h; sourceTree = "<group>"; };
+		9D607B3216AD254500C89001 /* RedditManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RedditManager.m; sourceTree = "<group>"; };
+		9D607B3B16AD37BF00C89001 /* reveal-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reveal-icon@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -156,6 +164,7 @@
 		9D18D4F61681A49B00927859 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				9D607B3B16AD37BF00C89001 /* reveal-icon@2x.png */,
 				9D41A7F51688DCE20045C46E /* en.lproj */,
 				9D41A7B81688DC630045C46E /* action@2x.png */,
 				9D41A7B91688DC630045C46E /* backArrow@2x.png */,
@@ -222,6 +231,10 @@
 			children = (
 				9D41A7DD1688DC7E0045C46E /* RedditAPIObject.h */,
 				9D41A7DE1688DC7E0045C46E /* RedditAPIObject.m */,
+				9D607B2D16AD245700C89001 /* Reddit.h */,
+				9D607B2E16AD245700C89001 /* Reddit.m */,
+				9D607B3116AD254500C89001 /* RedditManager.h */,
+				9D607B3216AD254500C89001 /* RedditManager.m */,
 			);
 			name = APIs;
 			sourceTree = "<group>";
@@ -314,6 +327,7 @@
 				9D41A7DB1688DC630045C46E /* settings@2x.png in Resources */,
 				9D41A7DC1688DC630045C46E /* slider@2x.png in Resources */,
 				9D41A7F81688DCE20045C46E /* InfoPlist.strings in Resources */,
+				9D607B3C16AD37BF00C89001 /* reveal-icon@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -353,6 +367,8 @@
 				9D17A0191688EF0B002EDBEC /* UILabel+NavigationTitle.m in Sources */,
 				9D17A01F1688F7A1002EDBEC /* CommentsViewController.m in Sources */,
 				9D17A02C1688FEDF002EDBEC /* EmptyThumbnailObject.m in Sources */,
+				9D607B2F16AD245700C89001 /* Reddit.m in Sources */,
+				9D607B3316AD254500C89001 /* RedditManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

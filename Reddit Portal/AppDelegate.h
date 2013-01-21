@@ -10,8 +10,9 @@
 #import "BackGroundViewController.h"
 #import "StoryViewController.h"
 #import "RedditAPIObject.h"
+#import "SWRevealViewController.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate, SWRevealViewControllerDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 

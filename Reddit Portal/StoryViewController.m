@@ -14,7 +14,7 @@
 #import "TimeAgoObject.h"
 #import "BarButtonItemObject.h"
 #import "EmptyThumbnailObject.h"
-
+#import "SWRevealViewController.h"
 
 #define AUTO_FETCH_BUFFER 5
 #define SLIDE_OFFSET 230
@@ -48,6 +48,18 @@
     _storyTableView.dataSource = self;
 
     
+    
+    SWRevealViewController *revealController = [self revealViewController];
+    
+    [self.navigationController.navigationBar addGestureRecognizer:revealController.panGestureRecognizer];
+    
+    UIBarButtonItem *revealButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"reveal-icon.png"]
+                                                                         style:UIBarButtonItemStyleBordered target:revealController action:@selector(revealToggle:)];
+    
+    self.navigationItem.leftBarButtonItem = revealButtonItem;
+    
+    
+    /*
     //
     // Navigation Title
     //
@@ -66,7 +78,7 @@
                                                                          withOffset:0];
     
     self.navigationItem.leftBarButtonItem = slideButton;
-    self.navigationItem.rightBarButtonItem = optionsButton;
+    self.navigationItem.rightBarButtonItem = optionsButton;*/
 
     [self.view addSubview:_storyTableView];
 }
@@ -74,13 +86,23 @@
 bool isOffScreen = false;
 - (void) slideRight
 {
+    
     [UIView beginAnimations:nil
                     context:nil];
     [UIView setAnimationDuration:SLIDE_DURATION];
     [UIView setAnimationDelegate:self];
     
     CGRect rect = [[UIScreen mainScreen] bounds];
-    rect.origin.x += SLIDE_OFFSET;
+    
+    UIInterfaceOrientation interfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
+    if (UIInterfaceOrientationPortrait == UIInterfaceOrientationIsPortrait(interfaceOrientation)) {
+        
+            rect.origin.x += SLIDE_OFFSET;
+    }
+    else {
+            rect.origin.y -= SLIDE_OFFSET;
+    }
+    
     self.navigationController.view.frame = rect;
     [UIView commitAnimations];
     isOffScreen = true;
@@ -386,12 +408,9 @@ bool isOffScreen = false;
         _storyTableView.frame = CGRectMake(0, 0, 480, 320);
     }
     
-    NSLog(@"I am starting to rotate");
+    // Tell the background tableview to update.
 }
 
-- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
-    NSLog(@"I have finished rotating");
-}
 
 - (void)didReceiveMemoryWarning
 {

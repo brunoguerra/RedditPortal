@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "SWRevealViewController.h"
 #import "StoryViewController.h"
 #import "BackGroundViewController.h"
 
@@ -25,7 +26,6 @@ StoryViewController *_storyViewController;
     
     // Changing the status bar to black
     [[UIApplication sharedApplication] setStatusBarStyle: UIStatusBarStyleBlackOpaque];
-    
     
     //
     // The reddit object holds all the logic for fetching stories from reddit.
@@ -55,7 +55,14 @@ StoryViewController *_storyViewController;
     
     _backGroundNavigationController.view.frame = CGRectMake([[UIScreen mainScreen] bounds].origin.x, BACKGROUND_NAV_HEIGHT_OFFSET, BACKGROUND_NAV_WIDTH, [[UIScreen mainScreen] bounds].size.height);
     
-    self.window.rootViewController = _storyNavigationController;
+    
+
+          
+     SWRevealViewController *revealController = [[SWRevealViewController alloc] initWithRearViewController:_backGroundViewController
+                                                                                       frontViewController:_storyNavigationController];
+     revealController.delegate = self;
+    
+    self.window.rootViewController = revealController;
     [self.window addSubview:_backGroundNavigationController.view];
     [self.window makeKeyAndVisible];
     return YES;
@@ -66,6 +73,12 @@ StoryViewController *_storyViewController;
     [_storyViewController stopRefreshing];
     [_storyViewController.storyTableView reloadData];
     
+}
+
+- (void)application:(UIApplication *)application didChangeStatusBarOrientation:(UIInterfaceOrientation)oldStatusBarOrientation;
+{
+    NSLog(@"Device changed orientation.");
+    [_backGroundViewController orientationChanged];
 }
 
 + (AppDelegate *)sharedAppdelegate

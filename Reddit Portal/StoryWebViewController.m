@@ -49,7 +49,7 @@
                                                                            withAction:@selector(popViewControllerAnimated:)
                                                                             withImage:@"action.png"
                                                                            withOffset:10];
-    
+    /*
     UIBarButtonItem *bookmarkBarButton = [BarButtonItemObject createButtonItemForTarget:self.navigationController
                                                                              withAction:@selector(popViewControllerAnimated:)
                                                                               withImage:@"bookmark.png"
@@ -63,10 +63,10 @@
     UIBarButtonItem *flagBarButton = [BarButtonItemObject createButtonItemForTarget:self.navigationController
                                                                          withAction:@selector(popViewControllerAnimated:)
                                                                           withImage:@"flag.png"
-                                                                         withOffset:50];
+                                                                         withOffset:50];*/
     
     self.navigationItem.leftBarButtonItem = backBarButton;
-    self.navigationItem.rightBarButtonItems = [[NSArray alloc] initWithObjects:actionBarButton, bookmarkBarButton, commentBarButton, flagBarButton, nil];
+    self.navigationItem.rightBarButtonItems = [[NSArray alloc] initWithObjects:actionBarButton, nil];
 
     [_webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:_storyURL]]];
 }

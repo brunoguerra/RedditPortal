@@ -13,10 +13,6 @@
 
 #define NAV_TITLE @"My Reddit"
 
-@interface BackGroundViewController ()
-
-@end
-
 @implementation BackGroundViewController
 
 @synthesize backGroundTableView = _backGroundTableView;
@@ -55,6 +51,27 @@
     [self.view addSubview:_backGroundTableView];
 }
 
+- (void) orientationChanged {
+    
+    NSLog(@"Changing background table orientation");
+    
+    UIInterfaceOrientation interfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
+    if (UIInterfaceOrientationPortrait == UIInterfaceOrientationIsPortrait(interfaceOrientation)) {
+        
+        _backGroundTableView.frame = CGRectMake(0, 0, 320, 480);
+    }
+    else {
+        _backGroundTableView.frame = CGRectMake(0, 0, 480, 320);
+    }    
+}
+
+- (BOOL)shouldAutorotate {
+    return YES;
+}
+
+- (NSUInteger)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskAllButUpsideDown;
+}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -119,6 +136,7 @@
     
     return cell;
 }
+
 
 - (void)didReceiveMemoryWarning
 {
