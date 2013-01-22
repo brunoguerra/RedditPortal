@@ -343,7 +343,7 @@
     titleOffset += storyUrlLabel.frame.size.height;
     
     commentsCount.frame = CGRectMake( thumbnailOffset, titleOffset, 0, 0);
-    commentsCount.text = [NSString stringWithFormat:@"%@ comments", [_reddit storyDataForIndex:indexPath.row withKey:@"comments"]];
+    commentsCount.text = [NSString stringWithFormat:@"%@ comments", [_reddit storyDataForIndex:indexPath.row withKey:@"num_comments"]];
     [commentsCount sizeToFit];
     
     
