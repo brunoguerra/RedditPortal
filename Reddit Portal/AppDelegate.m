@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "Reddit.h"
 #import "SWRevealViewController.h"
 #import "StoryViewController.h"
 #import "BackGroundViewController.h"
@@ -16,9 +17,13 @@
 
 @implementation AppDelegate
 
-@synthesize backGroundViewController = _backGroundViewController, storyNavigationController = _storyNavigationController,backGroundNavigationController = _backGroundNavigationController, reddit = _reddit;
+@synthesize backGroundViewController = _backGroundViewController;
+@synthesize storyNavigationController = _storyNavigationController;
+@synthesize backGroundNavigationController = _backGroundNavigationController;
+@synthesize reddit = _reddit;
 
 StoryViewController *_storyViewController;
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
@@ -27,15 +32,10 @@ StoryViewController *_storyViewController;
     // Changing the status bar to black
     [[UIApplication sharedApplication] setStatusBarStyle: UIStatusBarStyleBlackOpaque];
     
-    //
-    // The reddit object holds all the logic for fetching stories from reddit.
-    //
-    _reddit = [[RedditAPIObject alloc] init];
-    [_reddit loadNextPage];
-    
+    _reddit = [Reddit sharedClass];
     
     //
-    // Create the top story view controller.
+    // Create the front story view controller.
     //
     _storyViewController = [[StoryViewController alloc] init];
     _storyNavigationController = [[UINavigationController alloc] initWithRootViewController:_storyViewController];
@@ -43,9 +43,8 @@ StoryViewController *_storyViewController;
     [_storyNavigationController.navigationBar setBackgroundImage:[UIImage imageNamed: @"navigationBar.png"]
                                                    forBarMetrics:UIBarMetricsDefault];
     
-    
     //
-    // Create the bottom background view controller
+    // Create the background view controller
     //
     _backGroundViewController = [[BackGroundViewController alloc] init];
     _backGroundNavigationController = [[UINavigationController alloc] initWithRootViewController:_backGroundViewController];
@@ -53,14 +52,14 @@ StoryViewController *_storyViewController;
     [_backGroundNavigationController.navigationBar setBackgroundImage:[UIImage imageNamed: @"backgroundNavigationBar.png"]
                                                         forBarMetrics:UIBarMetricsDefault];
     
-    _backGroundNavigationController.view.frame = CGRectMake([[UIScreen mainScreen] bounds].origin.x, BACKGROUND_NAV_HEIGHT_OFFSET, BACKGROUND_NAV_WIDTH, [[UIScreen mainScreen] bounds].size.height);
+    _backGroundNavigationController.view.frame = CGRectMake([[UIScreen mainScreen] bounds].origin.x,
+                                                            BACKGROUND_NAV_HEIGHT_OFFSET,
+                                                            BACKGROUND_NAV_WIDTH,
+                                                            [[UIScreen mainScreen] bounds].size.height);
     
-    
-
-          
-     SWRevealViewController *revealController = [[SWRevealViewController alloc] initWithRearViewController:_backGroundViewController
-                                                                                       frontViewController:_storyNavigationController];
-     revealController.delegate = self;
+    SWRevealViewController *revealController = [[SWRevealViewController alloc] initWithRearViewController:_backGroundViewController
+                                                                                      frontViewController:_storyNavigationController];
+    revealController.delegate = self;
     
     self.window.rootViewController = revealController;
     [self.window addSubview:_backGroundNavigationController.view];
@@ -68,22 +67,20 @@ StoryViewController *_storyViewController;
     return YES;
 }
 
-- (void) didFinishLoadingStories
-{
-    [_storyViewController stopRefreshing];
-    [_storyViewController.storyTableView reloadData];
-    
-}
-
-- (void)application:(UIApplication *)application didChangeStatusBarOrientation:(UIInterfaceOrientation)oldStatusBarOrientation;
-{
-    NSLog(@"Device changed orientation.");
-    [_backGroundViewController orientationChanged];
-}
-
-+ (AppDelegate *)sharedAppdelegate
++ (AppDelegate *) sharedAppdelegate
 {
     return (AppDelegate *)[[UIApplication sharedApplication] delegate];
+}
+
+- (void)revealController:(SWRevealViewController *)revealController willHideRearViewController:(UIViewController *)viewController
+{
+    // If we are revealing the front view then we might have changed subreddits and if so then we must load the new data.
+    
+    [_reddit retrieveMoreStoriesWithCompletionBlock:^{
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [_storyViewController.storyTableView reloadData];
+        });
+    }];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application

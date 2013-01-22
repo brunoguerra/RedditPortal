@@ -9,8 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "BackGroundViewController.h"
 #import "StoryViewController.h"
-#import "RedditAPIObject.h"
 #import "SWRevealViewController.h"
+#import "Reddit.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate, SWRevealViewControllerDelegate>
 
@@ -20,10 +20,8 @@
 @property (nonatomic, retain) UINavigationController *backGroundNavigationController;
 @property (nonatomic, retain) BackGroundViewController *backGroundViewController;
 //@property (nonatomic, retain) StoryViewController *storyViewController;
-@property (nonatomic, retain) RedditAPIObject *reddit;
+@property (nonatomic, retain) Reddit *reddit;
 
-
-- (void) didFinishLoadingStories;
-+ (AppDelegate *)sharedAppdelegate;
++ (AppDelegate *) sharedAppdelegate;
 
 @end

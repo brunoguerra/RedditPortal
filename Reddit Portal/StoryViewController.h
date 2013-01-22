@@ -8,22 +8,17 @@
 
 #import <UIKit/UIKit.h>
 #import "StoryWebViewController.h"
-#import "RedditAPIObject.h"
 #import <SSPullToRefresh.h>
 #import "AppDelegate.h"
+#import "Reddit.h"
 
 @interface StoryViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, SSPullToRefreshViewDelegate>
 
 @property (nonatomic, retain) StoryWebViewController *webView;
-
 @property (nonatomic, strong) SSPullToRefreshView *pullToRefreshView;
-
 @property (nonatomic, retain) UITableView *storyTableView;
+@property (nonatomic, retain) Reddit *reddit;
 
 - (void)refresh;
-- (void)stopRefreshing;
-
-- (void) slideRight;
-- (void) slideLeft;
 
 @end

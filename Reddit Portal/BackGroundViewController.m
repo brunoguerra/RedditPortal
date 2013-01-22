@@ -16,6 +16,7 @@
 @implementation BackGroundViewController
 
 @synthesize backGroundTableView = _backGroundTableView;
+@synthesize reddit = _reddit;
 
 - (void)viewDidLoad
 {
@@ -25,6 +26,8 @@
                                                    style:UITableViewStylePlain];
     _backGroundTableView.delegate = self;
     _backGroundTableView.dataSource = self;
+    
+    _reddit = [Reddit sharedClass];
     
     UIImageView *tempImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background.png"]];
     [tempImageView setFrame:_backGroundTableView.frame];
@@ -46,31 +49,8 @@
                                                                                 withAction:@selector(popViewControllerAnimated:)
                                                                                  withImage:@"settings.png"
                                                                                 withOffset:5];
-
     
     [self.view addSubview:_backGroundTableView];
-}
-
-- (void) orientationChanged {
-    
-    NSLog(@"Changing background table orientation");
-    
-    UIInterfaceOrientation interfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
-    if (UIInterfaceOrientationPortrait == UIInterfaceOrientationIsPortrait(interfaceOrientation)) {
-        
-        _backGroundTableView.frame = CGRectMake(0, 0, 320, 480);
-    }
-    else {
-        _backGroundTableView.frame = CGRectMake(0, 0, 480, 320);
-    }    
-}
-
-- (BOOL)shouldAutorotate {
-    return YES;
-}
-
-- (NSUInteger)supportedInterfaceOrientations {
-    return UIInterfaceOrientationMaskAllButUpsideDown;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -78,8 +58,8 @@
     [tableView deselectRowAtIndexPath:indexPath
                              animated:YES];
     
-    if ([[[AppDelegate sharedAppdelegate].reddit.subreddits objectAtIndex:indexPath.row] isEqualToString:@"Enter Subreddit"]) {
-        
+    if ([[_reddit.topSubreddits objectAtIndex:indexPath.row] isEqualToString:@"Enter Subreddit"])
+    {
         UIAlertView *subreddit = [[UIAlertView alloc] initWithTitle:@"Enter Subreddit"
                                                             message:nil
                                                            delegate:self
@@ -89,9 +69,9 @@
         subreddit.alertViewStyle = UIAlertViewStylePlainTextInput;
         [subreddit show];
     }
-    else {
-        
-        [self changeSubRedditTo:[[AppDelegate sharedAppdelegate].reddit.subreddits objectAtIndex:indexPath.row]];
+    else
+    {
+        [self changeSubRedditTo:[_reddit.topSubreddits objectAtIndex:indexPath.row]];
     }
 }
 
@@ -100,12 +80,13 @@
     [self changeSubRedditTo:[alertView textFieldAtIndex:0].text];
 }
 
-
 - (void) changeSubRedditTo:(NSString *)subreddit
 {
-    [[AppDelegate sharedAppdelegate].reddit changeSubRedditTo:subreddit];
+    [_reddit changeSubRedditTo:subreddit];
+    
+    SWRevealViewController *revealController = self.revealViewController;
+    [revealController revealToggle:self]; // Slide back the front story view.
 }
-
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -114,34 +95,33 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [AppDelegate sharedAppdelegate].reddit.subreddits.count;
+    return _reddit.topSubreddits.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-        
     static NSString *cellIdentifier = @"cellIdentifierBackGround";
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    if (!cell) {
+    if (!cell)
+    {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
                                       reuseIdentifier:cellIdentifier];
     }
     
-    cell.backgroundView = [[UIImageView alloc] initWithImage:[ [UIImage imageNamed:@"backgroundCell.png"] stretchableImageWithLeftCapWidth:0.0 topCapHeight:5.0] ];
-    cell.textLabel.text = [[AppDelegate sharedAppdelegate].reddit.subreddits objectAtIndex:indexPath.row];
+    cell.backgroundView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"backgroundCell.png"]
+                                                 stretchableImageWithLeftCapWidth:0.0
+                                                                     topCapHeight:5.0]];
+    cell.textLabel.text = [_reddit.topSubreddits objectAtIndex:indexPath.row];
     cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:16.0];
     cell.textLabel.textColor = [UIColor whiteColor];
 
-    
     return cell;
 }
-
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 @end

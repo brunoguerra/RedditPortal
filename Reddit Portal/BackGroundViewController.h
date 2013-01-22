@@ -7,11 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Reddit.h"
 
 @interface BackGroundViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate>
 
 @property (nonatomic, retain) UITableView *backGroundTableView;
-
-- (void) orientationChanged;
+@property (nonatomic, retain) Reddit *reddit;
 
 @end

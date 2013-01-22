@@ -17,9 +17,6 @@
 #import "SWRevealViewController.h"
 
 #define AUTO_FETCH_BUFFER 5
-#define SLIDE_OFFSET 230
-#define SLIDE_DURATION 0.2
-
 #define CELL_PADDING 10.0
 #define TITLE_PADDING 20.0
 #define THUMBNAIL_SIZE 75.0
@@ -30,7 +27,7 @@
 
 @implementation StoryViewController
 
-@synthesize webView = _webView, storyTableView = _storyTableView, pullToRefreshView = _pullToRefreshView;
+@synthesize webView = _webView, storyTableView = _storyTableView, pullToRefreshView = _pullToRefreshView, reddit = _reddit;
 
 - (void)viewDidLoad
 {
@@ -46,107 +43,63 @@
     
     _storyTableView.delegate = self;
     _storyTableView.dataSource = self;
-
     
+    _reddit = [Reddit sharedClass];
+    
+    // Load the inital stories
+    [_reddit retrieveMoreStoriesWithCompletionBlock:^{
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [_storyTableView reloadData];
+        });
+    }];
     
     SWRevealViewController *revealController = [self revealViewController];
     
     [self.navigationController.navigationBar addGestureRecognizer:revealController.panGestureRecognizer];
+    [self.view addGestureRecognizer:revealController.panGestureRecognizer];
     
-    UIBarButtonItem *revealButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"reveal-icon.png"]
-                                                                         style:UIBarButtonItemStyleBordered target:revealController action:@selector(revealToggle:)];
-    
-    self.navigationItem.leftBarButtonItem = revealButtonItem;
-    
-    
-    /*
     //
     // Navigation Title
     //
-    UILabel *navTitle = [[UILabel alloc] initWithTitle:[AppDelegate sharedAppdelegate].reddit.currentRedditTitle withColor:[UIColor darkGrayColor]];
+    UILabel *navTitle = [[UILabel alloc] initWithTitle:_reddit.subreddit withColor:[UIColor darkGrayColor]];
     self.navigationItem.titleView = navTitle;
     
     
-    UIBarButtonItem *slideButton = [BarButtonItemObject createButtonItemForTarget:self
-                                                                       withAction:@selector(toggleSlider)
+    UIBarButtonItem *slideButton = [BarButtonItemObject createButtonItemForTarget:revealController
+                                                                       withAction:@selector(revealToggle:)
                                                                         withImage:@"slider.png"
                                                                        withOffset:0];
     
     UIBarButtonItem *optionsButton = [BarButtonItemObject createButtonItemForTarget:self
-                                                                         withAction:@selector(toggleSlider)
+                                                                         withAction:@selector(revealToggle:)
                                                                           withImage:@"options"
                                                                          withOffset:0];
     
     self.navigationItem.leftBarButtonItem = slideButton;
-    self.navigationItem.rightBarButtonItem = optionsButton;*/
+    self.navigationItem.rightBarButtonItem = optionsButton;
 
     [self.view addSubview:_storyTableView];
 }
 
-bool isOffScreen = false;
-- (void) slideRight
-{
-    
-    [UIView beginAnimations:nil
-                    context:nil];
-    [UIView setAnimationDuration:SLIDE_DURATION];
-    [UIView setAnimationDelegate:self];
-    
-    CGRect rect = [[UIScreen mainScreen] bounds];
-    
-    UIInterfaceOrientation interfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
-    if (UIInterfaceOrientationPortrait == UIInterfaceOrientationIsPortrait(interfaceOrientation)) {
-        
-            rect.origin.x += SLIDE_OFFSET;
-    }
-    else {
-            rect.origin.y -= SLIDE_OFFSET;
-    }
-    
-    self.navigationController.view.frame = rect;
-    [UIView commitAnimations];
-    isOffScreen = true;
-}
 
-- (void) slideLeft
-{
-    [UIView beginAnimations:nil
-                    context:nil];
-    [UIView setAnimationDuration:SLIDE_DURATION];
-    [UIView setAnimationDelegate:self];
-    self.navigationController.view.frame = [[UIScreen mainScreen] bounds];
-    [UIView commitAnimations];
-    isOffScreen = false;
-}
-
-- (void) toggleSlider
-{    
-    if( isOffScreen ) {
-        [self slideLeft];
-    }
-    else {
-        [self slideRight];
-    }
-}
-
-
+/*
+ *
+ * Tells the reddit object to remove old stories and get new ones.
+ * Then reloads the table data to show the new stories.
+ *
+ */
 - (void)refresh
 {
     [self.pullToRefreshView startLoading];
-    [[AppDelegate sharedAppdelegate].reddit refresh];
-}
-
-- (void) stopRefreshing
-{
-    // TODO: Instead of creating a new label everytime just change the text of the current one.
-    UILabel *navTitle = [[UILabel alloc] initWithTitle:[AppDelegate sharedAppdelegate].reddit.currentRedditTitle withColor:[UIColor darkGrayColor]];
-    self.navigationItem.titleView = navTitle;
-
-    if( isOffScreen ) {
-        [self slideLeft];
-    }
     
-    [self.pullToRefreshView finishLoading];
+    [_reddit removeStories];
+    [_reddit retrieveMoreStoriesWithCompletionBlock:^{
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [_storyTableView reloadData];
+            [self.pullToRefreshView finishLoading];
+        });
+    }];
 }
 
 - (void)pullToRefreshViewDidStartLoading:(SSPullToRefreshView *)view
@@ -158,7 +111,7 @@ bool isOffScreen = false;
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    _webView.storyURL = [[[AppDelegate sharedAppdelegate].reddit.stories objectAtIndex:indexPath.row] objectForKey:@"url"];
+    _webView.storyURL = [[_reddit.stories objectAtIndex:indexPath.row] objectForKey:@"url"];
     [_webView loadNewStory];
     
     [self.navigationController pushViewController:_webView
@@ -167,19 +120,17 @@ bool isOffScreen = false;
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    // Return the number of sections.
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [AppDelegate sharedAppdelegate].reddit.stories.count;
+    return _reddit.numStoriesLoaded;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    
-    BOOL thumbnailEmpty = [EmptyThumbnailObject isThumbnailEmpty:[[[AppDelegate sharedAppdelegate].reddit.stories objectAtIndex:indexPath.row] objectForKey:@"thumbnail"]];
+{    
+    BOOL thumbnailEmpty = [EmptyThumbnailObject isThumbnailEmpty:[[_reddit.stories objectAtIndex:indexPath.row] objectForKey:@"thumbnail"]];
     
     UILabel *titleLabel = [[UILabel alloc] init];
     titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:14.0];
@@ -193,7 +144,7 @@ bool isOffScreen = false;
     }
     
     titleLabel.frame = CGRectMake( thumbnailOffset , CELL_PADDING, 320 - thumbnailOffset - CELL_PADDING, 0);
-    titleLabel.text = [[[AppDelegate sharedAppdelegate].reddit.stories objectAtIndex:indexPath.row] objectForKey:@"title"];
+    titleLabel.text = [[_reddit.stories objectAtIndex:indexPath.row] objectForKey:@"title"];
     [titleLabel sizeToFit];
     
     UILabel *authorLabel = [[UILabel alloc] init];
@@ -201,7 +152,7 @@ bool isOffScreen = false;
     authorLabel.numberOfLines = 1;
     authorLabel.textColor = [UIColor blackColor];
     authorLabel.backgroundColor = [UIColor clearColor];
-    authorLabel.text = [[[AppDelegate sharedAppdelegate].reddit.stories objectAtIndex:indexPath.row] objectForKey:@"author"];
+    authorLabel.text = [[_reddit.stories objectAtIndex:indexPath.row] objectForKey:@"author"];
     [authorLabel sizeToFit];
     
     UILabel *scoreLabel = [[UILabel alloc] init];
@@ -209,7 +160,7 @@ bool isOffScreen = false;
     scoreLabel.numberOfLines = 1;
     scoreLabel.textColor = [UIColor blackColor];
     scoreLabel.backgroundColor = [UIColor clearColor];
-    scoreLabel.text = [[[AppDelegate sharedAppdelegate].reddit.stories objectAtIndex:indexPath.row] objectForKey:@"domain"];
+    scoreLabel.text = [[_reddit.stories objectAtIndex:indexPath.row] objectForKey:@"domain"];
     [scoreLabel sizeToFit];
     
     CGFloat cellHeight = titleLabel.frame.size.height + authorLabel.frame.size.height + scoreLabel.frame.size.height + (2 * CELL_PADDING);
@@ -220,7 +171,6 @@ bool isOffScreen = false;
         return THUMBNAIL_SIZE + (2 * CELL_PADDING);
     }
 
-
     return cellHeight;
 }
 
@@ -228,9 +178,15 @@ bool isOffScreen = false;
 {
     
     // This is where the auto fetching happens
-    if ([AppDelegate sharedAppdelegate].reddit.numOfStoriesLoaded == indexPath.row + AUTO_FETCH_BUFFER) {
+    if (_reddit.numStoriesLoaded == indexPath.row + AUTO_FETCH_BUFFER) {
         
-        [[AppDelegate sharedAppdelegate].reddit loadNextPage];
+        [_reddit retrieveMoreStoriesWithCompletionBlock:^{
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [_storyTableView reloadData];
+                [self.pullToRefreshView finishLoading];
+            });
+        }];
     }
     
     static NSString *cellIdentifier = @"cellIdentifierStories";
@@ -314,14 +270,14 @@ bool isOffScreen = false;
     
     
     imageView.frame = CGRectMake( CELL_PADDING, CELL_PADDING, THUMBNAIL_SIZE, THUMBNAIL_SIZE);
-    [imageView setImageWithURL:[NSURL URLWithString:[[[AppDelegate sharedAppdelegate].reddit.stories objectAtIndex:indexPath.row] objectForKey:@"thumbnail"]]
+    [imageView setImageWithURL:[NSURL URLWithString:[[_reddit.stories objectAtIndex:indexPath.row] objectForKey:@"thumbnail"]]
               placeholderImage:nil];
     
 
 
     // Calcuate the offset for the labels around the thumbnail
     NSInteger thumbnailOffset = imageView.frame.size.width + (CELL_PADDING * 2);
-    BOOL thumbnailEmpty = [EmptyThumbnailObject isThumbnailEmpty:[[[AppDelegate sharedAppdelegate].reddit.stories objectAtIndex:indexPath.row] objectForKey:@"thumbnail"]];
+    BOOL thumbnailEmpty = [EmptyThumbnailObject isThumbnailEmpty:[[_reddit.stories objectAtIndex:indexPath.row] objectForKey:@"thumbnail"]];
     
     if (thumbnailEmpty) {
         thumbnailOffset = CELL_PADDING;
@@ -333,7 +289,7 @@ bool isOffScreen = false;
     //
     
     titleLabel.frame = CGRectMake( thumbnailOffset , CELL_PADDING, 320 - thumbnailOffset - CELL_PADDING, 0);
-    titleLabel.text = [[[AppDelegate sharedAppdelegate].reddit.stories objectAtIndex:indexPath.row] objectForKey:@"title"];
+    titleLabel.text = [[_reddit.stories objectAtIndex:indexPath.row] objectForKey:@"title"];
     [titleLabel sizeToFit];
     
     NSInteger titleOffset = titleLabel.frame.size.height + TITLE_PADDING;
@@ -343,7 +299,7 @@ bool isOffScreen = false;
     //
     
     storyUrlLabel.frame = CGRectMake( thumbnailOffset, titleOffset, 0, 0);
-    storyUrlLabel.text = [[[AppDelegate sharedAppdelegate].reddit.stories objectAtIndex:indexPath.row] objectForKey:@"domain"];
+    storyUrlLabel.text = [[_reddit.stories objectAtIndex:indexPath.row] objectForKey:@"domain"];
     [storyUrlLabel sizeToFit];
 
     
@@ -355,7 +311,7 @@ bool isOffScreen = false;
     //
     
     dateLabel.frame = CGRectMake(runningOffset, titleOffset, 0, 0);
-    dateLabel.text = [TimeAgoObject dateDiff:[[[AppDelegate sharedAppdelegate].reddit.stories objectAtIndex:indexPath.row] objectForKey:@"created_utc"]];
+    dateLabel.text = [TimeAgoObject dateDiff:[[_reddit.stories objectAtIndex:indexPath.row] objectForKey:@"created_utc"]];
     [dateLabel sizeToFit];
     
     
@@ -366,7 +322,7 @@ bool isOffScreen = false;
     //
     
     scoreLabel.frame = CGRectMake(runningOffset, titleOffset, 0, 0);
-    scoreLabel.text = [NSString stringWithFormat:@"%@",[[[AppDelegate sharedAppdelegate].reddit.stories objectAtIndex:indexPath.row] objectForKey:@"score"]];
+    scoreLabel.text = [NSString stringWithFormat:@"%@",[[_reddit.stories objectAtIndex:indexPath.row] objectForKey:@"score"]];
     [scoreLabel sizeToFit];
 
     
@@ -377,7 +333,7 @@ bool isOffScreen = false;
     titleOffset += storyUrlLabel.frame.size.height;
     
     commentsCount.frame = CGRectMake( thumbnailOffset, titleOffset, 0, 0);
-    commentsCount.text = [NSString stringWithFormat:@"%@ comments",[[[AppDelegate sharedAppdelegate].reddit.stories objectAtIndex:indexPath.row] objectForKey:@"num_comments"]];
+    commentsCount.text = [NSString stringWithFormat:@"%@ comments",[[_reddit.stories objectAtIndex:indexPath.row] objectForKey:@"num_comments"]];
     [commentsCount sizeToFit];
     
     
@@ -388,7 +344,7 @@ bool isOffScreen = false;
     //
     
     authorLabel.frame = CGRectMake( runningOffset, titleOffset, 0, 0);
-    authorLabel.text = [[[AppDelegate sharedAppdelegate].reddit.stories objectAtIndex:indexPath.row] objectForKey:@"author"];
+    authorLabel.text = [[_reddit.stories objectAtIndex:indexPath.row] objectForKey:@"author"];
     [authorLabel sizeToFit];
     
     

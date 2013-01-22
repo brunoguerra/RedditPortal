@@ -10,6 +10,9 @@
 
 @interface BarButtonItemObject : NSObject
 
-+ (UIBarButtonItem *) createButtonItemForTarget:(UIViewController *)target withAction:(SEL)method withImage:(NSString *)fileName withOffset:(NSInteger) offset;
++ (UIBarButtonItem *) createButtonItemForTarget:(UIViewController *)target
+                                     withAction:(SEL)method
+                                      withImage:(NSString *)fileName
+                                     withOffset:(NSInteger) offset;
 
 @end

@@ -33,7 +33,6 @@
 		9D41A7DA1688DC630045C46E /* Reddit Portal-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9D41A7C71688DC630045C46E /* Reddit Portal-Info.plist */; };
 		9D41A7DB1688DC630045C46E /* settings@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D41A7C91688DC630045C46E /* settings@2x.png */; };
 		9D41A7DC1688DC630045C46E /* slider@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D41A7CA1688DC630045C46E /* slider@2x.png */; };
-		9D41A7E31688DC7E0045C46E /* RedditAPIObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D41A7DE1688DC7E0045C46E /* RedditAPIObject.m */; };
 		9D41A7EA1688DC930045C46E /* BackGroundViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D41A7E71688DC930045C46E /* BackGroundViewController.m */; };
 		9D41A7EB1688DC930045C46E /* StoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D41A7E91688DC930045C46E /* StoryViewController.m */; };
 		9D41A7EE1688DCB20045C46E /* RedditTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D41A7ED1688DCB20045C46E /* RedditTableViewCell.m */; };
@@ -41,7 +40,6 @@
 		9D41A7F41688DCD20045C46E /* BarButtonItemObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D41A7F31688DCD20045C46E /* BarButtonItemObject.m */; };
 		9D41A7F81688DCE20045C46E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9D41A7F61688DCE20045C46E /* InfoPlist.strings */; };
 		9D607B2F16AD245700C89001 /* Reddit.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D607B2E16AD245700C89001 /* Reddit.m */; };
-		9D607B3316AD254500C89001 /* RedditManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D607B3216AD254500C89001 /* RedditManager.m */; };
 		9D607B3C16AD37BF00C89001 /* reveal-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D607B3B16AD37BF00C89001 /* reveal-icon@2x.png */; };
 		FDD42166DD2F4730B748E978 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82F1ACF22EB84A28A0C04266 /* libPods.a */; };
 /* End PBXBuildFile section */
@@ -82,8 +80,6 @@
 		9D41A7C81688DC630045C46E /* Reddit Portal-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Reddit Portal-Prefix.pch"; path = "Reddit Portal/Reddit Portal-Prefix.pch"; sourceTree = SOURCE_ROOT; };
 		9D41A7C91688DC630045C46E /* settings@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "settings@2x.png"; path = "Reddit Portal/settings@2x.png"; sourceTree = SOURCE_ROOT; };
 		9D41A7CA1688DC630045C46E /* slider@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "slider@2x.png"; path = "Reddit Portal/slider@2x.png"; sourceTree = SOURCE_ROOT; };
-		9D41A7DD1688DC7E0045C46E /* RedditAPIObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RedditAPIObject.h; path = "Reddit Portal/RedditAPIObject.h"; sourceTree = SOURCE_ROOT; };
-		9D41A7DE1688DC7E0045C46E /* RedditAPIObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RedditAPIObject.m; path = "Reddit Portal/RedditAPIObject.m"; sourceTree = SOURCE_ROOT; };
 		9D41A7E61688DC930045C46E /* BackGroundViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BackGroundViewController.h; path = "Reddit Portal/BackGroundViewController.h"; sourceTree = SOURCE_ROOT; };
 		9D41A7E71688DC930045C46E /* BackGroundViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BackGroundViewController.m; path = "Reddit Portal/BackGroundViewController.m"; sourceTree = SOURCE_ROOT; };
 		9D41A7E81688DC930045C46E /* StoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StoryViewController.h; path = "Reddit Portal/StoryViewController.h"; sourceTree = SOURCE_ROOT; };
@@ -97,8 +93,6 @@
 		9D41A7F71688DCE20045C46E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = InfoPlist.strings; sourceTree = "<group>"; };
 		9D607B2D16AD245700C89001 /* Reddit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reddit.h; sourceTree = "<group>"; };
 		9D607B2E16AD245700C89001 /* Reddit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reddit.m; sourceTree = "<group>"; };
-		9D607B3116AD254500C89001 /* RedditManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RedditManager.h; sourceTree = "<group>"; };
-		9D607B3216AD254500C89001 /* RedditManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RedditManager.m; sourceTree = "<group>"; };
 		9D607B3B16AD37BF00C89001 /* reveal-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reveal-icon@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -229,12 +223,8 @@
 		9D5E21101681B6A900A236E6 /* APIs */ = {
 			isa = PBXGroup;
 			children = (
-				9D41A7DD1688DC7E0045C46E /* RedditAPIObject.h */,
-				9D41A7DE1688DC7E0045C46E /* RedditAPIObject.m */,
 				9D607B2D16AD245700C89001 /* Reddit.h */,
 				9D607B2E16AD245700C89001 /* Reddit.m */,
-				9D607B3116AD254500C89001 /* RedditManager.h */,
-				9D607B3216AD254500C89001 /* RedditManager.m */,
 			);
 			name = APIs;
 			sourceTree = "<group>";
@@ -357,7 +347,6 @@
 			files = (
 				9D41A7B71688DC290045C46E /* AppDelegate.m in Sources */,
 				9D41A7D71688DC630045C46E /* main.m in Sources */,
-				9D41A7E31688DC7E0045C46E /* RedditAPIObject.m in Sources */,
 				9D41A7EA1688DC930045C46E /* BackGroundViewController.m in Sources */,
 				9D41A7EB1688DC930045C46E /* StoryViewController.m in Sources */,
 				9D41A7EE1688DCB20045C46E /* RedditTableViewCell.m in Sources */,
@@ -368,7 +357,6 @@
 				9D17A01F1688F7A1002EDBEC /* CommentsViewController.m in Sources */,
 				9D17A02C1688FEDF002EDBEC /* EmptyThumbnailObject.m in Sources */,
 				9D607B2F16AD245700C89001 /* Reddit.m in Sources */,
-				9D607B3316AD254500C89001 /* RedditManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -442,10 +430,14 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7D95CB74730343FB97E240D1 /* Pods.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Reddit Portal/Reddit Portal-Prefix.pch";
 				INFOPLIST_FILE = "Reddit Portal/Reddit Portal-Info.plist";
 				PRODUCT_NAME = "Reddit Portal";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;

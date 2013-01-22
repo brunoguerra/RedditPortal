@@ -8,15 +8,25 @@
 
 #import <Foundation/Foundation.h>
 
-typedef void (^RefreshTable) (UITableView *tableView);
+typedef void (^RefreshTable) ();
 
 @interface Reddit : NSObject
 
-@property (nonatomic, retain) NSString *subreddit;
+@property (nonatomic, copy) NSString *subreddit;
+@property (nonatomic, copy) NSString *nextPageToken;
 @property (nonatomic, retain) NSMutableArray *stories;
-@property (nonatomic) NSUInteger *storiesLoaded;
+@property (nonatomic, retain) NSMutableArray *topSubreddits;
+@property (nonatomic, assign) NSInteger numStoriesLoaded;
 
-- (BOOL) removeStories;
-- (void) retrieveMoreStoriesWithCompetionBlock:(RefreshTable)completionBlock;
++ (Reddit *) sharedClass;
+
+- (void) setupSubReddits;
+- (void) changeSubRedditTo:(NSString *)subreddit;
+
+- (void) retrieveMoreStoriesWithCompletionBlock:(void (^)())completionBlock;
+- (void) removeStories;
+- (NSURL *) getNextURL;
+
+
 
 @end
