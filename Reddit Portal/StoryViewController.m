@@ -28,7 +28,10 @@
 
 @implementation StoryViewController
 
-@synthesize webView = _webView, storyTableView = _storyTableView, pullToRefreshView = _pullToRefreshView, reddit = _reddit;
+@synthesize webView = _webView;
+@synthesize storyTableView = _storyTableView;
+@synthesize pullToRefreshView = _pullToRefreshView;
+@synthesize reddit = _reddit;
 
 - (void)viewDidLoad
 {
@@ -367,10 +370,13 @@
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {    
     // Change the size of the front story table.
-    if (toInterfaceOrientation == UIInterfaceOrientationPortrait) {
+    
+    if (toInterfaceOrientation == UIInterfaceOrientationPortrait)
+    {
         _storyTableView.frame = CGRectMake(0, 0, 320, 480);
     }
-    else {
+    else
+    {
         _storyTableView.frame = CGRectMake(0, 0, 480, 320);
     }
 }

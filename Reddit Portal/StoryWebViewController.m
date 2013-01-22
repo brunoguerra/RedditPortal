@@ -102,13 +102,11 @@
                           [[_redditStory objectForKey:@"id"] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding],
                           [[_redditStory objectForKey:@"title"] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding],
                           [[_redditStory objectForKey:@"author"] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding],
-                          [@"1358902804" stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding],
+                          [[NSString stringWithFormat:@"%@",
+                            [_redditStory objectForKey:@"created"]] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding],
                           [[_redditStory objectForKey:@"domain"] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding],
                           [@"http://www.reddit.com" stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding],
-                          @"top"
-                          ];
-        
-        
+                          @"top"];
         
         NSURL *url = [[NSURL alloc] initWithScheme:@"file" host:@"localhost" path:path];
         request = [NSURLRequest requestWithURL:url];
