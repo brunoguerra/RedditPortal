@@ -14,15 +14,18 @@
 
 @implementation Reddit
 
-@synthesize subreddit = _subreddit, numStoriesLoaded = _numStoriesLoaded, nextPageToken = _nextPageToken, topSubreddits = _topSubreddits;
+@synthesize subreddit = _subreddit;
+@synthesize numStoriesLoaded = _numStoriesLoaded;
+@synthesize nextPageToken = _nextPageToken;
+@synthesize topSubreddits = _topSubreddits;
+@synthesize subRedditChanged = _subRedditChanged;
+@synthesize storyFilter = _storyFilter;
+@synthesize filterTime = _filterTime;
 
-/*
- *
- * Creates a singleton of this class.
- *
- */
 + (Reddit *) sharedClass
 {
+     // Creates a singleton of this class.
+    
     static Reddit *_shared = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -33,27 +36,26 @@
 
 - (id) init
 {
-    if (self = [super init]) {
-        
+    if (self = [super init])
+    {
         _stories = [[NSMutableArray alloc] init];
         _topSubreddits = [[NSMutableArray alloc] init];
         _subreddit = @"Front Page";
         _nextPageToken = @"";
         _numStoriesLoaded = 0;
-        
+        _subRedditChanged = FALSE;
+        _storyFilter = @"";
+        _filterTime = @"";
         [self setupSubReddits];
     }
     
     return self;
 }
 
-/*
- *
- * Creates the "top" subreddits that are displayed in the background table.
- *
- */
 - (void) setupSubReddits
 {
+    // Creates the "top" subreddits that are displayed in the background table.
+    
     NSArray *subreddits = [[NSArray alloc] initWithObjects:@"Front Page",
                                                           @"All Reddits",
                                                       @"Enter Subreddit",
@@ -79,13 +81,10 @@
     _topSubreddits = [[NSMutableArray alloc] initWithArray:subreddits];
 }
 
-/*
- *
- * Changes the current subreddit to a new subreddit.
- *
- */
 - (void) changeSubRedditTo:(NSString *)newSubReddit
 {
+    // Changes the current subreddit to a new subreddit.
+    
     if ([newSubReddit isEqualToString:@"Front Page"])
     {
         newSubReddit = @"Front Page";
@@ -100,18 +99,16 @@
         
         NSLog(@"Changing subreddit to: %@", newSubReddit);
         
+        _subRedditChanged = TRUE;
         _subreddit = newSubReddit;
         [self removeStories]; // Remove the old stories from the previous subreddit.
     }
 }
 
-/*
- *
- * Retrieves the next set of stories from reddit.
- *
- */
 - (void) retrieveMoreStoriesWithCompletionBlock:(void (^)())completionBlock;
 {
+    // Retrieves the next set of stories from reddit.
+    
     NSURLRequest *request = [NSURLRequest requestWithURL:[self getNextURL]];
     AFJSONRequestOperation *operation =
         [AFJSONRequestOperation JSONRequestOperationWithRequest:request
@@ -127,6 +124,7 @@
                                                             
                                                             _nextPageToken = [resultsDictionary objectForKey:@"after"];
                                                             _numStoriesLoaded += STORIES_PER_PAGE;
+                                                            _subRedditChanged = FALSE;
                                                             completionBlock();
                                                         }
                                                         failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
@@ -135,11 +133,25 @@
     [operation start];
 }
 
-/*
- * Removes all stories in the array and sets the story counter back to 0.
- */
+- (id) storyDataForIndex:(NSUInteger)index withKey:(NSString *)key
+{
+    // This is a safe methods for accessing the story data. Before
+    // there would some times be crashes due to accessing elements
+    // out of bounds from the table view.
+    
+    if ( index >= [_stories count] )
+    {
+        return nil;
+    }
+    
+    return [[_stories objectAtIndex:index] objectForKey:key];
+}
+
+
 - (void) removeStories
 {
+    // Removes all stories in the array and sets the story counter back to 0.
+    
     [_stories removeAllObjects];
     _numStoriesLoaded = 0;
 }
@@ -148,6 +160,9 @@
 
 - (NSURL *) getNextURL
 {
+    // Based on several different url setting this generates the correct url to
+    // fetch the next set of stories.
+    
     NSString *nextUrl = BASE_URL;
     
     // The front page doesn't have an /r/ in it.
@@ -156,7 +171,17 @@
         nextUrl = [NSString stringWithFormat:@"%@r/%@", nextUrl, _subreddit];
     }
     
+    if ( ![_storyFilter isEqualToString:@""] )
+    {
+        nextUrl = [NSString stringWithFormat:@"%@/%@", nextUrl, _storyFilter];
+    }
+    
     nextUrl = [NSString stringWithFormat:@"%@.json", nextUrl];
+    
+    if (![_filterTime isEqualToString:@""])
+    {
+        nextUrl = [NSString stringWithFormat:@"%@&t=%@", nextUrl, _filterTime];
+    }
     
     if (_numStoriesLoaded > 0)
     {

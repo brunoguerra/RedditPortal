@@ -57,7 +57,7 @@ StoryViewController *_storyViewController;
                                                             BACKGROUND_NAV_WIDTH,
                                                             [[UIScreen mainScreen] bounds].size.height);
     
-    SWRevealViewController *revealController = [[SWRevealViewController alloc] initWithRearViewController:_backGroundViewController
+    SWRevealViewController *revealController = [[SWRevealViewController alloc] initWithRearViewController:_backGroundNavigationController
                                                                                       frontViewController:_storyNavigationController];
     revealController.delegate = self;
     
@@ -76,11 +76,15 @@ StoryViewController *_storyViewController;
 {
     // If we are revealing the front view then we might have changed subreddits and if so then we must load the new data.
     
-    [_reddit retrieveMoreStoriesWithCompletionBlock:^{
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [_storyViewController.storyTableView reloadData];
-        });
-    }];
+    if ([_reddit didSubRedditChange])
+    {
+        [_reddit retrieveMoreStoriesWithCompletionBlock:^{
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [_storyViewController refresh];
+            });
+        }];
+    }
+    
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application

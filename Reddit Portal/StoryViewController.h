@@ -12,7 +12,7 @@
 #import "AppDelegate.h"
 #import "Reddit.h"
 
-@interface StoryViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, SSPullToRefreshViewDelegate>
+@interface StoryViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, SSPullToRefreshViewDelegate, UIActionSheetDelegate>
 
 @property (nonatomic, retain) StoryWebViewController *webView;
 @property (nonatomic, strong) SSPullToRefreshView *pullToRefreshView;

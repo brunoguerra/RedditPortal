@@ -11,6 +11,7 @@
 #import <AFNetworking.h>
 #import <SSPullToRefresh.h>
 #import "UILabel+NavigationTitle.h"
+#import "UILabel+TableCellLabel.h"
 #import "TimeAgoObject.h"
 #import "BarButtonItemObject.h"
 #import "EmptyThumbnailObject.h"
@@ -71,7 +72,7 @@
                                                                        withOffset:0];
     
     UIBarButtonItem *optionsButton = [BarButtonItemObject createButtonItemForTarget:self
-                                                                         withAction:@selector(revealToggle:)
+                                                                         withAction:@selector(showActionSheet)
                                                                           withImage:@"options"
                                                                          withOffset:0];
     
@@ -82,20 +83,44 @@
 }
 
 
-/*
- *
- * Tells the reddit object to remove old stories and get new ones.
- * Then reloads the table data to show the new stories.
- *
- */
+- (void) showActionSheet
+{
+    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:nil
+                                                       delegate:self
+                                              cancelButtonTitle:@"Cancel"
+                                         destructiveButtonTitle:nil
+                                              otherButtonTitles:@"Hot", @"New", @"Controversial", @"Top", nil];
+    sheet.tag = 1;
+    [sheet showInView:self.view];
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    NSArray *buttons = nil;
+    
+    if( buttonIndex == 1 ) // New
+    {
+        buttons = [NSArray arrayWithObjects:@"New", @"Rising", nil];
+    }
+    else if ( buttonIndex == 2 || buttonIndex == 3 ) // Controversial or Top
+    {
+        buttons = [NSArray arrayWithObjects:@"This Hour", @"This Week", @"This Month", @"This Year", @"All Time", nil];
+    }
+}
+
 - (void)refresh
 {
+    // Tells the reddit object to remove old stories and get new ones.
+    // Then reloads the table data to show the new stories.
+    
     [self.pullToRefreshView startLoading];
     
     [_reddit removeStories];
     [_reddit retrieveMoreStoriesWithCompletionBlock:^{
         
         dispatch_async(dispatch_get_main_queue(), ^{
+            UILabel *navTitle = [[UILabel alloc] initWithTitle:_reddit.subreddit withColor:[UIColor darkGrayColor]];
+            self.navigationItem.titleView = navTitle;
             [_storyTableView reloadData];
             [self.pullToRefreshView finishLoading];
         });
@@ -112,6 +137,8 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     _webView.storyURL = [[_reddit.stories objectAtIndex:indexPath.row] objectForKey:@"url"];
+    _webView.redditStory = [_reddit.stories objectAtIndex:indexPath.row];
+    
     [_webView loadNewStory];
     
     [self.navigationController pushViewController:_webView
@@ -178,8 +205,8 @@
 {
     
     // This is where the auto fetching happens
-    if (_reddit.numStoriesLoaded == indexPath.row + AUTO_FETCH_BUFFER) {
-        
+    if (_reddit.numStoriesLoaded == indexPath.row + AUTO_FETCH_BUFFER)
+    {
         [_reddit retrieveMoreStoriesWithCompletionBlock:^{
             
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -200,65 +227,48 @@
     UIImageView *imageView = nil;
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    if (!cell) {
+    if (!cell)
+    {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
                                       reuseIdentifier:cellIdentifier];
         
-        titleLabel = [[UILabel alloc] init];
-        titleLabel.tag = 1;
-        titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:14.0];
-        titleLabel.numberOfLines = 0;
-        titleLabel.textColor = [UIColor blackColor];
-        titleLabel.backgroundColor = [UIColor clearColor];
-        [cell.contentView addSubview: titleLabel];
+        titleLabel = [[UILabel alloc] initWithTag:1
+                                         withSize:14.0
+                                     withNumLines:0];
 
         imageView = [[UIImageView alloc] init];
         imageView.tag = 2;
-        [cell.contentView addSubview: imageView];
         
-        storyUrlLabel = [[UILabel alloc] init];
-        storyUrlLabel.tag = 3;
-        storyUrlLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:10.0];
-        storyUrlLabel.numberOfLines = 1;
-        storyUrlLabel.textColor = [UIColor darkGrayColor];
-        storyUrlLabel.backgroundColor = [UIColor clearColor];
+        storyUrlLabel = [[UILabel alloc] initWithTag:3
+                                            withSize:10.0
+                                        withNumLines:1];
         [cell.contentView addSubview: storyUrlLabel];
         
-        dateLabel = [[UILabel alloc] init];
-        dateLabel.tag = 4;
-        dateLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:10.0];
-        dateLabel.numberOfLines = 1;
-        dateLabel.textColor = [UIColor darkGrayColor];
-        dateLabel.backgroundColor = [UIColor clearColor];
+        dateLabel = [[UILabel alloc] initWithTag:4
+                                        withSize:10.0
+                                    withNumLines:1];
+        
+        scoreLabel = [[UILabel alloc] initWithTag:5
+                                         withSize:10.0
+                                     withNumLines:1];
+        
+        commentsCount = [[UILabel alloc] initWithTag:6
+                                            withSize:10.0
+                                        withNumLines:1];
+        
+        authorLabel = [[UILabel alloc] initWithTag:7
+                                          withSize:10.0
+                                      withNumLines:1];
+        
+        [cell.contentView addSubview: titleLabel];
+        [cell.contentView addSubview: imageView];
         [cell.contentView addSubview: dateLabel];
-        
-        scoreLabel = [[UILabel alloc] init];
-        scoreLabel.tag = 5;
-        scoreLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:10.0];
-        scoreLabel.numberOfLines = 1;
-        scoreLabel.textColor = [UIColor darkGrayColor];
-        scoreLabel.backgroundColor = [UIColor clearColor];
         [cell.contentView addSubview: scoreLabel];
-        
-        commentsCount = [[UILabel alloc] init];
-        commentsCount.tag = 6;
-        commentsCount.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:10.0];
-        commentsCount.numberOfLines = 1;
-        commentsCount.textColor = [UIColor darkGrayColor];
-        commentsCount.backgroundColor = [UIColor clearColor];
         [cell.contentView addSubview: commentsCount];
-        
-        authorLabel = [[UILabel alloc] init];
-        authorLabel.tag = 7;
-        authorLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:10.0];
-        authorLabel.numberOfLines = 1;
-        authorLabel.textColor = [UIColor darkGrayColor];
-        authorLabel.backgroundColor = [UIColor clearColor];
         [cell.contentView addSubview: authorLabel];
-        
     }
-    else {
-        
+    else
+    {
         titleLabel = (UILabel *)[cell.contentView viewWithTag:1];
         imageView = (UIImageView *)[cell.contentView viewWithTag:2];
         storyUrlLabel = (UILabel *)[cell.contentView viewWithTag:3];
@@ -269,15 +279,15 @@
     }
     
     
-    imageView.frame = CGRectMake( CELL_PADDING, CELL_PADDING, THUMBNAIL_SIZE, THUMBNAIL_SIZE);
-    [imageView setImageWithURL:[NSURL URLWithString:[[_reddit.stories objectAtIndex:indexPath.row] objectForKey:@"thumbnail"]]
+    imageView.frame = CGRectMake(CELL_PADDING, CELL_PADDING, THUMBNAIL_SIZE, THUMBNAIL_SIZE);
+    [imageView setImageWithURL:[NSURL URLWithString:[_reddit storyDataForIndex:indexPath.row withKey:@"thumbnail"]]
               placeholderImage:nil];
     
 
 
     // Calcuate the offset for the labels around the thumbnail
     NSInteger thumbnailOffset = imageView.frame.size.width + (CELL_PADDING * 2);
-    BOOL thumbnailEmpty = [EmptyThumbnailObject isThumbnailEmpty:[[_reddit.stories objectAtIndex:indexPath.row] objectForKey:@"thumbnail"]];
+    BOOL thumbnailEmpty = [EmptyThumbnailObject isThumbnailEmpty:[_reddit storyDataForIndex:indexPath.row withKey:@"thumbnail"]];
     
     if (thumbnailEmpty) {
         thumbnailOffset = CELL_PADDING;
@@ -289,7 +299,7 @@
     //
     
     titleLabel.frame = CGRectMake( thumbnailOffset , CELL_PADDING, 320 - thumbnailOffset - CELL_PADDING, 0);
-    titleLabel.text = [[_reddit.stories objectAtIndex:indexPath.row] objectForKey:@"title"];
+    titleLabel.text = [_reddit storyDataForIndex:indexPath.row withKey:@"title"];
     [titleLabel sizeToFit];
     
     NSInteger titleOffset = titleLabel.frame.size.height + TITLE_PADDING;
@@ -299,7 +309,7 @@
     //
     
     storyUrlLabel.frame = CGRectMake( thumbnailOffset, titleOffset, 0, 0);
-    storyUrlLabel.text = [[_reddit.stories objectAtIndex:indexPath.row] objectForKey:@"domain"];
+    storyUrlLabel.text = [_reddit storyDataForIndex:indexPath.row withKey:@"domain"];
     [storyUrlLabel sizeToFit];
 
     
@@ -311,7 +321,7 @@
     //
     
     dateLabel.frame = CGRectMake(runningOffset, titleOffset, 0, 0);
-    dateLabel.text = [TimeAgoObject dateDiff:[[_reddit.stories objectAtIndex:indexPath.row] objectForKey:@"created_utc"]];
+    dateLabel.text = [TimeAgoObject dateDiff:[_reddit storyDataForIndex:indexPath.row withKey:@"created_utc"]];
     [dateLabel sizeToFit];
     
     
@@ -322,7 +332,7 @@
     //
     
     scoreLabel.frame = CGRectMake(runningOffset, titleOffset, 0, 0);
-    scoreLabel.text = [NSString stringWithFormat:@"%@",[[_reddit.stories objectAtIndex:indexPath.row] objectForKey:@"score"]];
+    scoreLabel.text = [NSString stringWithFormat:@"%@", [_reddit storyDataForIndex:indexPath.row withKey:@"score"]];
     [scoreLabel sizeToFit];
 
     
@@ -333,7 +343,7 @@
     titleOffset += storyUrlLabel.frame.size.height;
     
     commentsCount.frame = CGRectMake( thumbnailOffset, titleOffset, 0, 0);
-    commentsCount.text = [NSString stringWithFormat:@"%@ comments",[[_reddit.stories objectAtIndex:indexPath.row] objectForKey:@"num_comments"]];
+    commentsCount.text = [NSString stringWithFormat:@"%@ comments", [_reddit storyDataForIndex:indexPath.row withKey:@"comments"]];
     [commentsCount sizeToFit];
     
     
@@ -344,7 +354,7 @@
     //
     
     authorLabel.frame = CGRectMake( runningOffset, titleOffset, 0, 0);
-    authorLabel.text = [[_reddit.stories objectAtIndex:indexPath.row] objectForKey:@"author"];
+    authorLabel.text = [_reddit storyDataForIndex:indexPath.row withKey:@"author"];
     [authorLabel sizeToFit];
     
     
@@ -354,8 +364,8 @@
     return cell;
 }
 
-- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
-    
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{    
     // Change the size of the front story table.
     if (toInterfaceOrientation == UIInterfaceOrientationPortrait) {
         _storyTableView.frame = CGRectMake(0, 0, 320, 480);
@@ -363,15 +373,12 @@
     else {
         _storyTableView.frame = CGRectMake(0, 0, 480, 320);
     }
-    
-    // Tell the background tableview to update.
 }
 
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 @end

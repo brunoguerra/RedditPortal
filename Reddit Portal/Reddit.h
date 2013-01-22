@@ -14,9 +14,13 @@ typedef void (^RefreshTable) ();
 
 @property (nonatomic, copy) NSString *subreddit;
 @property (nonatomic, copy) NSString *nextPageToken;
+@property (nonatomic, copy) NSString *storyFilter;
+@property (nonatomic, copy) NSString *filterTime;
+
 @property (nonatomic, retain) NSMutableArray *stories;
 @property (nonatomic, retain) NSMutableArray *topSubreddits;
 @property (nonatomic, assign) NSInteger numStoriesLoaded;
+@property (nonatomic, assign, getter=didSubRedditChange) BOOL subRedditChanged;
 
 + (Reddit *) sharedClass;
 
@@ -24,6 +28,7 @@ typedef void (^RefreshTable) ();
 - (void) changeSubRedditTo:(NSString *)subreddit;
 
 - (void) retrieveMoreStoriesWithCompletionBlock:(void (^)())completionBlock;
+- (id) storyDataForIndex:(NSUInteger)index withKey:(NSString *)key;
 - (void) removeStories;
 - (NSURL *) getNextURL;
 

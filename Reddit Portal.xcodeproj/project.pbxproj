@@ -9,11 +9,12 @@
 /* Begin PBXBuildFile section */
 		9D17A0181688EF0B002EDBEC /* TimeAgoObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D17A0151688EF0B002EDBEC /* TimeAgoObject.m */; };
 		9D17A0191688EF0B002EDBEC /* UILabel+NavigationTitle.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D17A0171688EF0B002EDBEC /* UILabel+NavigationTitle.m */; };
-		9D17A01F1688F7A1002EDBEC /* CommentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D17A01E1688F7A0002EDBEC /* CommentsViewController.m */; };
 		9D17A02C1688FEDF002EDBEC /* EmptyThumbnailObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D17A02B1688FEDF002EDBEC /* EmptyThumbnailObject.m */; };
 		9D18D4F01681A49B00927859 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D18D4EF1681A49B00927859 /* UIKit.framework */; };
 		9D18D4F21681A49B00927859 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D18D4F11681A49B00927859 /* Foundation.framework */; };
 		9D18D4F41681A49B00927859 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D18D4F31681A49B00927859 /* CoreGraphics.framework */; };
+		9D3A932616AF25E900F02D06 /* Comments.html in Resources */ = {isa = PBXBuildFile; fileRef = 9D3A932516AF25E900F02D06 /* Comments.html */; };
+		9D3F8BA316AE97BE000CA285 /* UILabel+TableCellLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D3F8BA216AE97BE000CA285 /* UILabel+TableCellLabel.m */; };
 		9D41A7B71688DC290045C46E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D41A7B61688DC290045C46E /* AppDelegate.m */; };
 		9D41A7CB1688DC630045C46E /* action@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D41A7B81688DC630045C46E /* action@2x.png */; };
 		9D41A7CC1688DC630045C46E /* backArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D41A7B91688DC630045C46E /* backArrow@2x.png */; };
@@ -35,7 +36,6 @@
 		9D41A7DC1688DC630045C46E /* slider@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D41A7CA1688DC630045C46E /* slider@2x.png */; };
 		9D41A7EA1688DC930045C46E /* BackGroundViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D41A7E71688DC930045C46E /* BackGroundViewController.m */; };
 		9D41A7EB1688DC930045C46E /* StoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D41A7E91688DC930045C46E /* StoryViewController.m */; };
-		9D41A7EE1688DCB20045C46E /* RedditTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D41A7ED1688DCB20045C46E /* RedditTableViewCell.m */; };
 		9D41A7F11688DCC20045C46E /* StoryWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D41A7F01688DCC20045C46E /* StoryWebViewController.m */; };
 		9D41A7F41688DCD20045C46E /* BarButtonItemObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D41A7F31688DCD20045C46E /* BarButtonItemObject.m */; };
 		9D41A7F81688DCE20045C46E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9D41A7F61688DCE20045C46E /* InfoPlist.strings */; };
@@ -51,14 +51,15 @@
 		9D17A0151688EF0B002EDBEC /* TimeAgoObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TimeAgoObject.m; path = "Reddit Portal/TimeAgoObject.m"; sourceTree = SOURCE_ROOT; };
 		9D17A0161688EF0B002EDBEC /* UILabel+NavigationTitle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UILabel+NavigationTitle.h"; path = "Reddit Portal/UILabel+NavigationTitle.h"; sourceTree = SOURCE_ROOT; };
 		9D17A0171688EF0B002EDBEC /* UILabel+NavigationTitle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UILabel+NavigationTitle.m"; path = "Reddit Portal/UILabel+NavigationTitle.m"; sourceTree = SOURCE_ROOT; };
-		9D17A01D1688F7A0002EDBEC /* CommentsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CommentsViewController.h; path = "Reddit Portal/CommentsViewController.h"; sourceTree = SOURCE_ROOT; };
-		9D17A01E1688F7A0002EDBEC /* CommentsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CommentsViewController.m; path = "Reddit Portal/CommentsViewController.m"; sourceTree = SOURCE_ROOT; };
 		9D17A02A1688FEDF002EDBEC /* EmptyThumbnailObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmptyThumbnailObject.h; sourceTree = "<group>"; };
 		9D17A02B1688FEDF002EDBEC /* EmptyThumbnailObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmptyThumbnailObject.m; sourceTree = "<group>"; };
 		9D18D4EB1681A49B00927859 /* Reddit Portal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Reddit Portal.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D18D4EF1681A49B00927859 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		9D18D4F11681A49B00927859 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		9D18D4F31681A49B00927859 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		9D3A932516AF25E900F02D06 /* Comments.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Comments.html; sourceTree = "<group>"; };
+		9D3F8BA116AE97BE000CA285 /* UILabel+TableCellLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+TableCellLabel.h"; sourceTree = "<group>"; };
+		9D3F8BA216AE97BE000CA285 /* UILabel+TableCellLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+TableCellLabel.m"; sourceTree = "<group>"; };
 		9D41A7B51688DC290045C46E /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = "Reddit Portal/AppDelegate.h"; sourceTree = SOURCE_ROOT; };
 		9D41A7B61688DC290045C46E /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = "Reddit Portal/AppDelegate.m"; sourceTree = SOURCE_ROOT; };
 		9D41A7B81688DC630045C46E /* action@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "action@2x.png"; path = "Reddit Portal/action@2x.png"; sourceTree = SOURCE_ROOT; };
@@ -84,8 +85,6 @@
 		9D41A7E71688DC930045C46E /* BackGroundViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BackGroundViewController.m; path = "Reddit Portal/BackGroundViewController.m"; sourceTree = SOURCE_ROOT; };
 		9D41A7E81688DC930045C46E /* StoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StoryViewController.h; path = "Reddit Portal/StoryViewController.h"; sourceTree = SOURCE_ROOT; };
 		9D41A7E91688DC930045C46E /* StoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StoryViewController.m; path = "Reddit Portal/StoryViewController.m"; sourceTree = SOURCE_ROOT; };
-		9D41A7EC1688DCB20045C46E /* RedditTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RedditTableViewCell.h; path = "Reddit Portal/RedditTableViewCell.h"; sourceTree = SOURCE_ROOT; };
-		9D41A7ED1688DCB20045C46E /* RedditTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RedditTableViewCell.m; path = "Reddit Portal/RedditTableViewCell.m"; sourceTree = SOURCE_ROOT; };
 		9D41A7EF1688DCC20045C46E /* StoryWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StoryWebViewController.h; path = "Reddit Portal/StoryWebViewController.h"; sourceTree = SOURCE_ROOT; };
 		9D41A7F01688DCC20045C46E /* StoryWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StoryWebViewController.m; path = "Reddit Portal/StoryWebViewController.m"; sourceTree = SOURCE_ROOT; };
 		9D41A7F21688DCD20045C46E /* BarButtonItemObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BarButtonItemObject.h; path = "Reddit Portal/BarButtonItemObject.h"; sourceTree = SOURCE_ROOT; };
@@ -143,11 +142,8 @@
 		9D18D4F51681A49B00927859 /* Reddit Portal */ = {
 			isa = PBXGroup;
 			children = (
+				9D3A932316AF1FC100F02D06 /* Controllers */,
 				9D2922851683C84D00B8BF86 /* Helpers */,
-				9D7017F8168244B300472835 /* WebViewControllers */,
-				9D7017EA168233A300472835 /* TableViewCells */,
-				9D5E21101681B6A900A236E6 /* APIs */,
-				9D5E21041681AE2300A236E6 /* ViewControllers */,
 				9D41A7B51688DC290045C46E /* AppDelegate.h */,
 				9D41A7B61688DC290045C46E /* AppDelegate.m */,
 				9D18D4F61681A49B00927859 /* Supporting Files */,
@@ -186,6 +182,8 @@
 		9D2922851683C84D00B8BF86 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				9D607B2D16AD245700C89001 /* Reddit.h */,
+				9D607B2E16AD245700C89001 /* Reddit.m */,
 				9D17A0141688EF0B002EDBEC /* TimeAgoObject.h */,
 				9D17A0151688EF0B002EDBEC /* TimeAgoObject.m */,
 				9D17A0161688EF0B002EDBEC /* UILabel+NavigationTitle.h */,
@@ -194,8 +192,24 @@
 				9D41A7F31688DCD20045C46E /* BarButtonItemObject.m */,
 				9D17A02A1688FEDF002EDBEC /* EmptyThumbnailObject.h */,
 				9D17A02B1688FEDF002EDBEC /* EmptyThumbnailObject.m */,
+				9D3F8BA116AE97BE000CA285 /* UILabel+TableCellLabel.h */,
+				9D3F8BA216AE97BE000CA285 /* UILabel+TableCellLabel.m */,
+				9D3A932516AF25E900F02D06 /* Comments.html */,
 			);
 			name = Helpers;
+			sourceTree = "<group>";
+		};
+		9D3A932316AF1FC100F02D06 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				9D41A7E61688DC930045C46E /* BackGroundViewController.h */,
+				9D41A7E71688DC930045C46E /* BackGroundViewController.m */,
+				9D41A7E81688DC930045C46E /* StoryViewController.h */,
+				9D41A7E91688DC930045C46E /* StoryViewController.m */,
+				9D41A7EF1688DCC20045C46E /* StoryWebViewController.h */,
+				9D41A7F01688DCC20045C46E /* StoryWebViewController.m */,
+			);
+			name = Controllers;
 			sourceTree = "<group>";
 		};
 		9D41A7F51688DCE20045C46E /* en.lproj */ = {
@@ -206,46 +220,6 @@
 			name = en.lproj;
 			path = "Reddit Portal/en.lproj";
 			sourceTree = SOURCE_ROOT;
-		};
-		9D5E21041681AE2300A236E6 /* ViewControllers */ = {
-			isa = PBXGroup;
-			children = (
-				9D17A01D1688F7A0002EDBEC /* CommentsViewController.h */,
-				9D17A01E1688F7A0002EDBEC /* CommentsViewController.m */,
-				9D41A7E61688DC930045C46E /* BackGroundViewController.h */,
-				9D41A7E71688DC930045C46E /* BackGroundViewController.m */,
-				9D41A7E81688DC930045C46E /* StoryViewController.h */,
-				9D41A7E91688DC930045C46E /* StoryViewController.m */,
-			);
-			name = ViewControllers;
-			sourceTree = "<group>";
-		};
-		9D5E21101681B6A900A236E6 /* APIs */ = {
-			isa = PBXGroup;
-			children = (
-				9D607B2D16AD245700C89001 /* Reddit.h */,
-				9D607B2E16AD245700C89001 /* Reddit.m */,
-			);
-			name = APIs;
-			sourceTree = "<group>";
-		};
-		9D7017EA168233A300472835 /* TableViewCells */ = {
-			isa = PBXGroup;
-			children = (
-				9D41A7EC1688DCB20045C46E /* RedditTableViewCell.h */,
-				9D41A7ED1688DCB20045C46E /* RedditTableViewCell.m */,
-			);
-			name = TableViewCells;
-			sourceTree = "<group>";
-		};
-		9D7017F8168244B300472835 /* WebViewControllers */ = {
-			isa = PBXGroup;
-			children = (
-				9D41A7EF1688DCC20045C46E /* StoryWebViewController.h */,
-				9D41A7F01688DCC20045C46E /* StoryWebViewController.m */,
-			);
-			name = WebViewControllers;
-			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
@@ -318,6 +292,7 @@
 				9D41A7DC1688DC630045C46E /* slider@2x.png in Resources */,
 				9D41A7F81688DCE20045C46E /* InfoPlist.strings in Resources */,
 				9D607B3C16AD37BF00C89001 /* reveal-icon@2x.png in Resources */,
+				9D3A932616AF25E900F02D06 /* Comments.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -349,14 +324,13 @@
 				9D41A7D71688DC630045C46E /* main.m in Sources */,
 				9D41A7EA1688DC930045C46E /* BackGroundViewController.m in Sources */,
 				9D41A7EB1688DC930045C46E /* StoryViewController.m in Sources */,
-				9D41A7EE1688DCB20045C46E /* RedditTableViewCell.m in Sources */,
 				9D41A7F11688DCC20045C46E /* StoryWebViewController.m in Sources */,
 				9D41A7F41688DCD20045C46E /* BarButtonItemObject.m in Sources */,
 				9D17A0181688EF0B002EDBEC /* TimeAgoObject.m in Sources */,
 				9D17A0191688EF0B002EDBEC /* UILabel+NavigationTitle.m in Sources */,
-				9D17A01F1688F7A1002EDBEC /* CommentsViewController.m in Sources */,
 				9D17A02C1688FEDF002EDBEC /* EmptyThumbnailObject.m in Sources */,
 				9D607B2F16AD245700C89001 /* Reddit.m in Sources */,
+				9D3F8BA316AE97BE000CA285 /* UILabel+TableCellLabel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
