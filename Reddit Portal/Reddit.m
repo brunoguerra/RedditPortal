@@ -19,8 +19,9 @@
 @synthesize nextPageToken = _nextPageToken;
 @synthesize topSubreddits = _topSubreddits;
 @synthesize subRedditChanged = _subRedditChanged;
-@synthesize storyFilter = _storyFilter;
-@synthesize filterTime = _filterTime;
+@synthesize sortCategory = _sortCategory;
+@synthesize sortName = _sortName;
+@synthesize sortTime = _sortTime;
 
 + (Reddit *) sharedClass
 {
@@ -44,8 +45,9 @@
         _nextPageToken = @"";
         _numStoriesLoaded = 0;
         _subRedditChanged = FALSE;
-        _storyFilter = @"";
-        _filterTime = @"";
+        _sortTime = @"";
+        _sortName = @"";
+        _sortCategory = @"";
         [self setupSubReddits];
     }
     
@@ -104,6 +106,31 @@
         [self removeStories]; // Remove the old stories from the previous subreddit.
     }
 }
+
+- (void) changeSortFilterTo:(NSString *)category WithSortTime:(NSString *)time
+{
+    // Settings the sorting options that appear in the url.
+    
+    if ([category isEqualToString:@"Hot"])
+    {
+        _sortCategory = @"";
+        _sortName = @"";
+        _sortTime = @"";
+    }
+    else if ([category isEqualToString:@"New"])
+    {
+        _sortCategory = @"new";
+        _sortName = @"new";
+        _sortTime = @"";
+    }
+    else
+    {
+        _sortCategory = category;
+        _sortName = category;
+        _sortTime = time;
+    }
+}
+
 
 - (void) retrieveMoreStoriesWithCompletionBlock:(void (^)())completionBlock;
 {
@@ -171,21 +198,26 @@
         nextUrl = [NSString stringWithFormat:@"%@r/%@", nextUrl, _subreddit];
     }
     
-    if ( ![_storyFilter isEqualToString:@""] )
+    if ( ![_sortCategory isEqualToString:@""] )
     {
-        nextUrl = [NSString stringWithFormat:@"%@/%@", nextUrl, _storyFilter];
+        nextUrl = [NSString stringWithFormat:@"%@/%@/", nextUrl, _sortCategory];
     }
     
-    nextUrl = [NSString stringWithFormat:@"%@.json", nextUrl];
+    nextUrl = [NSString stringWithFormat:@"%@.json?ios=1", nextUrl];
     
-    if (![_filterTime isEqualToString:@""])
+    if (![_sortName isEqualToString:@""])
     {
-        nextUrl = [NSString stringWithFormat:@"%@&t=%@", nextUrl, _filterTime];
+        nextUrl = [NSString stringWithFormat:@"%@&sort=%@", nextUrl, _sortName];
+    }
+    
+    if ( ![_sortTime isEqualToString:@""] )
+    {
+        nextUrl = [NSString stringWithFormat:@"%@&t=%@", nextUrl, _sortTime];
     }
     
     if (_numStoriesLoaded > 0)
     {
-        nextUrl = [NSString stringWithFormat:@"%@?count=%d&after=%@", nextUrl, _numStoriesLoaded, _nextPageToken];
+        nextUrl = [NSString stringWithFormat:@"%@&count=%d&after=%@", nextUrl, _numStoriesLoaded, _nextPageToken];
     }
     
     NSLog(@"Next Url: %@", nextUrl);

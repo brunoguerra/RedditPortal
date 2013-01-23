@@ -8,8 +8,14 @@
 
 #import <UIKit/UIKit.h>
 #import <MBProgressHUD.h>
+#import <MessageUI/MessageUI.h>
 
-@interface StoryWebViewController : UIViewController <UIWebViewDelegate, MBProgressHUDDelegate, UIActionSheetDelegate>
+@interface StoryWebViewController : UIViewController <UIWebViewDelegate,
+                                                  MBProgressHUDDelegate,
+                                                  UIActionSheetDelegate,
+                                    MFMailComposeViewControllerDelegate,
+                                 MFMessageComposeViewControllerDelegate,
+                                                    UIAlertViewDelegate>
 
 @property (nonatomic, copy) NSString *storyURL;
 @property (nonatomic, retain) UIWebView *webView;

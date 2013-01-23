@@ -40,7 +40,9 @@
 		9D41A7F41688DCD20045C46E /* BarButtonItemObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D41A7F31688DCD20045C46E /* BarButtonItemObject.m */; };
 		9D41A7F81688DCE20045C46E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9D41A7F61688DCE20045C46E /* InfoPlist.strings */; };
 		9D607B2F16AD245700C89001 /* Reddit.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D607B2E16AD245700C89001 /* Reddit.m */; };
-		9D607B3C16AD37BF00C89001 /* reveal-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D607B3B16AD37BF00C89001 /* reveal-icon@2x.png */; };
+		9DC36DA416AF4FF1004BC45B /* CommentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DC36DA316AF4FF1004BC45B /* CommentsViewController.m */; };
+		9DC36DA716AF5E35004BC45B /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DC36DA616AF5E35004BC45B /* MessageUI.framework */; };
+		9DC36DAA16AF64FA004BC45B /* cancel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9DC36DA916AF64FA004BC45B /* cancel@2x.png */; };
 		FDD42166DD2F4730B748E978 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82F1ACF22EB84A28A0C04266 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -92,7 +94,10 @@
 		9D41A7F71688DCE20045C46E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = InfoPlist.strings; sourceTree = "<group>"; };
 		9D607B2D16AD245700C89001 /* Reddit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reddit.h; sourceTree = "<group>"; };
 		9D607B2E16AD245700C89001 /* Reddit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reddit.m; sourceTree = "<group>"; };
-		9D607B3B16AD37BF00C89001 /* reveal-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reveal-icon@2x.png"; sourceTree = "<group>"; };
+		9DC36DA216AF4FF1004BC45B /* CommentsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentsViewController.h; sourceTree = "<group>"; };
+		9DC36DA316AF4FF1004BC45B /* CommentsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentsViewController.m; sourceTree = "<group>"; };
+		9DC36DA616AF5E35004BC45B /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		9DC36DA916AF64FA004BC45B /* cancel@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cancel@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,6 +105,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9DC36DA716AF5E35004BC45B /* MessageUI.framework in Frameworks */,
 				9D18D4F01681A49B00927859 /* UIKit.framework in Frameworks */,
 				9D18D4F21681A49B00927859 /* Foundation.framework in Frameworks */,
 				9D18D4F41681A49B00927859 /* CoreGraphics.framework in Frameworks */,
@@ -131,6 +137,7 @@
 		9D18D4EE1681A49B00927859 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9DC36DA616AF5E35004BC45B /* MessageUI.framework */,
 				9D18D4EF1681A49B00927859 /* UIKit.framework */,
 				9D18D4F11681A49B00927859 /* Foundation.framework */,
 				9D18D4F31681A49B00927859 /* CoreGraphics.framework */,
@@ -142,6 +149,7 @@
 		9D18D4F51681A49B00927859 /* Reddit Portal */ = {
 			isa = PBXGroup;
 			children = (
+				9DC36DA816AF626E004BC45B /* Images */,
 				9D3A932316AF1FC100F02D06 /* Controllers */,
 				9D2922851683C84D00B8BF86 /* Helpers */,
 				9D41A7B51688DC290045C46E /* AppDelegate.h */,
@@ -154,27 +162,10 @@
 		9D18D4F61681A49B00927859 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				9D607B3B16AD37BF00C89001 /* reveal-icon@2x.png */,
 				9D41A7F51688DCE20045C46E /* en.lproj */,
-				9D41A7B81688DC630045C46E /* action@2x.png */,
-				9D41A7B91688DC630045C46E /* backArrow@2x.png */,
-				9D41A7BA1688DC630045C46E /* background.png */,
-				9D41A7BB1688DC630045C46E /* backgroundCell.png */,
-				9D41A7BC1688DC630045C46E /* backgroundNavigationBar.png */,
-				9D41A7BD1688DC630045C46E /* bookmark@2x.png */,
-				9D41A7BE1688DC630045C46E /* comments@2x.png */,
-				9D41A7BF1688DC630045C46E /* Default-568h@2x.png */,
-				9D41A7C01688DC630045C46E /* Default.png */,
-				9D41A7C11688DC630045C46E /* Default@2x.png */,
-				9D41A7C21688DC630045C46E /* flag@2x.png */,
-				9D41A7C31688DC630045C46E /* Icon@2x.png */,
 				9D41A7C41688DC630045C46E /* main.m */,
-				9D41A7C51688DC630045C46E /* navigationBar.png */,
-				9D41A7C61688DC630045C46E /* options@2x.png */,
 				9D41A7C71688DC630045C46E /* Reddit Portal-Info.plist */,
 				9D41A7C81688DC630045C46E /* Reddit Portal-Prefix.pch */,
-				9D41A7C91688DC630045C46E /* settings@2x.png */,
-				9D41A7CA1688DC630045C46E /* slider@2x.png */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -208,6 +199,8 @@
 				9D41A7E91688DC930045C46E /* StoryViewController.m */,
 				9D41A7EF1688DCC20045C46E /* StoryWebViewController.h */,
 				9D41A7F01688DCC20045C46E /* StoryWebViewController.m */,
+				9DC36DA216AF4FF1004BC45B /* CommentsViewController.h */,
+				9DC36DA316AF4FF1004BC45B /* CommentsViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -220,6 +213,30 @@
 			name = en.lproj;
 			path = "Reddit Portal/en.lproj";
 			sourceTree = SOURCE_ROOT;
+		};
+		9DC36DA816AF626E004BC45B /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				9DC36DA916AF64FA004BC45B /* cancel@2x.png */,
+				9D41A7C51688DC630045C46E /* navigationBar.png */,
+				9D41A7C61688DC630045C46E /* options@2x.png */,
+				9D41A7C91688DC630045C46E /* settings@2x.png */,
+				9D41A7CA1688DC630045C46E /* slider@2x.png */,
+				9D41A7B81688DC630045C46E /* action@2x.png */,
+				9D41A7B91688DC630045C46E /* backArrow@2x.png */,
+				9D41A7BA1688DC630045C46E /* background.png */,
+				9D41A7BB1688DC630045C46E /* backgroundCell.png */,
+				9D41A7BC1688DC630045C46E /* backgroundNavigationBar.png */,
+				9D41A7BD1688DC630045C46E /* bookmark@2x.png */,
+				9D41A7BE1688DC630045C46E /* comments@2x.png */,
+				9D41A7BF1688DC630045C46E /* Default-568h@2x.png */,
+				9D41A7C01688DC630045C46E /* Default.png */,
+				9D41A7C11688DC630045C46E /* Default@2x.png */,
+				9D41A7C21688DC630045C46E /* flag@2x.png */,
+				9D41A7C31688DC630045C46E /* Icon@2x.png */,
+			);
+			name = Images;
+			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
@@ -291,8 +308,8 @@
 				9D41A7DB1688DC630045C46E /* settings@2x.png in Resources */,
 				9D41A7DC1688DC630045C46E /* slider@2x.png in Resources */,
 				9D41A7F81688DCE20045C46E /* InfoPlist.strings in Resources */,
-				9D607B3C16AD37BF00C89001 /* reveal-icon@2x.png in Resources */,
 				9D3A932616AF25E900F02D06 /* Comments.html in Resources */,
+				9DC36DAA16AF64FA004BC45B /* cancel@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -331,6 +348,7 @@
 				9D17A02C1688FEDF002EDBEC /* EmptyThumbnailObject.m in Sources */,
 				9D607B2F16AD245700C89001 /* Reddit.m in Sources */,
 				9D3F8BA316AE97BE000CA285 /* UILabel+TableCellLabel.m in Sources */,
+				9DC36DA416AF4FF1004BC45B /* CommentsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -99,15 +99,38 @@
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    NSArray *buttons = nil;
-    
-    if( buttonIndex == 1 ) // New
+    if ( actionSheet.tag == 1)
     {
-        buttons = [NSArray arrayWithObjects:@"New", @"Rising", nil];
-    }
-    else if ( buttonIndex == 2 || buttonIndex == 3 ) // Controversial or Top
-    {
-        buttons = [NSArray arrayWithObjects:@"This Hour", @"This Week", @"This Month", @"This Year", @"All Time", nil];
+        if( buttonIndex == 1 ) // New
+        {            
+            UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:nil
+                                                               delegate:self
+                                                      cancelButtonTitle:@"Cancel"
+                                                 destructiveButtonTitle:nil
+                                                      otherButtonTitles:@"New", @"Rising", nil];
+            sheet.tag = 2;
+            [sheet showInView:self.view];
+        }
+        else if ( buttonIndex == 2 || buttonIndex == 3 ) // Controversial or Top
+        {
+            UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:nil
+                                                               delegate:self
+                                                      cancelButtonTitle:@"Cancel"
+                                                 destructiveButtonTitle:nil
+                                                      otherButtonTitles:@"This Hour", @"Today", @"This Month", @"This Year", @"All Time", nil];
+            sheet.tag = 3;
+            [sheet showInView:self.view];
+        }
+        else
+        {
+            [_reddit changeSortFilterTo:@"Hot" WithSortTime:@""];
+        }
+        
+        [_reddit retrieveMoreStoriesWithCompletionBlock:^{
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [_storyTableView reloadData];
+            });
+        }];
     }
 }
 

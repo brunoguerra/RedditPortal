@@ -14,8 +14,9 @@ typedef void (^RefreshTable) ();
 
 @property (nonatomic, copy) NSString *subreddit;
 @property (nonatomic, copy) NSString *nextPageToken;
-@property (nonatomic, copy) NSString *storyFilter;
-@property (nonatomic, copy) NSString *filterTime;
+@property (nonatomic, copy) NSString *sortCategory;
+@property (nonatomic, copy) NSString *sortName;
+@property (nonatomic, copy) NSString *sortTime;
 
 @property (nonatomic, retain) NSMutableArray *stories;
 @property (nonatomic, retain) NSMutableArray *topSubreddits;
@@ -31,6 +32,7 @@ typedef void (^RefreshTable) ();
 - (id) storyDataForIndex:(NSUInteger)index withKey:(NSString *)key;
 - (void) removeStories;
 - (NSURL *) getNextURL;
+- (void) changeSortFilterTo:(NSString *)category WithSortTime:(NSString *)time;
 
 
 

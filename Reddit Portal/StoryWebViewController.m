@@ -10,6 +10,15 @@
 #import <MBProgressHUD.h>
 #import "BarButtonItemObject.h"
 #import "UILabel+NavigationTitle.h"
+#import "CommentsViewController.h"
+#import <MessageUI/MessageUI.h>
+
+#define VIEW_COMMENTS_INDEX 0
+#define VIEW_SHARE_INDEX 1
+#define PRIMARY_ACTION_SHEET 1
+#define SHARING_ACTION_SHEET 2
+#define SHARE_VIA_EMAIL 0
+#define SHARE_VIA_SMS 1
 
 @interface StoryWebViewController ()
 
@@ -49,7 +58,7 @@
                                                                           withImage:@"backArrow.png"
                                                                          withOffset:0];
     
-    UIBarButtonItem *actionBarButton = [BarButtonItemObject createButtonItemForTarget:self.navigationController
+    UIBarButtonItem *actionBarButton = [BarButtonItemObject createButtonItemForTarget:self
                                                                            withAction:@selector(showActionSheet)
                                                                             withImage:@"action.png"
                                                                            withOffset:10];
@@ -66,22 +75,81 @@
                                                        delegate:self
                                               cancelButtonTitle:@"Cancel"
                                          destructiveButtonTitle:nil
-                                              otherButtonTitles:@"via Email", @"via SMS", nil];
+                                              otherButtonTitles:@"View Comments", @"Share This Story", nil];
+    sheet.tag = PRIMARY_ACTION_SHEET;
     [sheet showInView:self.view];
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    NSArray *buttons = nil;
-    
-    if( buttonIndex == 1 ) // New
+    if ( actionSheet.tag == PRIMARY_ACTION_SHEET )
     {
-        buttons = [NSArray arrayWithObjects:@"New", @"Rising", nil];
+        if( buttonIndex == VIEW_COMMENTS_INDEX )
+        {
+            [self showCommentsView];
+        }
+        else if( buttonIndex == VIEW_SHARE_INDEX )
+        {
+            UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:nil
+                                                               delegate:self
+                                                      cancelButtonTitle:@"Cancel"
+                                                 destructiveButtonTitle:nil
+                                                      otherButtonTitles:@"Share Via Email", @"Share Via SMS", nil];
+            sheet.tag = SHARING_ACTION_SHEET;
+            [sheet showInView:self.view];
+        }
     }
-    else if ( buttonIndex == 2 || buttonIndex == 3 ) // Controversial or Top
+    else
     {
-        buttons = [NSArray arrayWithObjects:@"This Hour", @"This Week", @"This Month", @"This Year", @"All Time", nil];
+        if ( buttonIndex == SHARE_VIA_EMAIL )
+        {
+            // Sharing via Email
+            if( [MFMailComposeViewController canSendMail] )
+            {
+                MFMailComposeViewController *mailCont = [[MFMailComposeViewController alloc] init];
+                mailCont.mailComposeDelegate = self;
+                
+                [mailCont setSubject:@"Check out this story on Reddit"];
+                [mailCont setToRecipients:[NSArray arrayWithObject:@""]];
+                [mailCont setMessageBody:[_redditStory objectForKey:@"url"] isHTML:NO];
+                
+                [self presentViewController:mailCont animated:YES completion:nil];
+            }
+            else
+            {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"No Email Account"
+                                                                message:@"You must have an email account added to your settings for emails to work."
+                                                               delegate:self
+                                                      cancelButtonTitle:@"OK"
+                                                      otherButtonTitles:nil];
+                [alert show];
+            }
+        }
+        else if( buttonIndex == SHARE_VIA_SMS )
+        {
+            // Sharing via SMS
+            
+            if( [MFMessageComposeViewController canSendText] )
+            {
+                MFMessageComposeViewController *messageController = [[MFMessageComposeViewController alloc] init];
+                messageController.messageComposeDelegate = self;
+                
+                [messageController setBody:[_redditStory objectForKey:@"url"]];
+                [self presentViewController:messageController animated:YES completion:nil];
+            }
+        }
     }
+}
+
+// Then implement the delegate method
+- (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void) loadNewStory
@@ -132,6 +200,18 @@
     NSLog(@"%@", error);
 }
 
+
+- (void) showCommentsView
+{
+    CommentsViewController *commentsController = [CommentsViewController sharedClass];
+    [commentsController loadCommentsForStory:_redditStory];
+    
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:commentsController];
+    [navController.navigationBar setBackgroundImage:[UIImage imageNamed: @"navigationBar.png"]
+                                                  forBarMetrics:UIBarMetricsDefault];
+    
+    [self presentViewController:navController animated:YES completion:nil];
+}
 
 - (void)didReceiveMemoryWarning
 {
