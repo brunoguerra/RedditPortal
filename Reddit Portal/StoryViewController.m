@@ -112,7 +112,7 @@ enum NEW_MENU_OPTIONS { NEW_OPTION, RISING_OPTION };
     BOOL thumbnailEmpty = [EmptyThumbnailObject isThumbnailEmpty:[_reddit storyDataForIndex:indexPath.row withKey:@"thumbnail"]];
     
     UILabel *titleLabel = [[UILabel alloc] init];
-    titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:14.0];
+    titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:14.0];
     titleLabel.numberOfLines = 0;
     titleLabel.textColor = [UIColor blackColor];
     titleLabel.backgroundColor = [UIColor clearColor];
@@ -252,6 +252,7 @@ enum NEW_MENU_OPTIONS { NEW_OPTION, RISING_OPTION };
     
     titleLabel.frame = CGRectMake( thumbnailOffset , CELL_PADDING, 320 - thumbnailOffset - CELL_PADDING, 0);
     titleLabel.text = [_reddit storyDataForIndex:indexPath.row withKey:@"title"];
+    titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:14.0];
     [titleLabel sizeToFit];
     
     NSInteger titleOffset = titleLabel.frame.size.height + TITLE_PADDING;
@@ -322,11 +323,25 @@ enum NEW_MENU_OPTIONS { NEW_OPTION, RISING_OPTION };
     
     if (toInterfaceOrientation == UIInterfaceOrientationPortrait)
     {
-        _storyTableView.frame = CGRectMake(0, 0, 320, 480);
+        _storyTableView.frame = CGRectMake(0, 0, 320, 415);
     }
     else
     {
-        _storyTableView.frame = CGRectMake(0, 0, 480, 320);
+        _storyTableView.frame = CGRectMake(0, 0, 480, 270);
+    }
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    UIInterfaceOrientation interfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
+    
+    if (UIInterfaceOrientationIsPortrait(interfaceOrientation))
+    {
+        _storyTableView.frame = CGRectMake(0, 0, 320, 415);
+    }
+    else
+    {
+        _storyTableView.frame = CGRectMake(0, 0, 480, 270);
     }
 }
 
@@ -358,9 +373,8 @@ enum NEW_MENU_OPTIONS { NEW_OPTION, RISING_OPTION };
 {
     if ([_reddit didSubRedditChange])
     {
-        [_reddit removeStories];
-        
         [self showLoadingHUD];
+        [_reddit removeStories];
         
         // Load the inital stories
         [_reddit retrieveMoreStoriesWithCompletionBlock:^{
@@ -369,6 +383,7 @@ enum NEW_MENU_OPTIONS { NEW_OPTION, RISING_OPTION };
                 [self updateNavigationTitle];
                 
                 [_storyTableView reloadData];
+                [_storyTableView setContentOffset:CGPointMake(0, 0)];
                 [self hideLoadingHUD];
             });
         }];

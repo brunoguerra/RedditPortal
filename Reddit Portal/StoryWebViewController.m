@@ -228,11 +228,25 @@
     
     if (toInterfaceOrientation == UIInterfaceOrientationPortrait)
     {
-        _webView.frame = CGRectMake(0, 0, 320, 480);
+        _webView.frame = CGRectMake(0, 0, 320, 415);
     }
     else
     {
-        _webView.frame = CGRectMake(0, 0, 480, 320);
+        _webView.frame = CGRectMake(0, 0, 480, 270);
+    }
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    UIInterfaceOrientation interfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
+    
+    if (UIInterfaceOrientationIsPortrait(interfaceOrientation))
+    {
+        _webView.frame = CGRectMake(0, 0, 320, 415);
+    }
+    else
+    {
+        _webView.frame = CGRectMake(0, 0, 480, 270);
     }
 }
 
