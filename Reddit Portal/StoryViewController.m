@@ -16,11 +16,14 @@
 #import "BarButtonItemObject.h"
 #import "EmptyThumbnailObject.h"
 #import "SWRevealViewController.h"
+#import <MBProgressHUD.h>
 
 #define AUTO_FETCH_BUFFER 5
 #define CELL_PADDING 10.0
 #define TITLE_PADDING 20.0
 #define THUMBNAIL_SIZE 75.0
+#define HUD_TEXT @"Loading"
+
 
 @interface StoryViewController ()
 
@@ -32,6 +35,7 @@
 @synthesize storyTableView = _storyTableView;
 @synthesize pullToRefreshView = _pullToRefreshView;
 @synthesize reddit = _reddit;
+@synthesize HUD = _HUD;
 
 - (void)viewDidLoad
 {
@@ -41,26 +45,24 @@
     
     _storyTableView = [[UITableView alloc] initWithFrame:[[UIScreen mainScreen] bounds]
                                                    style:UITableViewStylePlain];
-    _pullToRefreshView = [[SSPullToRefreshView alloc]
-                          initWithScrollView:_storyTableView
-                          delegate:self];
+    _pullToRefreshView = [self createPullToRefresh];
     
     _storyTableView.delegate = self;
     _storyTableView.dataSource = self;
-    
-    _reddit = [Reddit sharedClass];
-    
-    // Load the inital stories
-    [_reddit retrieveMoreStoriesWithCompletionBlock:^{
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [_storyTableView reloadData];
-        });
-    }];
-    
+        
     SWRevealViewController *revealController = [self revealViewController];
     
     [self.navigationController.navigationBar addGestureRecognizer:revealController.panGestureRecognizer];
     [self.view addGestureRecognizer:revealController.panGestureRecognizer];
+    
+    
+    // Create the HUD for future use
+    _HUD = [self createHUDForView:revealController.view];
+    _reddit = [Reddit sharedClass];
+    
+    [self loadMoreStories];
+
+    
     
     //
     // Navigation Title
@@ -132,30 +134,6 @@
             });
         }];
     }
-}
-
-- (void)refresh
-{
-    // Tells the reddit object to remove old stories and get new ones.
-    // Then reloads the table data to show the new stories.
-    
-    [self.pullToRefreshView startLoading];
-    
-    [_reddit removeStories];
-    [_reddit retrieveMoreStoriesWithCompletionBlock:^{
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            UILabel *navTitle = [[UILabel alloc] initWithTitle:_reddit.subreddit withColor:[UIColor darkGrayColor]];
-            self.navigationItem.titleView = navTitle;
-            [_storyTableView reloadData];
-            [self.pullToRefreshView finishLoading];
-        });
-    }];
-}
-
-- (void)pullToRefreshViewDidStartLoading:(SSPullToRefreshView *)view
-{
-    [self refresh];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -408,6 +386,72 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
+}
+
+#pragma mark - Adding new stories to the tableview
+
+- (void) loadMoreStories
+{
+    [self showLoadingHUD];
+    
+    // Load the inital stories
+    [_reddit retrieveMoreStoriesWithCompletionBlock:^{
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [_storyTableView reloadData];
+            [self hideLoadingHUD];
+        });
+    }];
+}
+
+
+#pragma mark - Pull To Refresh
+
+- (SSPullToRefreshView *) createPullToRefresh
+{
+    SSPullToRefreshView *pullRefresh = [[SSPullToRefreshView alloc] initWithScrollView:_storyTableView
+                                                                              delegate:self];
+    return pullRefresh;
+}
+
+- (void)pullToRefreshViewDidStartLoading:(SSPullToRefreshView *)view
+{    
+    [self.pullToRefreshView startLoading];
+    
+    [_reddit removeStories];
+    [_reddit retrieveMoreStoriesWithCompletionBlock:^{
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            // TODO: do not create a new title.
+            UILabel *navTitle = [[UILabel alloc] initWithTitle:_reddit.subreddit withColor:[UIColor darkGrayColor]];
+            self.navigationItem.titleView = navTitle;
+            
+            [_storyTableView reloadData];
+            [self.pullToRefreshView finishLoading];
+        });
+    }];
+}
+
+
+#pragma mark - Loading HUD
+
+- (MBProgressHUD *) createHUDForView:(UIView *)view
+{
+    MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:view];
+	[view addSubview:hud];
+    hud.delegate = self;
+	hud.labelText = HUD_TEXT;
+    
+    return hud;
+}
+
+- (void) showLoadingHUD
+{
+    [_HUD show:YES];
+}
+
+- (void) hideLoadingHUD
+{
+    [_HUD hide:YES];
 }
 
 @end

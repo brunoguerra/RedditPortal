@@ -78,11 +78,7 @@ StoryViewController *_storyViewController;
     
     if ([_reddit didSubRedditChange])
     {
-        [_reddit retrieveMoreStoriesWithCompletionBlock:^{
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [_storyViewController refresh];
-            });
-        }];
+        [_storyViewController loadMoreStories];
     }
     
 }

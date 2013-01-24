@@ -132,7 +132,7 @@
 }
 
 
-- (void) retrieveMoreStoriesWithCompletionBlock:(void (^)())completionBlock;
+- (void) retrieveMoreStoriesWithCompletionBlock:(void (^)())completionBlock
 {
     // Retrieves the next set of stories from reddit.
     
