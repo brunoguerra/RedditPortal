@@ -265,12 +265,7 @@
                 display: none;
             }
             
-            #REPLY {
-                padding: 6px;
-                display: none;
-                border-bottom: 1px solid #DDD;
-                margin-bottom: 5px;
-            }
+
             
             #reply-textarea {
                 width: 100%;
@@ -293,62 +288,7 @@
                 visibility: hidden;
             }
             
-            #sortbar
-            {
-                padding: 0;
-                margin: 0;
-                padding-top: 5px;
-                height: 30px;
-                width: 235px;
-                margin-left: auto;
-                margin-right: auto;
-                visibility: hidden;
-                float: left;
-            }
-            
-            #sortbar li
-            {
-                float: left;
-                height: 23px;
-                width: 38px;
-                text-align: center;
-                border: 1px solid #666;
-                background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#DCDCDC), to(#898989));
-                font-size: 10px;
-                line-height: 24px;
-                border-right: 1px solid #666;
-                border-left: 1px solid #AAA;
-                text-shadow: 0px -1px 1px #DDD;
-                color: #111;
-                font-family: 'Helvetica';
-                font-weight: bold;
-            }
-            
-            #sortbar li.selected
-            {
-                background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#ff4500), to(#7F2200));
-                color: #FFF;
-                text-shadow: 0px -1px 1px #444;
-            }
-            
-            #sortbar li#sort-controversial
-            {
-                width: 72px;
-            }
-            
-            #sortbar li:first-child
-            {
-                -webkit-border-top-left-radius: 8px;
-                -webkit-border-bottom-left-radius: 8px;
-                border-left: 1px solid #666;
-            }
-            
-            #sortbar li:last-child
-            {
-                -webkit-border-top-right-radius: 8px;
-                -webkit-border-bottom-right-radius: 8px;
-            }
-            
+
             
             
             .quote {
@@ -390,11 +330,10 @@
         </div>
         
         <div id="REPLY">
-            <textarea id="reply-textarea"></textarea>
             <div id="REPLY_status"></div>
             
             
-            <ul id="sortbar">
+            <ul id="sortbar" style="display:none">
                 <li id="sort-confidence">best</li>
                 <li id="sort-top">top</li>
                 <li id="sort-hot">hot</li>
@@ -402,41 +341,12 @@
                 <li id="sort-controversial">controversial</li>
             </ul>
             
-            <button id="REPLY_submit" type="button">comment</button>
             <div style="clear:both"></div>
         </div>
         
-        <div id="META">
-            <div>
-                Tap a comment to vote or reply.
-            </div>
-        </div>
+        <div id="META"></div>
          
         <div id="COMMENTS"></div>
-        
-        <!-- THIS IS THE STRUCTURE OF A COMMENT
-         <div class="comment" id="t1_someid">
-         <div class="comment-header">
-         <span class="comment-toggle-control" id="t1_someid_toggle">[-]</span>
-         <span class="comment-author" id="t1_someid_author">rboucher</span>
-         <span class="comment-points" id="t1_someid_points">21 points</span>
-         <span class="comment-date" id="t1_someid_date">2 hours ago</span>
-         </div>
-         
-         <div class="comment-body" id="t1_someid_comment">
-         </div>
-         
-         <div class="comment-reply" id="t1_someid_reply">
-         <textarea class="comment-reply-textarea" id="t1_someid_textarea">Type a response</textarea>
-         <input type="button" value="cancel" />
-         <input type="button" value="comment" />
-         </div>
-         
-         <div class="comment-children" id="t1_someid_children">
-         //more comments go here
-         </div>
-         </div>
-         -->
         
         <script type="text/javascript">
             
@@ -468,7 +378,6 @@
                 };
             }
             
-            //
             var sorttype = arguments["sort"];
             var sorters = $("sortbar").getElementsByTagName("li");
             for(var i = 0; i < sorters.length; i++)
@@ -514,7 +423,7 @@
                     $("REPLY").style.display = "block";
                     $("COMMENTS").innerHTML = "";
                     $("META").style.visibility = "visible";
-                    $("sortbar").style.visibility = "visible";
+                    //$("sortbar").style.visibility = "visible";
                     
                     //fill out the header
                     DATASET = eval("("+xhr.responseText+")");
@@ -530,73 +439,7 @@
                     {
                         $("selfpost").innerHTML = replaceHTMLCharacters(story.selftext_html);
                     }
-                    
-                    $("REPLY_submit").onclick = function(anEvent)
-                    {
-                        if (!window.MODHASH)
-                        return window.location.href="http://login";
-                        
-                        var request = new XMLHttpRequest();
-                        
-                        request.open("POST", BASE_URL+"/api/comment", true);
-                        request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-                        request.setRequestHeader("x-reddit-version", "1.1");
-                        
-                        request.onreadystatechange = function()
-                        {
-                            if (request.readyState == 4)
-                            {
-                                var responseData;
-                                
-                                try {
-                                    responseData = eval("("+request.responseText+")").json;
-                                }
-                                catch (e){}
-                                
-                                if (responseData && responseData.data && responseData.data.things &&
-                                    responseData.data.things[0] && responseData.data.things[0].data)
-                                {
-                                    var resultingPost = responseData.data.things[0].data;
-                                    
-                                    var theComment = createCommentElement(
-                                                                          {
-                                                                          data: {
-                                                                          likes: true,
-                                                                          name: resultingPost.id,
-                                                                          id: resultingPost.id.substring(3),
-                                                                          body: $("reply-textarea").value,
-                                                                          contentHTML: resultingPost.contentHTML,
-                                                                          created_utc: (new Date()).getTime()/1000,
-                                                                          author: "me",
-                                                                          ups: 1,
-                                                                          downs: 0
-                                                                          }
-                                                                          }, 0);
-                                    
-                                    $("COMMENTS").insertBefore(theComment, $("COMMENTS").childNodes[0]);
-                                    
-                                    $("reply-textarea").value = "";
-                                    $("REPLY_status").style.display = "none";
-                                }
-                                else
-                                {
-                                    $("REPLY_status").innerText = "Post failed. Try again in a few minutes.";
-                                }
-                                
-                                $("REPLY_submit").disabled = false;
-                            }
-                        };
-                        
-                        request.send("isroot=1&api_type=json&r="+encodeURIComponent(DATASET[0].data.children[0].data.subreddit)+"&uh="+window.MODHASH+
-                                     "&thing_id="+story.name+"&text="+encodeURIComponent($("reply-textarea").value)+"&_=");
-                        
-                        $("REPLY_submit").disabled = true;
-                        $("REPLY_status").innerText = "Submitting...";
-                        $("REPLY_status").style.display = "block";
-                        
-                        anEvent.stopPropagation();
-                    }
-                    
+                                        
                     //a function to layout a comment element
                     function createCommentElement(comment, recursionLevel)
                     {

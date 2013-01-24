@@ -8,6 +8,7 @@
 
 #import "CommentsViewController.h"
 #import "BarButtonItemObject.h"
+#import "NavigationTitleView.h"
 
 @interface CommentsViewController ()
 
@@ -59,6 +60,9 @@
 
 - (void) loadCommentsForStory:(NSDictionary *)story
 {
+    self.navigationItem.titleView = [NavigationTitleView createTitleWithSubReddit:@"Comments:"
+                                                                    andSortOption:[NSString stringWithFormat:@"%@",[story objectForKey:@"num_comments"]]];
+    
     // Fetches the comments for a given story and sends them to the Comment.html file to be displayed.
     
     NSString *path = [NSString stringWithFormat:@"%@?id=%@&title=%@&author=%@&created=%@&domain=%@&base=%@&sort=%@",

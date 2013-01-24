@@ -58,15 +58,12 @@ enum NEW_MENU_OPTIONS { NEW_OPTION, RISING_OPTION };
     
     [self.navigationController.navigationBar addGestureRecognizer:revealController.panGestureRecognizer];
     [self.view addGestureRecognizer:revealController.panGestureRecognizer];
-    
-    
-    UIView *titleView = [NavigationTitleView createTitleWithSubReddit:_reddit.subreddit andSortOption:_reddit.sortCategory];
-    self.navigationItem.titleView = titleView;
-    
-    
+        
+
     // Create the HUD for future use
     _HUD = [self createHUDForView:revealController.view];
     _reddit = [Reddit sharedClass];
+    self.navigationItem.titleView = [NavigationTitleView createTitleWithSubReddit:_reddit.subreddit andSortOption:_reddit.sortCategory];
     
     [self loadMoreStories];
 
