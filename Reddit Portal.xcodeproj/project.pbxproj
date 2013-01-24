@@ -40,6 +40,7 @@
 		9D41A7F41688DCD20045C46E /* BarButtonItemObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D41A7F31688DCD20045C46E /* BarButtonItemObject.m */; };
 		9D41A7F81688DCE20045C46E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9D41A7F61688DCE20045C46E /* InfoPlist.strings */; };
 		9D607B2F16AD245700C89001 /* Reddit.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D607B2E16AD245700C89001 /* Reddit.m */; };
+		9D6F7B8616B0E7C8009DBE11 /* NavigationTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D6F7B8516B0E7C8009DBE11 /* NavigationTitleView.m */; };
 		9DC36DA416AF4FF1004BC45B /* CommentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DC36DA316AF4FF1004BC45B /* CommentsViewController.m */; };
 		9DC36DA716AF5E35004BC45B /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DC36DA616AF5E35004BC45B /* MessageUI.framework */; };
 		9DC36DAA16AF64FA004BC45B /* cancel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9DC36DA916AF64FA004BC45B /* cancel@2x.png */; };
@@ -94,6 +95,8 @@
 		9D41A7F71688DCE20045C46E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = InfoPlist.strings; sourceTree = "<group>"; };
 		9D607B2D16AD245700C89001 /* Reddit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reddit.h; sourceTree = "<group>"; };
 		9D607B2E16AD245700C89001 /* Reddit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reddit.m; sourceTree = "<group>"; };
+		9D6F7B8416B0E7C8009DBE11 /* NavigationTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NavigationTitleView.h; sourceTree = "<group>"; };
+		9D6F7B8516B0E7C8009DBE11 /* NavigationTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NavigationTitleView.m; sourceTree = "<group>"; };
 		9DC36DA216AF4FF1004BC45B /* CommentsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentsViewController.h; sourceTree = "<group>"; };
 		9DC36DA316AF4FF1004BC45B /* CommentsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentsViewController.m; sourceTree = "<group>"; };
 		9DC36DA616AF5E35004BC45B /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
@@ -149,6 +152,8 @@
 		9D18D4F51681A49B00927859 /* Reddit Portal */ = {
 			isa = PBXGroup;
 			children = (
+				9D6F7B8916B0E7D9009DBE11 /* Models */,
+				9D6F7B8816B0E7CD009DBE11 /* Views */,
 				9DC36DA816AF626E004BC45B /* Images */,
 				9D3A932316AF1FC100F02D06 /* Controllers */,
 				9D2922851683C84D00B8BF86 /* Helpers */,
@@ -173,8 +178,6 @@
 		9D2922851683C84D00B8BF86 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				9D607B2D16AD245700C89001 /* Reddit.h */,
-				9D607B2E16AD245700C89001 /* Reddit.m */,
 				9D17A0141688EF0B002EDBEC /* TimeAgoObject.h */,
 				9D17A0151688EF0B002EDBEC /* TimeAgoObject.m */,
 				9D17A0161688EF0B002EDBEC /* UILabel+NavigationTitle.h */,
@@ -213,6 +216,24 @@
 			name = en.lproj;
 			path = "Reddit Portal/en.lproj";
 			sourceTree = SOURCE_ROOT;
+		};
+		9D6F7B8816B0E7CD009DBE11 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				9D6F7B8416B0E7C8009DBE11 /* NavigationTitleView.h */,
+				9D6F7B8516B0E7C8009DBE11 /* NavigationTitleView.m */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		9D6F7B8916B0E7D9009DBE11 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				9D607B2D16AD245700C89001 /* Reddit.h */,
+				9D607B2E16AD245700C89001 /* Reddit.m */,
+			);
+			name = Models;
+			sourceTree = "<group>";
 		};
 		9DC36DA816AF626E004BC45B /* Images */ = {
 			isa = PBXGroup;
@@ -349,6 +370,7 @@
 				9D607B2F16AD245700C89001 /* Reddit.m in Sources */,
 				9D3F8BA316AE97BE000CA285 /* UILabel+TableCellLabel.m in Sources */,
 				9DC36DA416AF4FF1004BC45B /* CommentsViewController.m in Sources */,
+				9D6F7B8616B0E7C8009DBE11 /* NavigationTitleView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

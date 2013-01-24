@@ -17,6 +17,7 @@
 #import "EmptyThumbnailObject.h"
 #import "SWRevealViewController.h"
 #import <MBProgressHUD.h>
+#import "NavigationTitleView.h"
 
 #define AUTO_FETCH_BUFFER 5
 #define CELL_PADDING 10.0
@@ -59,20 +60,16 @@ enum NEW_MENU_OPTIONS { NEW_OPTION, RISING_OPTION };
     [self.view addGestureRecognizer:revealController.panGestureRecognizer];
     
     
+    UIView *titleView = [NavigationTitleView createTitleWithSubReddit:_reddit.subreddit andSortOption:_reddit.sortCategory];
+    self.navigationItem.titleView = titleView;
+    
+    
     // Create the HUD for future use
     _HUD = [self createHUDForView:revealController.view];
     _reddit = [Reddit sharedClass];
     
     [self loadMoreStories];
 
-    
-    
-    //
-    // Navigation Title
-    //
-    UILabel *navTitle = [[UILabel alloc] initWithTitle:_reddit.subreddit withColor:[UIColor darkGrayColor]];
-    self.navigationItem.titleView = navTitle;
-    
     
     UIBarButtonItem *slideButton = [BarButtonItemObject createButtonItemForTarget:revealController
                                                                        withAction:@selector(revealToggle:)
@@ -83,9 +80,9 @@ enum NEW_MENU_OPTIONS { NEW_OPTION, RISING_OPTION };
                                                                          withAction:@selector(showSortMenu)
                                                                           withImage:@"options"
                                                                          withOffset:0];
-    
+
     self.navigationItem.leftBarButtonItem = slideButton;
-    self.navigationItem.rightBarButtonItem = optionsButton;
+    self.navigationItem.rightBarButtonItems = [[NSArray alloc] initWithObjects:optionsButton, nil];
 
     [self.view addSubview:_storyTableView];
 }
@@ -116,7 +113,7 @@ enum NEW_MENU_OPTIONS { NEW_OPTION, RISING_OPTION };
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {    
-    BOOL thumbnailEmpty = [EmptyThumbnailObject isThumbnailEmpty:[[_reddit.stories objectAtIndex:indexPath.row] objectForKey:@"thumbnail"]];
+    BOOL thumbnailEmpty = [EmptyThumbnailObject isThumbnailEmpty:[_reddit storyDataForIndex:indexPath.row withKey:@"thumbnail"]];
     
     UILabel *titleLabel = [[UILabel alloc] init];
     titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:14.0];
@@ -130,7 +127,7 @@ enum NEW_MENU_OPTIONS { NEW_OPTION, RISING_OPTION };
     }
     
     titleLabel.frame = CGRectMake( thumbnailOffset , CELL_PADDING, 320 - thumbnailOffset - CELL_PADDING, 0);
-    titleLabel.text = [[_reddit.stories objectAtIndex:indexPath.row] objectForKey:@"title"];
+    titleLabel.text = [_reddit storyDataForIndex:indexPath.row withKey:@"title"];
     [titleLabel sizeToFit];
     
     UILabel *authorLabel = [[UILabel alloc] init];
@@ -138,7 +135,7 @@ enum NEW_MENU_OPTIONS { NEW_OPTION, RISING_OPTION };
     authorLabel.numberOfLines = 1;
     authorLabel.textColor = [UIColor blackColor];
     authorLabel.backgroundColor = [UIColor clearColor];
-    authorLabel.text = [[_reddit.stories objectAtIndex:indexPath.row] objectForKey:@"author"];
+    authorLabel.text = [_reddit storyDataForIndex:indexPath.row withKey:@"author"];
     [authorLabel sizeToFit];
     
     UILabel *scoreLabel = [[UILabel alloc] init];
@@ -146,7 +143,7 @@ enum NEW_MENU_OPTIONS { NEW_OPTION, RISING_OPTION };
     scoreLabel.numberOfLines = 1;
     scoreLabel.textColor = [UIColor blackColor];
     scoreLabel.backgroundColor = [UIColor clearColor];
-    scoreLabel.text = [[_reddit.stories objectAtIndex:indexPath.row] objectForKey:@"domain"];
+    scoreLabel.text = [_reddit storyDataForIndex:indexPath.row withKey:@"domain"];
     [scoreLabel sizeToFit];
     
     CGFloat cellHeight = titleLabel.frame.size.height + authorLabel.frame.size.height + scoreLabel.frame.size.height + (2 * CELL_PADDING);
@@ -353,8 +350,7 @@ enum NEW_MENU_OPTIONS { NEW_OPTION, RISING_OPTION };
     [_reddit retrieveMoreStoriesWithCompletionBlock:^{
         dispatch_async(dispatch_get_main_queue(), ^{
             
-            UILabel *navTitle = [[UILabel alloc] initWithTitle:_reddit.subreddit withColor:[UIColor darkGrayColor]];
-            self.navigationItem.titleView = navTitle;
+            [self updateNavigationTitle];
             
             [_storyTableView reloadData];
             [self hideLoadingHUD];
@@ -374,14 +370,19 @@ enum NEW_MENU_OPTIONS { NEW_OPTION, RISING_OPTION };
         [_reddit retrieveMoreStoriesWithCompletionBlock:^{
             dispatch_async(dispatch_get_main_queue(), ^{
                 
-                UILabel *navTitle = [[UILabel alloc] initWithTitle:_reddit.subreddit withColor:[UIColor darkGrayColor]];
-                self.navigationItem.titleView = navTitle;
+                [self updateNavigationTitle];
                 
                 [_storyTableView reloadData];
                 [self hideLoadingHUD];
             });
         }];
     }
+}
+
+- (void) updateNavigationTitle
+{
+    UIView *titleView = [NavigationTitleView createTitleWithSubReddit:_reddit.subreddit andSortOption:_reddit.sortCategory];
+    self.navigationItem.titleView = titleView;
 }
 
 

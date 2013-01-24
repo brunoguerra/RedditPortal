@@ -15,4 +15,5 @@
                                       withImage:(NSString *)fileName
                                      withOffset:(NSInteger) offset;
 
++ (UIBarButtonItem *) createButtonItemForTarget:(UIViewController *)target withText:(NSString *)text withAction:(SEL)method withOffset:(NSInteger) offset;
 @end
