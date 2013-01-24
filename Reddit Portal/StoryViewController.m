@@ -413,11 +413,7 @@ enum NEW_MENU_OPTIONS { NEW_OPTION, RISING_OPTION };
     [_reddit removeStories];
     [_reddit retrieveMoreStoriesWithCompletionBlock:^{
         dispatch_async(dispatch_get_main_queue(), ^{
-            
-            // TODO: do not create a new title.
-            UILabel *navTitle = [[UILabel alloc] initWithTitle:_reddit.subreddit withColor:[UIColor darkGrayColor]];
-            self.navigationItem.titleView = navTitle;
-            
+                        
             [_storyTableView reloadData];
             [self.pullToRefreshView finishLoading];
         });

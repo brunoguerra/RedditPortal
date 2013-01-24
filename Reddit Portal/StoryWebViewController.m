@@ -180,7 +180,7 @@
     UILabel *navTitle = [[UILabel alloc] initWithTitle:[_redditStory objectForKey:@"domain"] withColor:[UIColor darkGrayColor]];
     self.navigationItem.titleView = navTitle;
     
-    if ( [[_redditStory objectForKey:@"domain"] isEqualToString:@"self.IAmA"] )
+    if ( [[_redditStory objectForKey:@"domain"] isEqualToString:@"self.IAmA"] || [[_redditStory objectForKey:@"domain"] isEqualToString:@"reddit.com"] )
     {
         NSString *path = [NSString stringWithFormat:@"%@?id=%@&title=%@&author=%@&created=%@&domain=%@&base=%@&sort=%@",
                           [[NSBundle mainBundle] pathForResource:@"Comments" ofType:@"html"],
