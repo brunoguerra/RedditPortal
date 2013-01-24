@@ -31,42 +31,61 @@
 @synthesize HUD = _HUD;
 @synthesize redditStory = _redditStory;
 
++ (StoryWebViewController *) sharedClass
+{
+    // Creates a singleton of this class.
+    
+    static StoryWebViewController *_shared = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _shared = [[StoryWebViewController alloc] init];
+    });
+    return _shared;
+}
+
+- (id) init
+{
+    if (self = [super init])
+    {
+        UIView *contentView = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] applicationFrame]];
+        self.view = contentView;
+        
+        CGRect webFrame = [[UIScreen mainScreen] applicationFrame];
+        webFrame.origin.y = 0.0f;
+        _webView = [[UIWebView alloc] initWithFrame:webFrame];
+        _webView.backgroundColor = [UIColor whiteColor];
+        _webView.scalesPageToFit = YES;
+        _webView.contentMode = UIViewContentModeScaleAspectFit;
+        _webView.delegate = self;
+        [self.view addSubview: _webView];
+        
+        _HUD = [[MBProgressHUD alloc] initWithView:self.view];
+        [self.view addSubview:_HUD];
+        _HUD.delegate = self;
+        _HUD.labelText = @"Loading";
+        [_HUD show:YES];
+        
+        
+        UIBarButtonItem *backBarButton = [BarButtonItemObject createButtonItemForTarget:self.navigationController
+                                                                             withAction:@selector(popViewControllerAnimated:)
+                                                                              withImage:@"backArrow.png"
+                                                                             withOffset:0];
+        
+        UIBarButtonItem *actionBarButton = [BarButtonItemObject createButtonItemForTarget:self
+                                                                               withAction:@selector(showActionSheet)
+                                                                                withImage:@"action.png"
+                                                                               withOffset:10];
+        
+        self.navigationItem.leftBarButtonItem = backBarButton;
+        self.navigationItem.rightBarButtonItems = [[NSArray alloc] initWithObjects:actionBarButton, nil];
+    }
+    
+    return self;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-	UIView *contentView = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] applicationFrame]];
-	self.view = contentView;
-    
-	CGRect webFrame = [[UIScreen mainScreen] applicationFrame];
-	webFrame.origin.y = 0.0f;
-	_webView = [[UIWebView alloc] initWithFrame:webFrame];
-	_webView.backgroundColor = [UIColor whiteColor];
-	_webView.scalesPageToFit = YES;
-    _webView.contentMode = UIViewContentModeScaleAspectFit;
-	_webView.delegate = self;
-	[self.view addSubview: _webView];
-    
-    _HUD = [[MBProgressHUD alloc] initWithView:self.view];
-	[self.view addSubview:_HUD];
-    _HUD.delegate = self;
-	_HUD.labelText = @"Loading";
-    [_HUD show:YES];
-    
-    UIBarButtonItem *backBarButton = [BarButtonItemObject createButtonItemForTarget:self.navigationController
-                                                                         withAction:@selector(popViewControllerAnimated:)
-                                                                          withImage:@"backArrow.png"
-                                                                         withOffset:0];
-    
-    UIBarButtonItem *actionBarButton = [BarButtonItemObject createButtonItemForTarget:self
-                                                                           withAction:@selector(showActionSheet)
-                                                                            withImage:@"action.png"
-                                                                           withOffset:10];
-    
-    self.navigationItem.leftBarButtonItem = backBarButton;
-    self.navigationItem.rightBarButtonItems = [[NSArray alloc] initWithObjects:actionBarButton, nil];
-
-   [_webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:_storyURL]]];
 }
 
 - (void) showActionSheet
@@ -153,8 +172,8 @@
 }
 
 - (void) loadNewStory
-{
-    // TODO: fade out effect.
+{    
+    [_HUD show:YES];
     
     NSURLRequest *request = nil;
     
@@ -163,8 +182,6 @@
     
     if ( [[_redditStory objectForKey:@"domain"] isEqualToString:@"self.IAmA"] )
     {
-        NSLog(@"%@", _redditStory);
-        
         NSString *path = [NSString stringWithFormat:@"%@?id=%@&title=%@&author=%@&created=%@&domain=%@&base=%@&sort=%@",
                           [[NSBundle mainBundle] pathForResource:@"Comments" ofType:@"html"],
                           [[_redditStory objectForKey:@"id"] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding],
@@ -183,9 +200,6 @@
     {
         request = [NSURLRequest requestWithURL:[NSURL URLWithString:[_redditStory objectForKey:@"url"]]];
     }
-
-    [_HUD show:YES];
-    NSLog(@"Loading story: %@", request);
     [_webView loadRequest:request];
 }
 
@@ -194,15 +208,10 @@
     [_HUD hide:YES];
 }
 
-- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
-{
-    NSLog(@"Error Loading: %@", _storyURL );
-    NSLog(@"%@", error);
-}
-
-
 - (void) showCommentsView
 {
+    // Show the comments popup viewer
+    
     CommentsViewController *commentsController = [CommentsViewController sharedClass];
     [commentsController loadCommentsForStory:_redditStory];
     
@@ -212,7 +221,6 @@
     
     [self presentViewController:navController animated:YES completion:nil];
 }
-
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
@@ -228,11 +236,9 @@
     }
 }
 
-
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 @end

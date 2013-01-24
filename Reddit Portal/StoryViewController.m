@@ -45,7 +45,7 @@ enum NEW_MENU_OPTIONS { NEW_OPTION, RISING_OPTION };
 {
     [super viewDidLoad];
     
-    _webView = [[StoryWebViewController alloc] init];
+    _webView = [StoryWebViewController sharedClass];
     
     _storyTableView = [[UITableView alloc] initWithFrame:[[UIScreen mainScreen] bounds]
                                                    style:UITableViewStylePlain];
@@ -89,7 +89,6 @@ enum NEW_MENU_OPTIONS { NEW_OPTION, RISING_OPTION };
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    _webView.storyURL = [[_reddit.stories objectAtIndex:indexPath.row] objectForKey:@"url"];
     _webView.redditStory = [_reddit.stories objectAtIndex:indexPath.row];
     
     [_webView loadNewStory];

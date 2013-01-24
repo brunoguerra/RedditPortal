@@ -23,5 +23,6 @@
 @property (nonatomic, retain) NSDictionary *redditStory;
 
 - (void)loadNewStory;
++ (StoryWebViewController *) sharedClass;
 
 @end
