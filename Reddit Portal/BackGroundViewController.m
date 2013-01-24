@@ -122,6 +122,20 @@
     return cell;
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    UIInterfaceOrientation interfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
+    
+    if (UIInterfaceOrientationIsPortrait(interfaceOrientation))
+    {
+        _backGroundTableView.frame = CGRectMake(0, 0, 320, 415);
+    }
+    else
+    {
+        _backGroundTableView.frame = CGRectMake(0, 0, 480, 270);
+    }
+}
+
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
     // Change the size of the front story table.
@@ -132,7 +146,7 @@
     }
     else
     {
-        _backGroundTableView.frame = CGRectMake(0, 0, 480, 285);
+        _backGroundTableView.frame = CGRectMake(0, 0, 480, 270);
     }
 }
 
