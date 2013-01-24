@@ -24,6 +24,9 @@
 #define THUMBNAIL_SIZE 75.0
 #define HUD_TEXT @"Loading"
 
+enum SORT_ACTION {HOT, NEW, CONTROVERSIAL, TOP};
+enum SORT_MENU {NOTHING, MAIN_MENU, NEW_MENU, CONTROVERSIAL_MENU, TOP_MENU};
+enum NEW_MENU_OPTIONS { NEW_OPTION, RISING_OPTION };
 
 @interface StoryViewController ()
 
@@ -77,7 +80,7 @@
                                                                        withOffset:0];
     
     UIBarButtonItem *optionsButton = [BarButtonItemObject createButtonItemForTarget:self
-                                                                         withAction:@selector(showActionSheet)
+                                                                         withAction:@selector(showSortMenu)
                                                                           withImage:@"options"
                                                                          withOffset:0];
     
@@ -87,54 +90,6 @@
     [self.view addSubview:_storyTableView];
 }
 
-
-- (void) showActionSheet
-{
-    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:nil
-                                                       delegate:self
-                                              cancelButtonTitle:@"Cancel"
-                                         destructiveButtonTitle:nil
-                                              otherButtonTitles:@"Hot", @"New", @"Controversial", @"Top", nil];
-    sheet.tag = 1;
-    [sheet showInView:self.view];
-}
-
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if ( actionSheet.tag == 1)
-    {
-        if( buttonIndex == 1 ) // New
-        {            
-            UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:nil
-                                                               delegate:self
-                                                      cancelButtonTitle:@"Cancel"
-                                                 destructiveButtonTitle:nil
-                                                      otherButtonTitles:@"New", @"Rising", nil];
-            sheet.tag = 2;
-            [sheet showInView:self.view];
-        }
-        else if ( buttonIndex == 2 || buttonIndex == 3 ) // Controversial or Top
-        {
-            UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:nil
-                                                               delegate:self
-                                                      cancelButtonTitle:@"Cancel"
-                                                 destructiveButtonTitle:nil
-                                                      otherButtonTitles:@"This Hour", @"Today", @"This Month", @"This Year", @"All Time", nil];
-            sheet.tag = 3;
-            [sheet showInView:self.view];
-        }
-        else
-        {
-            [_reddit changeSortFilterTo:@"Hot" WithSortTime:@""];
-        }
-        
-        [_reddit retrieveMoreStoriesWithCompletionBlock:^{
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [_storyTableView reloadData];
-            });
-        }];
-    }
-}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -397,10 +352,36 @@
     // Load the inital stories
     [_reddit retrieveMoreStoriesWithCompletionBlock:^{
         dispatch_async(dispatch_get_main_queue(), ^{
+            
+            UILabel *navTitle = [[UILabel alloc] initWithTitle:_reddit.subreddit withColor:[UIColor darkGrayColor]];
+            self.navigationItem.titleView = navTitle;
+            
             [_storyTableView reloadData];
             [self hideLoadingHUD];
         });
     }];
+}
+
+- (void) loadMoreStoriesIfChange
+{
+    if ([_reddit didSubRedditChange])
+    {
+        [_reddit removeStories];
+        
+        [self showLoadingHUD];
+        
+        // Load the inital stories
+        [_reddit retrieveMoreStoriesWithCompletionBlock:^{
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                UILabel *navTitle = [[UILabel alloc] initWithTitle:_reddit.subreddit withColor:[UIColor darkGrayColor]];
+                self.navigationItem.titleView = navTitle;
+                
+                [_storyTableView reloadData];
+                [self hideLoadingHUD];
+            });
+        }];
+    }
 }
 
 
@@ -431,6 +412,84 @@
     }];
 }
 
+#pragma mark - Sorting
+
+- (UIActionSheet *) createActionSheetWithButtons:(NSArray *)buttons WithTag:(NSInteger)tag
+{
+    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:nil
+                                                       delegate:self
+                                              cancelButtonTitle:nil
+                                         destructiveButtonTitle:nil
+                                              otherButtonTitles:nil];
+    
+    for (int i = 0; i < [buttons count]; i++)
+    {
+        [sheet addButtonWithTitle:[buttons objectAtIndex:i]];
+    }
+    
+    [sheet addButtonWithTitle:@"Cancel"];
+    sheet.cancelButtonIndex = buttons.count;
+    
+    sheet.tag = tag;
+    return sheet;
+}
+
+- (void) showSortMenu
+{
+    UIActionSheet *sortMenu = [self createActionSheetWithButtons:[NSArray arrayWithObjects:@"Hot", @"New", @"Controversial", @"Top", nil]
+                                                         WithTag:1];
+    [sortMenu showInView:self.view];
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if ( actionSheet.tag == MAIN_MENU )
+    {
+        if( buttonIndex == NEW )
+        {
+            UIActionSheet *sheet = [self createActionSheetWithButtons:[NSArray arrayWithObjects:@"New", @"Rising", nil]
+                                                              WithTag:NEW_MENU];
+            [sheet showInView:self.view];
+        }
+        else if ( buttonIndex == CONTROVERSIAL || buttonIndex == TOP )
+        {
+            UIActionSheet *sheet = [self createActionSheetWithButtons:[NSArray arrayWithObjects:@"This Hour",
+                                                                                                @"Today",
+                                                                                                @"This Month",
+                                                                                                @"This Year",
+                                                                                                @"All Time", nil] WithTag:buttonIndex + 1];
+            [sheet showInView:self.view];
+        }
+        else if( buttonIndex == HOT )
+        {
+            [_reddit changeSortFilterTo:@"" WithSortName:@"" WithSortTime:-1];
+            [self loadMoreStoriesIfChange];
+        }
+    }
+    else if( actionSheet.tag == NEW_MENU )
+    {
+        if ( buttonIndex == NEW_OPTION )
+        {
+            [_reddit changeSortFilterTo:@"new" WithSortName:@"new" WithSortTime:-1];
+            [self loadMoreStoriesIfChange];
+        }
+        else if( buttonIndex == RISING_OPTION )
+        {
+            [_reddit changeSortFilterTo:@"new" WithSortName:@"rising" WithSortTime:-1];
+            [self loadMoreStoriesIfChange];
+        }
+    }
+    else if( actionSheet.tag == CONTROVERSIAL_MENU )
+    {
+        [_reddit changeSortFilterTo:@"controversial" WithSortName:@"controversial" WithSortTime:buttonIndex];
+        [self loadMoreStoriesIfChange];
+    }
+    else if( actionSheet.tag == TOP_MENU )
+    {
+        [_reddit changeSortFilterTo:@"top" WithSortName:@"top" WithSortTime:buttonIndex];
+        [self loadMoreStoriesIfChange];
+    }
+}
 
 #pragma mark - Loading HUD
 

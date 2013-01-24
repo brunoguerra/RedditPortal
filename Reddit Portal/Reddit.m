@@ -12,6 +12,8 @@
 #define BASE_URL @"http://reddit.com/"
 #define STORIES_PER_PAGE 25
 
+enum SORTED_TIME {HOUR, DAY, WEEK, MONTH, YEAR, ALL};
+
 @implementation Reddit
 
 @synthesize subreddit = _subreddit;
@@ -107,28 +109,51 @@
     }
 }
 
-- (void) changeSortFilterTo:(NSString *)category WithSortTime:(NSString *)time
+- (void) changeSortFilterTo:(NSString *)category WithSortName:(NSString *)name WithSortTime:(int)time
 {
-    // Settings the sorting options that appear in the url.
+    // Settings the sorting options that appear in the url.    
+    NSString *newTime = @"";
     
-    if ([category isEqualToString:@"Hot"])
+    switch (time)
     {
-        _sortCategory = @"";
-        _sortName = @"";
-        _sortTime = @"";
+        case HOUR:
+            newTime = @"hour";
+            break;
+            
+        case DAY:
+            newTime = @"day";
+            break;
+            
+        case WEEK:
+            newTime = @"week";
+            break;
+            
+        case MONTH:
+            newTime = @"month";
+            break;
+            
+        case YEAR:
+            newTime = @"year";
+            break;
+            
+        case ALL:
+            newTime = @"all";
+            break;
+            
+        default:
+            newTime = @"";
+            break;
     }
-    else if ([category isEqualToString:@"New"])
+    
+    if( ![_sortTime isEqualToString:newTime] || ![_sortCategory isEqualToString:category] || ![_sortName isEqualToString:name] )
     {
-        _sortCategory = @"new";
-        _sortName = @"new";
-        _sortTime = @"";
+        _subRedditChanged = TRUE;
     }
-    else
-    {
-        _sortCategory = category;
-        _sortName = category;
-        _sortTime = time;
-    }
+    
+    _sortCategory = category;
+    _sortName = name;
+    _sortTime = newTime;
+    
 }
 
 

@@ -32,7 +32,7 @@ typedef void (^RefreshTable) ();
 - (id) storyDataForIndex:(NSUInteger)index withKey:(NSString *)key;
 - (void) removeStories;
 - (NSURL *) getNextURL;
-- (void) changeSortFilterTo:(NSString *)category WithSortTime:(NSString *)time;
+- (void) changeSortFilterTo:(NSString *)category WithSortName:(NSString *)name WithSortTime:(int)time;
 
 
 

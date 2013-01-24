@@ -76,11 +76,7 @@ StoryViewController *_storyViewController;
 {
     // If we are revealing the front view then we might have changed subreddits and if so then we must load the new data.
     
-    if ([_reddit didSubRedditChange])
-    {
-        [_storyViewController loadMoreStories];
-    }
-    
+    [_storyViewController loadMoreStoriesIfChange];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
