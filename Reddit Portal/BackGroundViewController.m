@@ -11,7 +11,7 @@
 #import "AppDelegate.h"
 #import "UILabel+NavigationTitle.h"
 
-#define NAV_TITLE @"My Reddit"
+#define NAV_TITLE @"My Reddit             "
 
 @implementation BackGroundViewController
 
@@ -22,7 +22,7 @@
 {
     [super viewDidLoad];
         
-    _backGroundTableView = [[UITableView alloc] initWithFrame:[[UIScreen mainScreen] bounds]
+    _backGroundTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 320, 415)
                                                    style:UITableViewStylePlain];
     _backGroundTableView.delegate = self;
     _backGroundTableView.dataSource = self;
@@ -41,14 +41,14 @@
     UILabel *navTitle = [[UILabel alloc] initWithTitle:NAV_TITLE withColor:[UIColor whiteColor]];
     self.navigationItem.titleView = navTitle;
     
-    
+    /*
     //
     // Settings Button
     //
     self.navigationItem.leftBarButtonItem = [BarButtonItemObject createButtonItemForTarget:self.navigationController
                                                                                 withAction:@selector(popViewControllerAnimated:)
                                                                                  withImage:@"settings.png"
-                                                                                withOffset:5];
+                                                                                withOffset:5];*/
     
     [self.view addSubview:_backGroundTableView];
 }
@@ -120,6 +120,20 @@
     cell.textLabel.textColor = [UIColor whiteColor];
 
     return cell;
+}
+
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    // Change the size of the front story table.
+    
+    if (toInterfaceOrientation == UIInterfaceOrientationPortrait)
+    {
+        _backGroundTableView.frame = CGRectMake(0, 0, 320, 415);
+    }
+    else
+    {
+        _backGroundTableView.frame = CGRectMake(0, 0, 480, 285);
+    }
 }
 
 - (void)didReceiveMemoryWarning
