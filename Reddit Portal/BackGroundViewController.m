@@ -77,7 +77,10 @@
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    [self changeSubRedditTo:[alertView textFieldAtIndex:0].text];
+    if ( ![[alertView textFieldAtIndex:0].text isEqualToString:@""] )
+    {
+        [self changeSubRedditTo:[alertView textFieldAtIndex:0].text];
+    }
 }
 
 - (void) changeSubRedditTo:(NSString *)subreddit
