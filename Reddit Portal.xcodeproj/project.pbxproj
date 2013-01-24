@@ -40,6 +40,7 @@
 		9D41A7F81688DCE20045C46E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9D41A7F61688DCE20045C46E /* InfoPlist.strings */; };
 		9D607B2F16AD245700C89001 /* Reddit.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D607B2E16AD245700C89001 /* Reddit.m */; };
 		9D6F7B8616B0E7C8009DBE11 /* NavigationTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D6F7B8516B0E7C8009DBE11 /* NavigationTitleView.m */; };
+		9D7414EB16B13FFA002F5BA4 /* StoryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D7414EA16B13FFA002F5BA4 /* StoryTableViewCell.m */; };
 		9DC36DA416AF4FF1004BC45B /* CommentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DC36DA316AF4FF1004BC45B /* CommentsViewController.m */; };
 		9DC36DA716AF5E35004BC45B /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DC36DA616AF5E35004BC45B /* MessageUI.framework */; };
 		9DC36DAA16AF64FA004BC45B /* cancel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9DC36DA916AF64FA004BC45B /* cancel@2x.png */; };
@@ -96,6 +97,8 @@
 		9D607B2E16AD245700C89001 /* Reddit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reddit.m; sourceTree = "<group>"; };
 		9D6F7B8416B0E7C8009DBE11 /* NavigationTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NavigationTitleView.h; sourceTree = "<group>"; };
 		9D6F7B8516B0E7C8009DBE11 /* NavigationTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NavigationTitleView.m; sourceTree = "<group>"; };
+		9D7414E616B13DA4002F5BA4 /* StoryTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoryTableViewCell.h; sourceTree = "<group>"; };
+		9D7414EA16B13FFA002F5BA4 /* StoryTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoryTableViewCell.m; sourceTree = "<group>"; };
 		9DC36DA216AF4FF1004BC45B /* CommentsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentsViewController.h; sourceTree = "<group>"; };
 		9DC36DA316AF4FF1004BC45B /* CommentsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentsViewController.m; sourceTree = "<group>"; };
 		9DC36DA616AF5E35004BC45B /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
@@ -221,6 +224,8 @@
 			children = (
 				9D6F7B8416B0E7C8009DBE11 /* NavigationTitleView.h */,
 				9D6F7B8516B0E7C8009DBE11 /* NavigationTitleView.m */,
+				9D7414E616B13DA4002F5BA4 /* StoryTableViewCell.h */,
+				9D7414EA16B13FFA002F5BA4 /* StoryTableViewCell.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -369,6 +374,7 @@
 				9D3F8BA316AE97BE000CA285 /* UILabel+TableCellLabel.m in Sources */,
 				9DC36DA416AF4FF1004BC45B /* CommentsViewController.m in Sources */,
 				9D6F7B8616B0E7C8009DBE11 /* NavigationTitleView.m in Sources */,
+				9D7414EB16B13FFA002F5BA4 /* StoryTableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

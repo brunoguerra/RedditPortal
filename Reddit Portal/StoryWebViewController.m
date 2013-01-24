@@ -66,8 +66,8 @@
         [_HUD show:YES];
         
         
-        UIBarButtonItem *backBarButton = [BarButtonItemObject createButtonItemForTarget:self.navigationController
-                                                                             withAction:@selector(popViewControllerAnimated:)
+        UIBarButtonItem *backBarButton = [BarButtonItemObject createButtonItemForTarget:self
+                                                                             withAction:@selector(goBackToStories)
                                                                               withImage:@"backArrow.png"
                                                                              withOffset:0];
         
@@ -86,6 +86,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+}
+
+- (void)goBackToStories
+{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void) showActionSheet

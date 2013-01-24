@@ -18,6 +18,7 @@
 #import "SWRevealViewController.h"
 #import <MBProgressHUD.h>
 #import "NavigationTitleView.h"
+#import "StoryTableViewCell.h"
 
 #define AUTO_FETCH_BUFFER 5
 #define CELL_PADDING 10.0
@@ -108,17 +109,24 @@ enum NEW_MENU_OPTIONS { NEW_OPTION, RISING_OPTION };
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{    
+{
+    //
+    // CGSize size = [text sizeWithFont:font
+    // constrainedToSize:maximumLabelSize
+    // lineBreakMode:UILineBreakModeWordWrap];
+    //
+    
     BOOL thumbnailEmpty = [EmptyThumbnailObject isThumbnailEmpty:[_reddit storyDataForIndex:indexPath.row withKey:@"thumbnail"]];
     
     UILabel *titleLabel = [[UILabel alloc] init];
-    titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:14.0];
+    titleLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:14.0];
     titleLabel.numberOfLines = 0;
     titleLabel.textColor = [UIColor blackColor];
     titleLabel.backgroundColor = [UIColor clearColor];
     
     NSInteger thumbnailOffset = THUMBNAIL_SIZE + (2 * CELL_PADDING);
-    if (thumbnailEmpty) {
+    if (thumbnailEmpty)
+    {
         thumbnailOffset = CELL_PADDING;
     }
     
@@ -144,9 +152,8 @@ enum NEW_MENU_OPTIONS { NEW_OPTION, RISING_OPTION };
     
     CGFloat cellHeight = titleLabel.frame.size.height + authorLabel.frame.size.height + scoreLabel.frame.size.height + (2 * CELL_PADDING);
     
-    
-    if (!thumbnailEmpty && cellHeight < THUMBNAIL_SIZE + (2 * CELL_PADDING) ) {
-        
+    if (!thumbnailEmpty && cellHeight < THUMBNAIL_SIZE + (2 * CELL_PADDING) )
+    {
         return THUMBNAIL_SIZE + (2 * CELL_PADDING);
     }
 
@@ -156,80 +163,27 @@ enum NEW_MENU_OPTIONS { NEW_OPTION, RISING_OPTION };
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    // This is where the auto fetching happens
-    if (_reddit.numStoriesLoaded == indexPath.row + AUTO_FETCH_BUFFER)
+    if ( _reddit.numStoriesLoaded == indexPath.row + AUTO_FETCH_BUFFER )
     {
-        [_reddit retrieveMoreStoriesWithCompletionBlock:^{
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [_storyTableView reloadData];
-                [self.pullToRefreshView finishLoading];
-            });
-        }];
+        [self prefetchStories];
     }
     
     static NSString *cellIdentifier = @"cellIdentifierStories";
-    
-    UILabel *titleLabel = nil;
-    UILabel *storyUrlLabel = nil;
-    UILabel *dateLabel = nil;
-    UILabel *scoreLabel = nil;
-    UILabel *commentsCount = nil;
-    UILabel *authorLabel = nil;
-    UIImageView *imageView = nil;
-    
+        
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     if (!cell)
     {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
-                                      reuseIdentifier:cellIdentifier];
-        
-        titleLabel = [[UILabel alloc] initWithTag:1
-                                         withSize:14.0
-                                     withNumLines:0];
+        cell = [[StoryTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
+                                         reuseIdentifier:cellIdentifier];
+    }
 
-        imageView = [[UIImageView alloc] init];
-        imageView.tag = 2;
-        
-        storyUrlLabel = [[UILabel alloc] initWithTag:3
-                                            withSize:10.0
-                                        withNumLines:1];
-        [cell.contentView addSubview: storyUrlLabel];
-        
-        dateLabel = [[UILabel alloc] initWithTag:4
-                                        withSize:10.0
-                                    withNumLines:1];
-        
-        scoreLabel = [[UILabel alloc] initWithTag:5
-                                         withSize:10.0
-                                     withNumLines:1];
-        
-        commentsCount = [[UILabel alloc] initWithTag:6
-                                            withSize:10.0
-                                        withNumLines:1];
-        
-        authorLabel = [[UILabel alloc] initWithTag:7
-                                          withSize:10.0
-                                      withNumLines:1];
-        
-        [cell.contentView addSubview: titleLabel];
-        [cell.contentView addSubview: imageView];
-        [cell.contentView addSubview: dateLabel];
-        [cell.contentView addSubview: scoreLabel];
-        [cell.contentView addSubview: commentsCount];
-        [cell.contentView addSubview: authorLabel];
-    }
-    else
-    {
-        titleLabel = (UILabel *)[cell.contentView viewWithTag:1];
-        imageView = (UIImageView *)[cell.contentView viewWithTag:2];
-        storyUrlLabel = (UILabel *)[cell.contentView viewWithTag:3];
-        dateLabel = (UILabel *)[cell.contentView viewWithTag:4];
-        scoreLabel = (UILabel *)[cell.contentView viewWithTag:5];
-        commentsCount = (UILabel *)[cell.contentView viewWithTag:6];
-        authorLabel = (UILabel *)[cell.contentView viewWithTag:7];
-    }
-    
+    UILabel *titleLabel = (UILabel *)[cell.contentView viewWithTag:1];
+    UIImageView *imageView = (UIImageView *)[cell.contentView viewWithTag:2];
+    UILabel *storyUrlLabel = (UILabel *)[cell.contentView viewWithTag:3];
+    UILabel *dateLabel = (UILabel *)[cell.contentView viewWithTag:4];
+    UILabel *scoreLabel = (UILabel *)[cell.contentView viewWithTag:5];
+    UILabel *commentsCount = (UILabel *)[cell.contentView viewWithTag:6];
+    UILabel *authorLabel = (UILabel *)[cell.contentView viewWithTag:7];
     
     imageView.frame = CGRectMake(CELL_PADDING, CELL_PADDING, THUMBNAIL_SIZE, THUMBNAIL_SIZE);
     [imageView setImageWithURL:[NSURL URLWithString:[_reddit storyDataForIndex:indexPath.row withKey:@"thumbnail"]]
@@ -241,7 +195,8 @@ enum NEW_MENU_OPTIONS { NEW_OPTION, RISING_OPTION };
     NSInteger thumbnailOffset = imageView.frame.size.width + (CELL_PADDING * 2);
     BOOL thumbnailEmpty = [EmptyThumbnailObject isThumbnailEmpty:[_reddit storyDataForIndex:indexPath.row withKey:@"thumbnail"]];
     
-    if (thumbnailEmpty) {
+    if (thumbnailEmpty)
+    {
         thumbnailOffset = CELL_PADDING;
     }
     
@@ -252,7 +207,7 @@ enum NEW_MENU_OPTIONS { NEW_OPTION, RISING_OPTION };
     
     titleLabel.frame = CGRectMake( thumbnailOffset , CELL_PADDING, 320 - thumbnailOffset - CELL_PADDING, 0);
     titleLabel.text = [_reddit storyDataForIndex:indexPath.row withKey:@"title"];
-    titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:14.0];
+    titleLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:14.0];
     [titleLabel sizeToFit];
     
     NSInteger titleOffset = titleLabel.frame.size.height + TITLE_PADDING;
@@ -388,6 +343,17 @@ enum NEW_MENU_OPTIONS { NEW_OPTION, RISING_OPTION };
             });
         }];
     }
+}
+
+- (void) prefetchStories
+{
+    [_reddit retrieveMoreStoriesWithCompletionBlock:^{
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [_storyTableView reloadData];
+            [self.pullToRefreshView finishLoading];
+        });
+    }];
 }
 
 - (void) updateNavigationTitle
