@@ -47,22 +47,11 @@
 {
     if (self = [super init])
     {
-        UIView *contentView = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] applicationFrame]];
-        self.view = contentView;
+        self.view = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] applicationFrame]];
         
-        CGRect webFrame = [[UIScreen mainScreen] applicationFrame];
-        webFrame.origin.y = 0.0f;
-        _webView = [[UIWebView alloc] initWithFrame:webFrame];
-        _webView.backgroundColor = [UIColor whiteColor];
-        _webView.scalesPageToFit = YES;
-        _webView.contentMode = UIViewContentModeScaleAspectFit;
-        _webView.delegate = self;
-        [self.view addSubview: _webView];
-        
-        _HUD = [[MBProgressHUD alloc] initWithView:self.view];
-        [self.view addSubview:_HUD];
-        _HUD.delegate = self;
-        _HUD.labelText = @"Loading";
+
+        _webView = [Resources createWebViewForView:self.view ForCaller:self];
+        _HUD = [Resources createHUDForView:self.view ForCaller:self];
         [_HUD show:YES];
         
         
@@ -185,7 +174,7 @@
     UILabel *navTitle = [[UILabel alloc] initWithTitle:[_redditStory objectForKey:@"domain"] withColor:[UIColor darkGrayColor]];
     self.navigationItem.titleView = navTitle;
     
-    if ( [[_redditStory objectForKey:@"domain"] isEqualToString:@"self.IAmA"] || [[_redditStory objectForKey:@"domain"] isEqualToString:@"reddit.com"] )
+    if ( [[_redditStory objectForKey:@"domain"] isEqualToString:@"reddit.com"] || [[_redditStory objectForKey:@"domain"] rangeOfString:@"self."].location != NSNotFound)
     {
         NSString *path = [NSString stringWithFormat:@"%@?id=%@&title=%@&author=%@&created=%@&domain=%@&base=%@&sort=%@",
                           [[NSBundle mainBundle] pathForResource:@"Comments" ofType:@"html"],

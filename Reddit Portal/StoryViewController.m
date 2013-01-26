@@ -50,7 +50,8 @@ enum NEW_MENU_OPTIONS { NEW_OPTION, RISING_OPTION };
     
     _storyTableView = [[UITableView alloc] initWithFrame:[[UIScreen mainScreen] bounds]
                                                    style:UITableViewStylePlain];
-    _pullToRefreshView = [self createPullToRefresh];
+    
+    _pullToRefreshView = [Resources createPullToRefreshForTable:_storyTableView withDelegate:self];
     
     _storyTableView.delegate = self;
     _storyTableView.dataSource = self;
@@ -62,7 +63,7 @@ enum NEW_MENU_OPTIONS { NEW_OPTION, RISING_OPTION };
         
 
     // Create the HUD for future use
-    _HUD = [self createHUDForView:revealController.view];
+    _HUD = [Resources createHUDForView:revealController.view ForCaller:self];
     _reddit = [Reddit sharedClass];
     self.navigationItem.titleView = [NavigationTitleView createTitleWithSubReddit:_reddit.subreddit andSortOption:_reddit.sortCategory];
     
@@ -72,7 +73,7 @@ enum NEW_MENU_OPTIONS { NEW_OPTION, RISING_OPTION };
     UIBarButtonItem *slideButton = [BarButtonItemObject createButtonItemForTarget:revealController
                                                                        withAction:@selector(revealToggle:)
                                                                         withImage:@"slider.png"
-                                                                       withOffset:0];
+                                                                       withOffset:10];
     
     UIBarButtonItem *optionsButton = [BarButtonItemObject createButtonItemForTarget:self
                                                                          withAction:@selector(showSortMenu)
@@ -209,6 +210,7 @@ enum NEW_MENU_OPTIONS { NEW_OPTION, RISING_OPTION };
     titleLabel.text = [_reddit storyDataForIndex:indexPath.row withKey:@"title"];
     titleLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:14.0];
     [titleLabel sizeToFit];
+    //titleLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin;
     
     NSInteger titleOffset = titleLabel.frame.size.height + TITLE_PADDING;
     
@@ -365,12 +367,6 @@ enum NEW_MENU_OPTIONS { NEW_OPTION, RISING_OPTION };
 
 #pragma mark - Pull To Refresh
 
-- (SSPullToRefreshView *) createPullToRefresh
-{
-    SSPullToRefreshView *pullRefresh = [[SSPullToRefreshView alloc] initWithScrollView:_storyTableView
-                                                                              delegate:self];
-    return pullRefresh;
-}
 
 - (void)pullToRefreshViewDidStartLoading:(SSPullToRefreshView *)view
 {    
@@ -388,30 +384,11 @@ enum NEW_MENU_OPTIONS { NEW_OPTION, RISING_OPTION };
 
 #pragma mark - Sorting
 
-- (UIActionSheet *) createActionSheetWithButtons:(NSArray *)buttons WithTag:(NSInteger)tag
-{
-    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:nil
-                                                       delegate:self
-                                              cancelButtonTitle:nil
-                                         destructiveButtonTitle:nil
-                                              otherButtonTitles:nil];
-    
-    for (int i = 0; i < [buttons count]; i++)
-    {
-        [sheet addButtonWithTitle:[buttons objectAtIndex:i]];
-    }
-    
-    [sheet addButtonWithTitle:@"Cancel"];
-    sheet.cancelButtonIndex = buttons.count;
-    
-    sheet.tag = tag;
-    return sheet;
-}
-
 - (void) showSortMenu
 {
-    UIActionSheet *sortMenu = [self createActionSheetWithButtons:[NSArray arrayWithObjects:@"Hot", @"New", @"Controversial", @"Top", nil]
-                                                         WithTag:1];
+    UIActionSheet *sortMenu = [Resources createActionSheetWithButtons:[NSArray arrayWithObjects:@"Hot", @"New", @"Controversial", @"Top", nil]
+                                                              WithTag:1
+                                                            ForCaller:self];
     [sortMenu showInView:self.view];
 }
 
@@ -421,17 +398,20 @@ enum NEW_MENU_OPTIONS { NEW_OPTION, RISING_OPTION };
     {
         if( buttonIndex == NEW )
         {
-            UIActionSheet *sheet = [self createActionSheetWithButtons:[NSArray arrayWithObjects:@"New", @"Rising", nil]
-                                                              WithTag:NEW_MENU];
+            UIActionSheet *sheet = [Resources createActionSheetWithButtons:[NSArray arrayWithObjects:@"New", @"Rising", nil]
+                                                                   WithTag:NEW_MENU
+                                                                 ForCaller:self];
             [sheet showInView:self.view];
         }
         else if ( buttonIndex == CONTROVERSIAL || buttonIndex == TOP )
         {
-            UIActionSheet *sheet = [self createActionSheetWithButtons:[NSArray arrayWithObjects:@"This Hour",
+            UIActionSheet *sheet = [Resources createActionSheetWithButtons:[NSArray arrayWithObjects:@"This Hour",
                                                                                                 @"Today",
                                                                                                 @"This Month",
                                                                                                 @"This Year",
-                                                                                                @"All Time", nil] WithTag:buttonIndex + 1];
+                                                                                                @"All Time", nil]
+                                                                   WithTag:buttonIndex + 1
+                                                                 ForCaller:self];
             [sheet showInView:self.view];
         }
         else if( buttonIndex == HOT )
@@ -466,16 +446,6 @@ enum NEW_MENU_OPTIONS { NEW_OPTION, RISING_OPTION };
 }
 
 #pragma mark - Loading HUD
-
-- (MBProgressHUD *) createHUDForView:(UIView *)view
-{
-    MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:view];
-	[view addSubview:hud];
-    hud.delegate = self;
-	hud.labelText = HUD_TEXT;
-    
-    return hud;
-}
 
 - (void) showLoadingHUD
 {

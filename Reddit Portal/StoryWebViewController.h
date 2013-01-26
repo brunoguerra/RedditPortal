@@ -22,7 +22,9 @@
 @property (nonatomic, retain) MBProgressHUD *HUD;
 @property (nonatomic, retain) NSDictionary *redditStory;
 
-- (void)loadNewStory;
 + (StoryWebViewController *) sharedClass;
+
+- (void)loadNewStory;
+
 
 @end
