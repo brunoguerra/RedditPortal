@@ -185,6 +185,7 @@ enum NEW_MENU_OPTIONS { NEW_OPTION, RISING_OPTION };
     UILabel *scoreLabel = (UILabel *)[cell.contentView viewWithTag:5];
     UILabel *commentsCount = (UILabel *)[cell.contentView viewWithTag:6];
     UILabel *authorLabel = (UILabel *)[cell.contentView viewWithTag:7];
+    UILabel *subReddit = (UILabel *)[cell.contentView viewWithTag:8];
     
     imageView.frame = CGRectMake(CELL_PADDING, CELL_PADDING, THUMBNAIL_SIZE, THUMBNAIL_SIZE);
     [imageView setImageWithURL:[NSURL URLWithString:[_reddit storyDataForIndex:indexPath.row withKey:@"thumbnail"]]
@@ -266,6 +267,16 @@ enum NEW_MENU_OPTIONS { NEW_OPTION, RISING_OPTION };
     authorLabel.frame = CGRectMake( runningOffset, titleOffset, 0, 0);
     authorLabel.text = [_reddit storyDataForIndex:indexPath.row withKey:@"author"];
     [authorLabel sizeToFit];
+    
+    runningOffset = runningOffset + authorLabel.frame.size.width + CELL_PADDING;
+    
+    //
+    // Sub reddit of the story
+    //
+    
+    subReddit.frame = CGRectMake( runningOffset, titleOffset, 0, 0);
+    subReddit.text = [_reddit storyDataForIndex:indexPath.row withKey:@"subreddit"];
+    [subReddit sizeToFit];
     
     
     [cell.contentView addSubview: imageView];
