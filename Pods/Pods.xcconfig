@@ -1,7 +1,7 @@
 ALWAYS_SEARCH_USER_PATHS = YES
 HEADER_SEARCH_PATHS = ${PODS_HEADERS_SEARCH_PATHS}
 OTHER_LDFLAGS = -ObjC -framework CoreGraphics -framework MobileCoreServices -framework SystemConfiguration
-PODS_BUILD_HEADERS_SEARCH_PATHS = "${PODS_ROOT}/BuildHeaders" "${PODS_ROOT}/BuildHeaders/AFNetworking" "${PODS_ROOT}/BuildHeaders/MBProgressHUD" "${PODS_ROOT}/BuildHeaders/SSPullToRefresh" "${PODS_ROOT}/BuildHeaders/SWRevealViewController" "${PODS_ROOT}/BuildHeaders/YRDropdownView"
+PODS_BUILD_HEADERS_SEARCH_PATHS = "${PODS_ROOT}/BuildHeaders" "${PODS_ROOT}/BuildHeaders/AFNetworking" "${PODS_ROOT}/BuildHeaders/BlockAlertsAnd-ActionSheets" "${PODS_ROOT}/BuildHeaders/MBProgressHUD" "${PODS_ROOT}/BuildHeaders/SSPullToRefresh" "${PODS_ROOT}/BuildHeaders/SWRevealViewController" "${PODS_ROOT}/BuildHeaders/YRDropdownView"
 PODS_HEADERS_SEARCH_PATHS = ${PODS_PUBLIC_HEADERS_SEARCH_PATHS}
-PODS_PUBLIC_HEADERS_SEARCH_PATHS = "${PODS_ROOT}/Headers" "${PODS_ROOT}/Headers/AFNetworking" "${PODS_ROOT}/Headers/MBProgressHUD" "${PODS_ROOT}/Headers/SSPullToRefresh" "${PODS_ROOT}/Headers/SWRevealViewController" "${PODS_ROOT}/Headers/YRDropdownView"
+PODS_PUBLIC_HEADERS_SEARCH_PATHS = "${PODS_ROOT}/Headers" "${PODS_ROOT}/Headers/AFNetworking" "${PODS_ROOT}/Headers/BlockAlertsAnd-ActionSheets" "${PODS_ROOT}/Headers/MBProgressHUD" "${PODS_ROOT}/Headers/SSPullToRefresh" "${PODS_ROOT}/Headers/SWRevealViewController" "${PODS_ROOT}/Headers/YRDropdownView"
 PODS_ROOT = ${SRCROOT}/Pods
