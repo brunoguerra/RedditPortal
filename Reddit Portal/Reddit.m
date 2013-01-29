@@ -180,7 +180,8 @@ enum SORTED_TIME {HOUR, DAY, WEEK, MONTH, YEAR, ALL};
                                                             completionBlock();
                                                         }
                                                         failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
-                                                            NSLog(@"%@", [error userInfo]);
+                                                            NSLog(@"ERROR loading: %@", request);
+                                                            completionBlock();
                                                         }];
     [operation start];
 }

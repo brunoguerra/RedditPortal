@@ -61,7 +61,7 @@
     if ([[_reddit.topSubreddits objectAtIndex:indexPath.row] isEqualToString:@"Enter Subreddit"])
     {
         UIAlertView *subreddit = [[UIAlertView alloc] initWithTitle:@"Enter Subreddit"
-                                                            message:nil
+                                                            message:@"Do not include /r/"
                                                            delegate:self
                                                   cancelButtonTitle:@"Cancel"
                                                   otherButtonTitles:@"Go", nil];
