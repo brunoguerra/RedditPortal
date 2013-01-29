@@ -21,3 +21,5 @@ install_resource()
       ;;
   esac
 }
+install_resource 'YRDropdownView/YRDropdownView/bg-yellow.png'
+install_resource 'YRDropdownView/YRDropdownView/bg-yellow@2x.png'

@@ -56,6 +56,10 @@ StoryViewController *_storyViewController;
                                                             BACKGROUND_NAV_HEIGHT_OFFSET,
                                                             BACKGROUND_NAV_WIDTH,
                                                             [[UIScreen mainScreen] bounds].size.height);
+    UITapGestureRecognizer* tapRecon = [[UITapGestureRecognizer alloc]
+                                        initWithTarget:[StoryWebViewController sharedClass] action:@selector(navigationBarDoubleTap:)];
+    tapRecon.numberOfTapsRequired = 2;
+    [_storyNavigationController.navigationBar addGestureRecognizer:tapRecon];
     
     SWRevealViewController *revealController = [[SWRevealViewController alloc] initWithRearViewController:_backGroundNavigationController
                                                                                       frontViewController:_storyNavigationController];

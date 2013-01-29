@@ -12,6 +12,7 @@
 #import "UILabel+NavigationTitle.h"
 #import "CommentsViewController.h"
 #import <MessageUI/MessageUI.h>
+#import "YRDropdownView.h"
 
 #define VIEW_COMMENTS_INDEX 0
 #define VIEW_SHARE_INDEX 1
@@ -48,12 +49,10 @@
     if (self = [super init])
     {
         self.view = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] applicationFrame]];
-        
-
+    
         _webView = [Resources createWebViewForView:self.view ForCaller:self];
         _HUD = [Resources createHUDForView:self.view ForCaller:self];
         [_HUD show:YES];
-        
         
         UIBarButtonItem *backBarButton = [BarButtonItemObject createButtonItemForTarget:self
                                                                              withAction:@selector(goBackToStories)
@@ -67,9 +66,17 @@
         
         self.navigationItem.leftBarButtonItem = backBarButton;
         self.navigationItem.rightBarButtonItems = [[NSArray alloc] initWithObjects:actionBarButton, nil];
+        
     }
     
     return self;
+}
+
+- (void)navigationBarDoubleTap:(UIGestureRecognizer*)recognizer
+{
+    [YRDropdownView showDropdownInView:self.view
+                                 title:[_redditStory objectForKey:@"title"]
+                                detail:[NSString stringWithFormat:@"%@    comments: %@",[_redditStory objectForKey:@"author"], [_redditStory objectForKey:@"num_comments"]]];
 }
 
 - (void)viewDidLoad
@@ -80,6 +87,7 @@
 - (void)goBackToStories
 {
     [self.navigationController popViewControllerAnimated:YES];
+    [YRDropdownView hideDropdownInView:self.view];
 }
 
 - (void) showActionSheet
