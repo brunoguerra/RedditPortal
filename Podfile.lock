@@ -1,6 +1,7 @@
 
 PODS:
 - AFNetworking (1.0.1)
+- BlockAlertsAnd-ActionSheets (1.0.0)
 - MBProgressHUD (0.5)
 - SSPullToRefresh (1.0.1)
 - SWRevealViewController (0.0.1)
@@ -8,6 +9,7 @@ PODS:
 
 DEPENDENCIES:
 - AFNetworking
+- BlockAlertsAnd-ActionSheets
 - MBProgressHUD
 - SSPullToRefresh
 - SWRevealViewController
@@ -15,6 +17,7 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   AFNetworking: 0bce3ae41023e080e96b8a2e0d07c94709f72a81
+  BlockAlertsAnd-ActionSheets: cb6379caff86c068616d112b8bfb862b0ec932a6
   MBProgressHUD: b23ee11c42253d6d804e8e0bfabdc334e8b2571f
   SSPullToRefresh: 79a7981b5a08316749d8fae0b5c813fbc2fac7dd
   SWRevealViewController: 9a3d2c555fc89fe10483b2517af7a64f976d883c

@@ -22,7 +22,6 @@
 		9D41A7CE1688DC630045C46E /* backgroundCell.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D41A7BB1688DC630045C46E /* backgroundCell.png */; };
 		9D41A7CF1688DC630045C46E /* backgroundNavigationBar.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D41A7BC1688DC630045C46E /* backgroundNavigationBar.png */; };
 		9D41A7D01688DC630045C46E /* bookmark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D41A7BD1688DC630045C46E /* bookmark@2x.png */; };
-		9D41A7D11688DC630045C46E /* comments@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D41A7BE1688DC630045C46E /* comments@2x.png */; };
 		9D41A7D21688DC630045C46E /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D41A7BF1688DC630045C46E /* Default-568h@2x.png */; };
 		9D41A7D31688DC630045C46E /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D41A7C01688DC630045C46E /* Default.png */; };
 		9D41A7D41688DC630045C46E /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D41A7C11688DC630045C46E /* Default@2x.png */; };
@@ -39,6 +38,9 @@
 		9D41A7F41688DCD20045C46E /* BarButtonItemObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D41A7F31688DCD20045C46E /* BarButtonItemObject.m */; };
 		9D41A7F81688DCE20045C46E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9D41A7F61688DCE20045C46E /* InfoPlist.strings */; };
 		9D607B2F16AD245700C89001 /* Reddit.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D607B2E16AD245700C89001 /* Reddit.m */; };
+		9D65649816BA4DAA009B92B2 /* comments@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D65649716BA4DAA009B92B2 /* comments@2x.png */; };
+		9D65649A16BA5D19009B92B2 /* commentsLoading.gif in Resources */ = {isa = PBXBuildFile; fileRef = 9D65649916BA5D19009B92B2 /* commentsLoading.gif */; };
+		9D69D19416B888FF00DBC977 /* info.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D69D19216B888FF00DBC977 /* info.png */; };
 		9D6F7B8616B0E7C8009DBE11 /* NavigationTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D6F7B8516B0E7C8009DBE11 /* NavigationTitleView.m */; };
 		9D7414EB16B13FFA002F5BA4 /* StoryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D7414EA16B13FFA002F5BA4 /* StoryTableViewCell.m */; };
 		9D7414EE16B1484D002F5BA4 /* UILabel+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D7414ED16B1484D002F5BA4 /* UILabel+Helper.m */; };
@@ -73,7 +75,6 @@
 		9D41A7BB1688DC630045C46E /* backgroundCell.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = backgroundCell.png; path = "Reddit Portal/backgroundCell.png"; sourceTree = SOURCE_ROOT; };
 		9D41A7BC1688DC630045C46E /* backgroundNavigationBar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = backgroundNavigationBar.png; path = "Reddit Portal/backgroundNavigationBar.png"; sourceTree = SOURCE_ROOT; };
 		9D41A7BD1688DC630045C46E /* bookmark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "bookmark@2x.png"; path = "Reddit Portal/bookmark@2x.png"; sourceTree = SOURCE_ROOT; };
-		9D41A7BE1688DC630045C46E /* comments@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "comments@2x.png"; path = "Reddit Portal/comments@2x.png"; sourceTree = SOURCE_ROOT; };
 		9D41A7BF1688DC630045C46E /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "Reddit Portal/Default-568h@2x.png"; sourceTree = SOURCE_ROOT; };
 		9D41A7C01688DC630045C46E /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = "Reddit Portal/Default.png"; sourceTree = SOURCE_ROOT; };
 		9D41A7C11688DC630045C46E /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "Reddit Portal/Default@2x.png"; sourceTree = SOURCE_ROOT; };
@@ -97,6 +98,9 @@
 		9D41A7F71688DCE20045C46E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = InfoPlist.strings; sourceTree = "<group>"; };
 		9D607B2D16AD245700C89001 /* Reddit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reddit.h; sourceTree = "<group>"; };
 		9D607B2E16AD245700C89001 /* Reddit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reddit.m; sourceTree = "<group>"; };
+		9D65649716BA4DAA009B92B2 /* comments@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "comments@2x.png"; sourceTree = "<group>"; };
+		9D65649916BA5D19009B92B2 /* commentsLoading.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = commentsLoading.gif; sourceTree = "<group>"; };
+		9D69D19216B888FF00DBC977 /* info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = info.png; sourceTree = "<group>"; };
 		9D6F7B8416B0E7C8009DBE11 /* NavigationTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NavigationTitleView.h; sourceTree = "<group>"; };
 		9D6F7B8516B0E7C8009DBE11 /* NavigationTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NavigationTitleView.m; sourceTree = "<group>"; };
 		9D7414E616B13DA4002F5BA4 /* StoryTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoryTableViewCell.h; sourceTree = "<group>"; };
@@ -252,8 +256,11 @@
 		9DC36DA816AF626E004BC45B /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				9D65649916BA5D19009B92B2 /* commentsLoading.gif */,
+				9D65649716BA4DAA009B92B2 /* comments@2x.png */,
 				9DC36DA916AF64FA004BC45B /* cancel@2x.png */,
 				9D41A7C51688DC630045C46E /* navigationBar.png */,
+				9D69D19216B888FF00DBC977 /* info.png */,
 				9D41A7C61688DC630045C46E /* options@2x.png */,
 				9D41A7C91688DC630045C46E /* settings@2x.png */,
 				9D41A7CA1688DC630045C46E /* slider@2x.png */,
@@ -263,7 +270,6 @@
 				9D41A7BB1688DC630045C46E /* backgroundCell.png */,
 				9D41A7BC1688DC630045C46E /* backgroundNavigationBar.png */,
 				9D41A7BD1688DC630045C46E /* bookmark@2x.png */,
-				9D41A7BE1688DC630045C46E /* comments@2x.png */,
 				9D41A7BF1688DC630045C46E /* Default-568h@2x.png */,
 				9D41A7C01688DC630045C46E /* Default.png */,
 				9D41A7C11688DC630045C46E /* Default@2x.png */,
@@ -331,7 +337,6 @@
 				9D41A7CE1688DC630045C46E /* backgroundCell.png in Resources */,
 				9D41A7CF1688DC630045C46E /* backgroundNavigationBar.png in Resources */,
 				9D41A7D01688DC630045C46E /* bookmark@2x.png in Resources */,
-				9D41A7D11688DC630045C46E /* comments@2x.png in Resources */,
 				9D41A7D21688DC630045C46E /* Default-568h@2x.png in Resources */,
 				9D41A7D31688DC630045C46E /* Default.png in Resources */,
 				9D41A7D41688DC630045C46E /* Default@2x.png in Resources */,
@@ -344,6 +349,9 @@
 				9D41A7F81688DCE20045C46E /* InfoPlist.strings in Resources */,
 				9D3A932616AF25E900F02D06 /* Comments.html in Resources */,
 				9DC36DAA16AF64FA004BC45B /* cancel@2x.png in Resources */,
+				9D69D19416B888FF00DBC977 /* info.png in Resources */,
+				9D65649816BA4DAA009B92B2 /* comments@2x.png in Resources */,
+				9D65649A16BA5D19009B92B2 /* commentsLoading.gif in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

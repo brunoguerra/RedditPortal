@@ -19,6 +19,8 @@
 #import <MBProgressHUD.h>
 #import "NavigationTitleView.h"
 #import "StoryTableViewCell.h"
+#import <BlockActionSheet.h>
+#import <BlockAlertView.h>
 
 #define AUTO_FETCH_BUFFER 5
 #define CELL_PADDING 10.0
@@ -397,10 +399,70 @@ enum NEW_MENU_OPTIONS { NEW_OPTION, RISING_OPTION };
 
 - (void) showSortMenu
 {
-    UIActionSheet *sortMenu = [Resources createActionSheetWithButtons:[NSArray arrayWithObjects:@"Hot", @"New", @"Controversial", @"Top", nil]
-                                                              WithTag:1
-                                                            ForCaller:self];
-    [sortMenu showInView:self.view];
+    BlockActionSheet *sheet = [BlockActionSheet sheetWithTitle:nil];
+    [sheet addButtonWithTitle:@"Hot" block:^{
+        
+        [_reddit changeSortFilterTo:@"" WithSortName:@"" WithSortTime:-1];
+        [self loadMoreStoriesIfChange];
+    }];
+    [sheet addButtonWithTitle:@"New" block:^{
+        
+        BlockAlertView *alert = [BlockAlertView alertWithTitle:nil
+                                                       message:nil];
+        
+        [alert setCancelButtonWithTitle:@"New" block:^{
+            [_reddit changeSortFilterTo:@"new" WithSortName:@"new" WithSortTime:-1];
+            [self loadMoreStoriesIfChange];
+        }];
+        [alert setCancelButtonWithTitle:@"Rising" block:^{
+            [_reddit changeSortFilterTo:@"new" WithSortName:@"rising" WithSortTime:-1];
+            [self loadMoreStoriesIfChange];
+        }];
+        [alert setDestructiveButtonWithTitle:@"Cancel" block:nil];
+        [alert show];
+        
+    }];
+    [sheet addButtonWithTitle:@"Controversial" block:^{
+        [self timeAlertMenu:@"controversial"];
+    }];
+    [sheet addButtonWithTitle:@"Top" block:^{
+        [self timeAlertMenu:@"top"];
+    }];
+    [sheet setCancelButtonWithTitle:@"Cancel" block:nil];
+    [sheet showInView:self.view];
+}
+
+- (void)timeAlertMenu:(NSString *)category
+{
+    BlockAlertView *alert = [BlockAlertView alertWithTitle:nil
+                                                   message:nil];
+    
+    [alert addButtonWithTitle:@"This Hour" block:^{
+        [_reddit changeSortFilterTo:category WithSortName:category WithSortTime:0];
+        [self loadMoreStoriesIfChange];
+    }];
+    [alert addButtonWithTitle:@"This Day" block:^{
+        [_reddit changeSortFilterTo:category WithSortName:category WithSortTime:1];
+        [self loadMoreStoriesIfChange];
+    }];
+    [alert addButtonWithTitle:@"This Week" block:^{
+        [_reddit changeSortFilterTo:category WithSortName:category WithSortTime:2];
+        [self loadMoreStoriesIfChange];
+    }];
+    [alert addButtonWithTitle:@"This Month" block:^{
+        [_reddit changeSortFilterTo:category WithSortName:category WithSortTime:3];
+        [self loadMoreStoriesIfChange];
+    }];
+    [alert addButtonWithTitle:@"This Year" block:^{
+        [_reddit changeSortFilterTo:category WithSortName:category WithSortTime:4];
+        [self loadMoreStoriesIfChange];
+    }];
+    [alert addButtonWithTitle:@"All Time" block:^{
+        [_reddit changeSortFilterTo:category WithSortName:category WithSortTime:5];
+        [self loadMoreStoriesIfChange];
+    }];
+    [alert setDestructiveButtonWithTitle:@"Cancel" block:nil];
+    [alert show];
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex

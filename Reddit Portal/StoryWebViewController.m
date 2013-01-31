@@ -13,6 +13,7 @@
 #import "CommentsViewController.h"
 #import <MessageUI/MessageUI.h>
 #import "YRDropdownView.h"
+#import <BlockActionSheet.h>
 
 #define VIEW_COMMENTS_INDEX 0
 #define VIEW_SHARE_INDEX 1
@@ -21,21 +22,24 @@
 #define SHARE_VIA_EMAIL 0
 #define SHARE_VIA_SMS 1
 
+#define VIEW_COMMENTS_TITLE @"View Comments"
+#define SHARE_TITLE @"Share Story"
+
+
 @interface StoryWebViewController ()
 
 @end
 
 @implementation StoryWebViewController
 
-@synthesize storyURL = _storyURL;
-@synthesize webView = _webView;
 @synthesize HUD = _HUD;
+@synthesize webView = _webView;
+@synthesize storyURL = _storyURL;
 @synthesize redditStory = _redditStory;
+@synthesize isOnStoryWebController = _isOnStoryWebController;
 
 + (StoryWebViewController *) sharedClass
 {
-    // Creates a singleton of this class.
-    
     static StoryWebViewController *_shared = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -57,26 +61,36 @@
         UIBarButtonItem *backBarButton = [BarButtonItemObject createButtonItemForTarget:self
                                                                              withAction:@selector(goBackToStories)
                                                                               withImage:@"backArrow.png"
-                                                                             withOffset:0];
+                                                                             withOffset:5];
         
         UIBarButtonItem *actionBarButton = [BarButtonItemObject createButtonItemForTarget:self
                                                                                withAction:@selector(showActionSheet)
                                                                                 withImage:@"action.png"
                                                                                withOffset:10];
         
+        
         self.navigationItem.leftBarButtonItem = backBarButton;
         self.navigationItem.rightBarButtonItems = [[NSArray alloc] initWithObjects:actionBarButton, nil];
-        
+     
+        _isOnStoryWebController = false;
     }
     
     return self;
 }
 
+
 - (void)navigationBarDoubleTap:(UIGestureRecognizer*)recognizer
 {
-    [YRDropdownView showDropdownInView:self.view
-                                 title:[_redditStory objectForKey:@"title"]
-                                detail:[NSString stringWithFormat:@"%@    comments: %@",[_redditStory objectForKey:@"author"], [_redditStory objectForKey:@"num_comments"]]];
+    // On double tap we show the more info alert but only when viewing the story.
+    
+    if( _isOnStoryWebController )
+    {
+        [YRDropdownView showDropdownInView:self.view
+                                     title:[_redditStory objectForKey:@"title"]
+                                    detail:[NSString stringWithFormat:@"%@    comments: %@",
+                                                      [_redditStory objectForKey:@"author"],
+                                                [_redditStory objectForKey:@"num_comments"]]];
+    }
 }
 
 - (void)viewDidLoad
@@ -88,79 +102,68 @@
 {
     [self.navigationController popViewControllerAnimated:YES];
     [YRDropdownView hideDropdownInView:self.view];
+    _isOnStoryWebController = false;
 }
 
 - (void) showActionSheet
 {
-    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:nil
-                                                       delegate:self
-                                              cancelButtonTitle:@"Cancel"
-                                         destructiveButtonTitle:nil
-                                              otherButtonTitles:@"View Comments", @"Share This Story", nil];
-    sheet.tag = PRIMARY_ACTION_SHEET;
+    BlockActionSheet *sheet = [BlockActionSheet sheetWithTitle:nil];
+    [sheet addButtonWithTitle:@"View Comments" block:^{
+        
+        [self showCommentsView];
+    }];
+    [sheet addButtonWithTitle:@"Share Story" block:^{
+        [self shareStory];
+    }];
+    [sheet setCancelButtonWithTitle:@"Cancel" block:nil];
+    [sheet showInView:self.view];
+    
+    
+}
+
+- (void)shareStory
+{
+    BlockActionSheet *sheet = [BlockActionSheet sheetWithTitle:nil];
+    [sheet addButtonWithTitle:@"Via Email" block:^{
+        
+        // Sharing via Email
+        if( [MFMailComposeViewController canSendMail] )
+        {
+            MFMailComposeViewController *mailCont = [[MFMailComposeViewController alloc] init];
+            mailCont.mailComposeDelegate = self;
+            
+            [mailCont setSubject:@"Check out this story on Reddit"];
+            [mailCont setToRecipients:[NSArray arrayWithObject:@""]];
+            [mailCont setMessageBody:[_redditStory objectForKey:@"url"] isHTML:NO];
+            
+            [self presentViewController:mailCont animated:YES completion:nil];
+        }
+        else
+        {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"No Email Account"
+                                                            message:@"You must have an email account added to your settings for emails to work."
+                                                           delegate:self
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil];
+            [alert show];
+        }
+    }];
+    [sheet addButtonWithTitle:@"Via SMS" block:^{
+        
+        if( [MFMessageComposeViewController canSendText] )
+        {
+            MFMessageComposeViewController *messageController = [[MFMessageComposeViewController alloc] init];
+            messageController.messageComposeDelegate = self;
+            
+            [messageController setBody:[_redditStory objectForKey:@"url"]];
+            [self presentViewController:messageController animated:YES completion:nil];
+        }
+    }];
+    [sheet setCancelButtonWithTitle:@"Cancel" block:nil];
     [sheet showInView:self.view];
 }
 
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if ( actionSheet.tag == PRIMARY_ACTION_SHEET )
-    {
-        if( buttonIndex == VIEW_COMMENTS_INDEX )
-        {
-            [self showCommentsView];
-        }
-        else if( buttonIndex == VIEW_SHARE_INDEX )
-        {
-            UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:nil
-                                                               delegate:self
-                                                      cancelButtonTitle:@"Cancel"
-                                                 destructiveButtonTitle:nil
-                                                      otherButtonTitles:@"Share Via Email", @"Share Via SMS", nil];
-            sheet.tag = SHARING_ACTION_SHEET;
-            [sheet showInView:self.view];
-        }
-    }
-    else
-    {
-        if ( buttonIndex == SHARE_VIA_EMAIL )
-        {
-            // Sharing via Email
-            if( [MFMailComposeViewController canSendMail] )
-            {
-                MFMailComposeViewController *mailCont = [[MFMailComposeViewController alloc] init];
-                mailCont.mailComposeDelegate = self;
-                
-                [mailCont setSubject:@"Check out this story on Reddit"];
-                [mailCont setToRecipients:[NSArray arrayWithObject:@""]];
-                [mailCont setMessageBody:[_redditStory objectForKey:@"url"] isHTML:NO];
-                
-                [self presentViewController:mailCont animated:YES completion:nil];
-            }
-            else
-            {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"No Email Account"
-                                                                message:@"You must have an email account added to your settings for emails to work."
-                                                               delegate:self
-                                                      cancelButtonTitle:@"OK"
-                                                      otherButtonTitles:nil];
-                [alert show];
-            }
-        }
-        else if( buttonIndex == SHARE_VIA_SMS )
-        {
-            // Sharing via SMS
-            
-            if( [MFMessageComposeViewController canSendText] )
-            {
-                MFMessageComposeViewController *messageController = [[MFMessageComposeViewController alloc] init];
-                messageController.messageComposeDelegate = self;
-                
-                [messageController setBody:[_redditStory objectForKey:@"url"]];
-                [self presentViewController:messageController animated:YES completion:nil];
-            }
-        }
-    }
-}
+
 
 // Then implement the delegate method
 - (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error
@@ -174,12 +177,15 @@
 }
 
 - (void) loadNewStory
-{    
+{
+    _isOnStoryWebController = true;
     [_HUD show:YES];
     
+
     NSURLRequest *request = nil;
     
-    UILabel *navTitle = [[UILabel alloc] initWithTitle:[_redditStory objectForKey:@"domain"] withColor:[UIColor darkGrayColor]];
+    UILabel *navTitle = [[UILabel alloc] initWithTitle:[NSString stringWithFormat:@"%@", [_redditStory objectForKey:@"domain"]]
+                                             withColor:[UIColor darkGrayColor]];
     self.navigationItem.titleView = navTitle;
     
     if ( [[_redditStory objectForKey:@"domain"] isEqualToString:@"reddit.com"] || [[_redditStory objectForKey:@"domain"] rangeOfString:@"self."].location != NSNotFound)

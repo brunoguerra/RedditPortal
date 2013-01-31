@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <MBProgressHUD.h>
 #import <MessageUI/MessageUI.h>
+#import <YRDropdownView.h>
 
 @interface StoryWebViewController : UIViewController <UIWebViewDelegate,
                                                   MBProgressHUDDelegate,
@@ -21,6 +22,7 @@
 @property (nonatomic, retain) UIWebView *webView;
 @property (nonatomic, retain) MBProgressHUD *HUD;
 @property (nonatomic, retain) NSDictionary *redditStory;
+@property (nonatomic, assign) bool isOnStoryWebController;
 
 + (StoryWebViewController *) sharedClass;
 
