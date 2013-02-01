@@ -27,6 +27,7 @@
 @property (nonatomic, retain) Reddit *reddit;
 @property (nonatomic, retain) MBProgressHUD *HUD;
 
++(NSString*)parseString:(NSString*)str;
 
 - (void) loadMoreStories;
 - (void) loadMoreStoriesIfChange;

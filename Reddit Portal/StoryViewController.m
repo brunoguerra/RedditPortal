@@ -134,7 +134,7 @@ enum NEW_MENU_OPTIONS { NEW_OPTION, RISING_OPTION };
     }
     
     titleLabel.frame = CGRectMake( thumbnailOffset , CELL_PADDING, 320 - thumbnailOffset - CELL_PADDING, 0);
-    titleLabel.text = [_reddit storyDataForIndex:indexPath.row withKey:@"title"];
+    titleLabel.text = [StoryViewController parseString:[_reddit storyDataForIndex:indexPath.row withKey:@"title"]];
     [titleLabel sizeToFit];
     
     UILabel *authorLabel = [[UILabel alloc] init];
@@ -210,7 +210,7 @@ enum NEW_MENU_OPTIONS { NEW_OPTION, RISING_OPTION };
     //
     
     titleLabel.frame = CGRectMake( thumbnailOffset , CELL_PADDING, 320 - thumbnailOffset - CELL_PADDING, 0);
-    titleLabel.text = [_reddit storyDataForIndex:indexPath.row withKey:@"title"];
+    titleLabel.text = [StoryViewController parseString:[NSString stringWithFormat:@"%@", [_reddit storyDataForIndex:indexPath.row withKey:@"title"]]];
     titleLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:14.0];
     [titleLabel sizeToFit];
     //titleLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin;
@@ -315,6 +315,17 @@ enum NEW_MENU_OPTIONS { NEW_OPTION, RISING_OPTION };
     }
 }
 
++(NSString*)parseString:(NSString*)str
+{
+    str  = [str stringByReplacingOccurrencesOfString:@"&ndash;" withString:@"-"];
+    str  = [str stringByReplacingOccurrencesOfString:@"&rdquo;" withString:@"\""];
+    str  = [str stringByReplacingOccurrencesOfString:@"&ldquo;" withString:@"\""];
+    str  = [str stringByReplacingOccurrencesOfString:@"&oacute;" withString:@"o"];
+    str  = [str stringByReplacingOccurrencesOfString:@"&#039;" withString:@"'"];
+    str  = [str stringByReplacingOccurrencesOfString:@"&amp;" withString:@"&"];
+    return str;
+}
+                       
 
 - (void)didReceiveMemoryWarning
 {

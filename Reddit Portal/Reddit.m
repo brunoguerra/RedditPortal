@@ -60,27 +60,27 @@ enum SORTED_TIME {HOUR, DAY, WEEK, MONTH, YEAR, ALL};
 {
     // Creates the "top" subreddits that are displayed in the background table.
     
-    NSArray *subreddits = [[NSArray alloc] initWithObjects:@"Front Page",
-                                                          @"All Reddits",
-                                                      @"Enter Subreddit",
-                                                                 @"Pics",
-                                                                @"Funny",
-                                                             @"Politics",
-                                                               @"Gaming",
-                                                            @"ASKReddit",
-                                                            @"WorldNews",
-                                                               @"Videos",
-                                                                 @"IAMA",
-                                                        @"TodayILearned",
-                                                                  @"WTF",
-                                                                  @"AWW",
-                                                              @"Atheism",
-                                                           @"Technology",
-                                                         @"AdviceAnimal",
-                                                              @"Science",
-                                                                @"Music",
-                                                               @"Movies",
-                                                               @"BestOf", nil];
+    NSArray *subreddits = [[NSArray alloc] initWithObjects:@"Enter Subreddit",
+                                                                @"Front Page",
+                                                               @"All Reddits",
+                                                                     @"Pics",
+                                                                    @"Funny",
+                                                                 @"Politics",
+                                                                   @"Gaming",
+                                                                @"ASKReddit",
+                                                                @"WorldNews",
+                                                                   @"Videos",
+                                                                     @"IAMA",
+                                                            @"TodayILearned",
+                                                                      @"WTF",
+                                                                      @"AWW",
+                                                                  @"Atheism",
+                                                               @"Technology",
+                                                             @"AdviceAnimal",
+                                                                  @"Science",
+                                                                    @"Music",
+                                                                   @"Movies",
+                                                                   @"BestOf", nil];
     
     _topSubreddits = [[NSMutableArray alloc] initWithArray:subreddits];
 }

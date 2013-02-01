@@ -14,6 +14,7 @@
 #import <MessageUI/MessageUI.h>
 #import "YRDropdownView.h"
 #import <BlockActionSheet.h>
+#import "StoryViewController.h"
 
 #define VIEW_COMMENTS_INDEX 0
 #define VIEW_SHARE_INDEX 1
@@ -61,7 +62,7 @@
         UIBarButtonItem *backBarButton = [BarButtonItemObject createButtonItemForTarget:self
                                                                              withAction:@selector(goBackToStories)
                                                                               withImage:@"backArrow.png"
-                                                                             withOffset:5];
+                                                                             withOffset:10];
         
         UIBarButtonItem *actionBarButton = [BarButtonItemObject createButtonItemForTarget:self
                                                                                withAction:@selector(showActionSheet)
@@ -86,16 +87,11 @@
     if( _isOnStoryWebController )
     {
         [YRDropdownView showDropdownInView:self.view
-                                     title:[_redditStory objectForKey:@"title"]
+                                     title:[StoryViewController parseString:[_redditStory objectForKey:@"title"]]
                                     detail:[NSString stringWithFormat:@"%@    comments: %@",
                                                       [_redditStory objectForKey:@"author"],
                                                 [_redditStory objectForKey:@"num_comments"]]];
     }
-}
-
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
 }
 
 - (void)goBackToStories
@@ -188,7 +184,8 @@
                                              withColor:[UIColor darkGrayColor]];
     self.navigationItem.titleView = navTitle;
     
-    if ( [[_redditStory objectForKey:@"domain"] isEqualToString:@"reddit.com"] || [[_redditStory objectForKey:@"domain"] rangeOfString:@"self."].location != NSNotFound)
+    if ( [[_redditStory objectForKey:@"domain"] isEqualToString:@"reddit.com"] ||
+        [[_redditStory objectForKey:@"domain"] rangeOfString:@"self."].location != NSNotFound)
     {
         NSString *path = [NSString stringWithFormat:@"%@?id=%@&title=%@&author=%@&created=%@&domain=%@&base=%@&sort=%@",
                           [[NSBundle mainBundle] pathForResource:@"Comments" ofType:@"html"],
@@ -256,6 +253,11 @@
     {
         _webView.frame = CGRectMake(0, 0, 480, 270);
     }
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
 }
 
 - (void)didReceiveMemoryWarning
