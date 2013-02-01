@@ -227,33 +227,7 @@
     [self presentViewController:navController animated:YES completion:nil];
 }
 
-- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
-{
-    // Change the size of the front story table.
-    
-    if (toInterfaceOrientation == UIInterfaceOrientationPortrait)
-    {
-        _webView.frame = CGRectMake(0, 0, 320, 415);
-    }
-    else
-    {
-        _webView.frame = CGRectMake(0, 0, 480, 270);
-    }
-}
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    UIInterfaceOrientation interfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
-    
-    if (UIInterfaceOrientationIsPortrait(interfaceOrientation))
-    {
-        _webView.frame = CGRectMake(0, 0, 320, 415);
-    }
-    else
-    {
-        _webView.frame = CGRectMake(0, 0, 480, 270);
-    }
-}
 
 - (void)viewDidLoad
 {

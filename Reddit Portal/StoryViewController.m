@@ -50,7 +50,7 @@ enum NEW_MENU_OPTIONS { NEW_OPTION, RISING_OPTION };
     
     _webView = [StoryWebViewController sharedClass];
     
-    _storyTableView = [[UITableView alloc] initWithFrame:[[UIScreen mainScreen] bounds]
+    _storyTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 320, [[UIScreen mainScreen] bounds].size.height - 60)
                                                    style:UITableViewStylePlain];
     
     _pullToRefreshView = [Resources createPullToRefreshForTable:_storyTableView withDelegate:self];
@@ -287,33 +287,8 @@ enum NEW_MENU_OPTIONS { NEW_OPTION, RISING_OPTION };
     return cell;
 }
 
-- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
-{    
-    // Change the size of the front story table.
-    
-    if (toInterfaceOrientation == UIInterfaceOrientationPortrait)
-    {
-        _storyTableView.frame = CGRectMake(0, 0, 320, 415);
-    }
-    else
-    {
-        _storyTableView.frame = CGRectMake(0, 0, 480, 270);
-    }
-}
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    UIInterfaceOrientation interfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
-    
-    if (UIInterfaceOrientationIsPortrait(interfaceOrientation))
-    {
-        _storyTableView.frame = CGRectMake(0, 0, 320, 415);
-    }
-    else
-    {
-        _storyTableView.frame = CGRectMake(0, 0, 480, 270);
-    }
-}
+
 
 +(NSString*)parseString:(NSString*)str
 {

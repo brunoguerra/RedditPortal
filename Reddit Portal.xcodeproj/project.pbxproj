@@ -13,6 +13,10 @@
 		9D18D4F01681A49B00927859 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D18D4EF1681A49B00927859 /* UIKit.framework */; };
 		9D18D4F21681A49B00927859 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D18D4F11681A49B00927859 /* Foundation.framework */; };
 		9D18D4F41681A49B00927859 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D18D4F31681A49B00927859 /* CoreGraphics.framework */; };
+		9D26C87216BBA7C300589BFC /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D26C87016BBA7C300589BFC /* Icon.png */; };
+		9D26C87316BBA7C300589BFC /* largeImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D26C87116BBA7C300589BFC /* largeImage.png */; };
+		9D26C87516BBA83600589BFC /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D26C87416BBA83600589BFC /* Icon.png */; };
+		9D26C87716BBA86300589BFC /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D26C87616BBA86300589BFC /* Icon@2x.png */; };
 		9D3A932616AF25E900F02D06 /* Comments.html in Resources */ = {isa = PBXBuildFile; fileRef = 9D3A932516AF25E900F02D06 /* Comments.html */; };
 		9D3F8BA316AE97BE000CA285 /* UILabel+TableCellLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D3F8BA216AE97BE000CA285 /* UILabel+TableCellLabel.m */; };
 		9D41A7B71688DC290045C46E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D41A7B61688DC290045C46E /* AppDelegate.m */; };
@@ -43,7 +47,6 @@
 		9DC36DA716AF5E35004BC45B /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DC36DA616AF5E35004BC45B /* MessageUI.framework */; };
 		9DC36DAA16AF64FA004BC45B /* cancel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9DC36DA916AF64FA004BC45B /* cancel@2x.png */; };
 		9DF8C8A616BB36D90011FB02 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9DF8C8A516BB36D90011FB02 /* Icon@2x.png */; };
-		9DF8C8A816BB42BD0011FB02 /* largeImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 9DF8C8A716BB42BC0011FB02 /* largeImage.png */; };
 		FDD42166DD2F4730B748E978 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82F1ACF22EB84A28A0C04266 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -60,6 +63,10 @@
 		9D18D4EF1681A49B00927859 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		9D18D4F11681A49B00927859 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		9D18D4F31681A49B00927859 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		9D26C87016BBA7C300589BFC /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		9D26C87116BBA7C300589BFC /* largeImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = largeImage.png; sourceTree = "<group>"; };
+		9D26C87416BBA83600589BFC /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		9D26C87616BBA86300589BFC /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		9D3A932516AF25E900F02D06 /* Comments.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Comments.html; sourceTree = "<group>"; };
 		9D3F8BA116AE97BE000CA285 /* UILabel+TableCellLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+TableCellLabel.h"; sourceTree = "<group>"; };
 		9D3F8BA216AE97BE000CA285 /* UILabel+TableCellLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+TableCellLabel.m"; sourceTree = "<group>"; };
@@ -104,7 +111,6 @@
 		9DC36DA616AF5E35004BC45B /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		9DC36DA916AF64FA004BC45B /* cancel@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cancel@2x.png"; sourceTree = "<group>"; };
 		9DF8C8A516BB36D90011FB02 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
-		9DF8C8A716BB42BC0011FB02 /* largeImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = largeImage.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,6 +132,8 @@
 		9D18D4E01681A49B00927859 = {
 			isa = PBXGroup;
 			children = (
+				9D26C87616BBA86300589BFC /* Icon@2x.png */,
+				9D26C87416BBA83600589BFC /* Icon.png */,
 				9D18D4F51681A49B00927859 /* Reddit Portal */,
 				9D18D4EE1681A49B00927859 /* Frameworks */,
 				9D18D4EC1681A49B00927859 /* Products */,
@@ -248,7 +256,8 @@
 		9DC36DA816AF626E004BC45B /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				9DF8C8A716BB42BC0011FB02 /* largeImage.png */,
+				9D26C87016BBA7C300589BFC /* Icon.png */,
+				9D26C87116BBA7C300589BFC /* largeImage.png */,
 				9DF8C8A516BB36D90011FB02 /* Icon@2x.png */,
 				9D65649916BA5D19009B92B2 /* commentsLoading.gif */,
 				9DC36DA916AF64FA004BC45B /* cancel@2x.png */,
@@ -335,7 +344,10 @@
 				9DC36DAA16AF64FA004BC45B /* cancel@2x.png in Resources */,
 				9D65649A16BA5D19009B92B2 /* commentsLoading.gif in Resources */,
 				9DF8C8A616BB36D90011FB02 /* Icon@2x.png in Resources */,
-				9DF8C8A816BB42BD0011FB02 /* largeImage.png in Resources */,
+				9D26C87216BBA7C300589BFC /* Icon.png in Resources */,
+				9D26C87316BBA7C300589BFC /* largeImage.png in Resources */,
+				9D26C87516BBA83600589BFC /* Icon.png in Resources */,
+				9D26C87716BBA86300589BFC /* Icon@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -475,15 +487,15 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7D95CB74730343FB97E240D1 /* Pods.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Travis Hoover";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Travis Hoover";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Reddit Portal/Reddit Portal-Prefix.pch";
 				INFOPLIST_FILE = "Reddit Portal/Reddit Portal-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "Reddit Portal";
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				PROVISIONING_PROFILE = "F066FAA3-D707-4D7F-AABB-D2C46BA9825E";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "F066FAA3-D707-4D7F-AABB-D2C46BA9825E";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};

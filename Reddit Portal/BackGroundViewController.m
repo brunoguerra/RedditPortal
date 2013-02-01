@@ -22,7 +22,7 @@
 {
     [super viewDidLoad];
         
-    _backGroundTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 320, 415)
+    _backGroundTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 320, [[UIScreen mainScreen] bounds].size.height - 60)
                                                    style:UITableViewStylePlain];
     _backGroundTableView.delegate = self;
     _backGroundTableView.dataSource = self;
@@ -122,33 +122,6 @@
     return cell;
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    UIInterfaceOrientation interfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
-    
-    if (UIInterfaceOrientationIsPortrait(interfaceOrientation))
-    {
-        _backGroundTableView.frame = CGRectMake(0, 0, 320, 415);
-    }
-    else
-    {
-        _backGroundTableView.frame = CGRectMake(0, 0, 480, 270);
-    }
-}
-
-- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
-{
-    // Change the size of the front story table.
-    
-    if (toInterfaceOrientation == UIInterfaceOrientationPortrait)
-    {
-        _backGroundTableView.frame = CGRectMake(0, 0, 320, 415);
-    }
-    else
-    {
-        _backGroundTableView.frame = CGRectMake(0, 0, 480, 270);
-    }
-}
 
 - (void)didReceiveMemoryWarning
 {

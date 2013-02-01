@@ -14,7 +14,7 @@
 
 + (UIWebView *)createWebViewForView:(UIView *)view ForCaller:(id)caller
 {
-    UIWebView *webView = [[UIWebView alloc] initWithFrame:view.frame];
+    UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, 320, [[UIScreen mainScreen] bounds].size.height - 60)];
     webView.backgroundColor = [UIColor whiteColor];
     webView.scalesPageToFit = YES;
     webView.contentMode = UIViewContentModeScaleAspectFit;
