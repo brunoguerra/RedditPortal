@@ -179,8 +179,6 @@
 			children = (
 				9D41A7B51688DC290045C46E /* AppDelegate.h */,
 				9D41A7B61688DC290045C46E /* AppDelegate.m */,
-				9D7414F316B14D24002F5BA4 /* Resources.h */,
-				9D7414F416B14D24002F5BA4 /* Resources.m */,
 				9D41A7F51688DCE20045C46E /* en.lproj */,
 				9D41A7C41688DC630045C46E /* main.m */,
 				9D41A7C71688DC630045C46E /* Reddit Portal-Info.plist */,
@@ -192,6 +190,8 @@
 		9D2922851683C84D00B8BF86 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				9D7414F316B14D24002F5BA4 /* Resources.h */,
+				9D7414F416B14D24002F5BA4 /* Resources.m */,
 				9D17A0141688EF0B002EDBEC /* TimeAgoObject.h */,
 				9D17A0151688EF0B002EDBEC /* TimeAgoObject.m */,
 				9D17A0161688EF0B002EDBEC /* UILabel+NavigationTitle.h */,

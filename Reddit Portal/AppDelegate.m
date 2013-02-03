@@ -6,10 +6,10 @@
 //  Copyright (c) 2012 Travis Hoover. All rights reserved.
 //
 
-#import "AppDelegate.h"
 #import "Reddit.h"
-#import "SWRevealViewController.h"
+#import "AppDelegate.h"
 #import "StoryViewController.h"
+#import "SWRevealViewController.h"
 #import "BackGroundViewController.h"
 
 #define BACKGROUND_NAV_WIDTH 230
@@ -17,44 +17,39 @@
 
 @implementation AppDelegate
 
+@synthesize reddit = _reddit;
+@synthesize storyViewController = _storyViewController;
 @synthesize backGroundViewController = _backGroundViewController;
 @synthesize storyNavigationController = _storyNavigationController;
 @synthesize backGroundNavigationController = _backGroundNavigationController;
-@synthesize reddit = _reddit;
-@synthesize storyViewController = _storyViewController;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
     
-    // Changing the status bar to black
     [[UIApplication sharedApplication] setStatusBarStyle: UIStatusBarStyleBlackOpaque];
     
+    
     _reddit = [Reddit sharedClass];
-    
-    //
-    // Create the front story view controller.
-    //
     _storyViewController = [[StoryViewController alloc] init];
+    _backGroundViewController = [[BackGroundViewController alloc] init];
     _storyNavigationController = [[UINavigationController alloc] initWithRootViewController:_storyViewController];
+    _backGroundNavigationController = [[UINavigationController alloc] initWithRootViewController:_backGroundViewController];
     
+    // Custom backgrounds for the navigation bars
     [_storyNavigationController.navigationBar setBackgroundImage:[UIImage imageNamed: @"navigationBar.png"]
                                                    forBarMetrics:UIBarMetricsDefault];
-    
-    //
-    // Create the background view controller
-    //
-    _backGroundViewController = [[BackGroundViewController alloc] init];
-    _backGroundNavigationController = [[UINavigationController alloc] initWithRootViewController:_backGroundViewController];
     
     [_backGroundNavigationController.navigationBar setBackgroundImage:[UIImage imageNamed: @"backgroundNavigationBar.png"]
                                                         forBarMetrics:UIBarMetricsDefault];
     
+    #pragma mark FIXME: Determine if this can be moved or changed so it works automagically.
     _backGroundNavigationController.view.frame = CGRectMake([[UIScreen mainScreen] bounds].origin.x,
                                                             BACKGROUND_NAV_HEIGHT_OFFSET,
                                                             BACKGROUND_NAV_WIDTH,
                                                             [[UIScreen mainScreen] bounds].size.height);
+    
     UITapGestureRecognizer* tapRecon = [[UITapGestureRecognizer alloc]
                                         initWithTarget:[StoryWebViewController sharedClass] action:@selector(navigationBarDoubleTap:)];
     tapRecon.numberOfTapsRequired = 2;

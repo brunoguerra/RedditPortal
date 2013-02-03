@@ -41,15 +41,6 @@
     UILabel *navTitle = [[UILabel alloc] initWithTitle:NAV_TITLE withColor:[UIColor whiteColor]];
     self.navigationItem.titleView = navTitle;
     
-    /*
-    //
-    // Settings Button
-    //
-    self.navigationItem.leftBarButtonItem = [BarButtonItemObject createButtonItemForTarget:self.navigationController
-                                                                                withAction:@selector(popViewControllerAnimated:)
-                                                                                 withImage:@"settings.png"
-                                                                                withOffset:5];*/
-    
     [self.view addSubview:_backGroundTableView];
 }
 

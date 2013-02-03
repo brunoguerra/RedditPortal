@@ -17,10 +17,10 @@
 
 @property (strong, nonatomic) UIWindow *window;
 
-@property (nonatomic, retain) UINavigationController *storyNavigationController;
-@property (nonatomic, retain) UINavigationController *backGroundNavigationController;
-@property (nonatomic, retain) BackGroundViewController *backGroundViewController;
-@property (nonatomic, retain) StoryViewController *storyViewController;
 @property (nonatomic, retain) Reddit *reddit;
+@property (nonatomic, retain) StoryViewController *storyViewController;
+@property (nonatomic, retain) UINavigationController *storyNavigationController;
+@property (nonatomic, retain) BackGroundViewController *backGroundViewController;
+@property (nonatomic, retain) UINavigationController *backGroundNavigationController;
 
 @end
