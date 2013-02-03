@@ -11,7 +11,6 @@
 #import <SSPullToRefresh.h>
 
 #import "Reddit.h"
-#import "AppDelegate.h"
 #import "StoryWebViewController.h"
 
 

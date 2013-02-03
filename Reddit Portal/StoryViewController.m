@@ -7,7 +7,6 @@
 //
 
 #import "StoryViewController.h"
-#import "AppDelegate.h"
 #import <AFNetworking.h>
 #import <SSPullToRefresh.h>
 #import "UILabel+NavigationTitle.h"

@@ -21,8 +21,7 @@
 @synthesize storyNavigationController = _storyNavigationController;
 @synthesize backGroundNavigationController = _backGroundNavigationController;
 @synthesize reddit = _reddit;
-
-StoryViewController *_storyViewController;
+@synthesize storyViewController = _storyViewController;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -69,11 +68,6 @@ StoryViewController *_storyViewController;
     [self.window addSubview:_backGroundNavigationController.view];
     [self.window makeKeyAndVisible];
     return YES;
-}
-
-+ (AppDelegate *) sharedAppdelegate
-{
-    return (AppDelegate *)[[UIApplication sharedApplication] delegate];
 }
 
 - (void)revealController:(SWRevealViewController *)revealController willHideRearViewController:(UIViewController *)viewController

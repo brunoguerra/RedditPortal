@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "BackGroundViewController.h"
+
+#import "Reddit.h"
 #import "StoryViewController.h"
 #import "SWRevealViewController.h"
-#import "Reddit.h"
+#import "BackGroundViewController.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate, SWRevealViewControllerDelegate>
 
@@ -19,9 +20,7 @@
 @property (nonatomic, retain) UINavigationController *storyNavigationController;
 @property (nonatomic, retain) UINavigationController *backGroundNavigationController;
 @property (nonatomic, retain) BackGroundViewController *backGroundViewController;
-//@property (nonatomic, retain) StoryViewController *storyViewController;
+@property (nonatomic, retain) StoryViewController *storyViewController;
 @property (nonatomic, retain) Reddit *reddit;
-
-+ (AppDelegate *) sharedAppdelegate;
 
 @end
