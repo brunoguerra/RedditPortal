@@ -20,13 +20,11 @@
                                                  MBProgressHUDDelegate,
                                                  UIActionSheetDelegate>
 
-@property (nonatomic, retain) StoryWebViewController *webView;
-@property (nonatomic, strong) SSPullToRefreshView *pullToRefreshView;
-@property (nonatomic, retain) UITableView *storyTableView;
 @property (nonatomic, retain) Reddit *reddit;
 @property (nonatomic, retain) MBProgressHUD *HUD;
-
-+(NSString*)parseString:(NSString*)str;
+@property (nonatomic, retain) UITableView *storyTableView;
+@property (nonatomic, retain) StoryWebViewController *webView;
+@property (nonatomic, strong) SSPullToRefreshView *pullToRefreshView;
 
 - (void) loadMoreStories;
 - (void) loadMoreStoriesIfChange;

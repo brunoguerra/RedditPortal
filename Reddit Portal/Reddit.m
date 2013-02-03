@@ -251,4 +251,17 @@ enum SORTED_TIME {HOUR, DAY, WEEK, MONTH, YEAR, ALL};
     return [NSURL URLWithString:nextUrl];
 }
 
+
+
++(NSString*)parseString:(NSString*)str
+{
+    str  = [str stringByReplacingOccurrencesOfString:@"&ndash;" withString:@"-"];
+    str  = [str stringByReplacingOccurrencesOfString:@"&rdquo;" withString:@"\""];
+    str  = [str stringByReplacingOccurrencesOfString:@"&ldquo;" withString:@"\""];
+    str  = [str stringByReplacingOccurrencesOfString:@"&oacute;" withString:@"o"];
+    str  = [str stringByReplacingOccurrencesOfString:@"&#039;" withString:@"'"];
+    str  = [str stringByReplacingOccurrencesOfString:@"&amp;" withString:@"&"];
+    return str;
+}
+
 @end

@@ -6,47 +6,41 @@
 //  Copyright (c) 2012 Travis Hoover. All rights reserved.
 //
 
-#import "StoryViewController.h"
 #import <AFNetworking.h>
+#import <MBProgressHUD.h>
+#import <BlockAlertView.h>
 #import <SSPullToRefresh.h>
-#import "UILabel+NavigationTitle.h"
-#import "UILabel+TableCellLabel.h"
+#import <BlockActionSheet.h>
+
 #import "TimeAgoObject.h"
+#import "StoryTableViewCell.h"
+#import "NavigationTitleView.h"
+#import "StoryViewController.h"
 #import "BarButtonItemObject.h"
 #import "EmptyThumbnailObject.h"
 #import "SWRevealViewController.h"
-#import <MBProgressHUD.h>
-#import "NavigationTitleView.h"
-#import "StoryTableViewCell.h"
-#import <BlockActionSheet.h>
-#import <BlockAlertView.h>
+#import "UILabel+TableCellLabel.h"
+#import "UILabel+NavigationTitle.h"
 
-#define AUTO_FETCH_BUFFER 5
 #define CELL_PADDING 10.0
 #define TITLE_PADDING 20.0
 #define THUMBNAIL_SIZE 75.0
+#define AUTO_FETCH_BUFFER 5
 #define HUD_TEXT @"Loading"
-
-enum SORT_ACTION {HOT, NEW, CONTROVERSIAL, TOP};
-enum SORT_MENU {NOTHING, MAIN_MENU, NEW_MENU, CONTROVERSIAL_MENU, TOP_MENU};
-enum NEW_MENU_OPTIONS { NEW_OPTION, RISING_OPTION };
-
-@interface StoryViewController ()
-
-@end
 
 @implementation StoryViewController
 
+@synthesize HUD = _HUD;
+@synthesize reddit = _reddit;
 @synthesize webView = _webView;
 @synthesize storyTableView = _storyTableView;
 @synthesize pullToRefreshView = _pullToRefreshView;
-@synthesize reddit = _reddit;
-@synthesize HUD = _HUD;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
+    _reddit = [Reddit sharedClass];
     _webView = [StoryWebViewController sharedClass];
     
     _storyTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 320, [[UIScreen mainScreen] bounds].size.height - 60)
@@ -56,20 +50,14 @@ enum NEW_MENU_OPTIONS { NEW_OPTION, RISING_OPTION };
     
     _storyTableView.delegate = self;
     _storyTableView.dataSource = self;
-        
+    
     SWRevealViewController *revealController = [self revealViewController];
     
     [self.navigationController.navigationBar addGestureRecognizer:revealController.panGestureRecognizer];
     [self.view addGestureRecognizer:revealController.panGestureRecognizer];
         
-
-    // Create the HUD for future use
     _HUD = [Resources createHUDForView:revealController.view ForCaller:self];
-    _reddit = [Reddit sharedClass];
     self.navigationItem.titleView = [NavigationTitleView createTitleWithSubReddit:_reddit.subreddit andSortOption:_reddit.sortCategory];
-    
-    [self loadMoreStories];
-
     
     UIBarButtonItem *slideButton = [BarButtonItemObject createButtonItemForTarget:revealController
                                                                        withAction:@selector(revealToggle:)
@@ -85,8 +73,39 @@ enum NEW_MENU_OPTIONS { NEW_OPTION, RISING_OPTION };
     self.navigationItem.rightBarButtonItems = [[NSArray alloc] initWithObjects:optionsButton, nil];
 
     [self.view addSubview:_storyTableView];
+    [self loadMoreStories];
 }
 
+#pragma mark - TableView Delegate Methods
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{    
+    BOOL thumbnailEmpty = [EmptyThumbnailObject isThumbnailEmpty:[_reddit storyDataForIndex:indexPath.row withKey:@"thumbnail"]];
+            
+    NSInteger thumbnailOffset = THUMBNAIL_SIZE + (2 * CELL_PADDING);
+    if (thumbnailEmpty)
+    {
+        thumbnailOffset = CELL_PADDING;
+    }
+    
+    CGSize titleSize = [[_reddit storyDataForIndex:indexPath.row withKey:@"title"] sizeWithFont:[UIFont fontWithName:@"HelveticaNeue" size:14.0]
+                                                                              constrainedToSize:CGSizeMake(320 - thumbnailOffset - CELL_PADDING, 1000)];
+    
+    CGSize authorSize = [[_reddit storyDataForIndex:indexPath.row withKey:@"author"] sizeWithFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:14.0]
+                                                                                constrainedToSize:CGSizeMake(320, 1000)];
+    
+    CGSize domainSize = [[_reddit storyDataForIndex:indexPath.row withKey:@"domain"] sizeWithFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:14.0]
+                                                                                constrainedToSize:CGSizeMake(320, 1000)];
+    
+    CGFloat cellHeight = titleSize.height + authorSize.height + domainSize.height + (2 * CELL_PADDING);
+    
+    if (!thumbnailEmpty && cellHeight < THUMBNAIL_SIZE + (2 * CELL_PADDING) )
+    {
+        return THUMBNAIL_SIZE + (2 * CELL_PADDING);
+    }
+    
+    return cellHeight;
+}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -100,85 +119,29 @@ enum NEW_MENU_OPTIONS { NEW_OPTION, RISING_OPTION };
                                          animated:YES];
 }
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    return 1;
-}
+#pragma mark - TableView Data Source Methods
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return _reddit.numStoriesLoaded;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    //
-    // CGSize size = [text sizeWithFont:font
-    // constrainedToSize:maximumLabelSize
-    // lineBreakMode:UILineBreakModeWordWrap];
-    //
-    
-    BOOL thumbnailEmpty = [EmptyThumbnailObject isThumbnailEmpty:[_reddit storyDataForIndex:indexPath.row withKey:@"thumbnail"]];
-    
-    UILabel *titleLabel = [[UILabel alloc] init];
-    titleLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:14.0];
-    titleLabel.numberOfLines = 0;
-    titleLabel.textColor = [UIColor blackColor];
-    titleLabel.backgroundColor = [UIColor clearColor];
-    
-    NSInteger thumbnailOffset = THUMBNAIL_SIZE + (2 * CELL_PADDING);
-    if (thumbnailEmpty)
-    {
-        thumbnailOffset = CELL_PADDING;
-    }
-    
-    titleLabel.frame = CGRectMake( thumbnailOffset , CELL_PADDING, 320 - thumbnailOffset - CELL_PADDING, 0);
-    titleLabel.text = [StoryViewController parseString:[_reddit storyDataForIndex:indexPath.row withKey:@"title"]];
-    [titleLabel sizeToFit];
-    
-    UILabel *authorLabel = [[UILabel alloc] init];
-    authorLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:14.0];
-    authorLabel.numberOfLines = 1;
-    authorLabel.textColor = [UIColor blackColor];
-    authorLabel.backgroundColor = [UIColor clearColor];
-    authorLabel.text = [_reddit storyDataForIndex:indexPath.row withKey:@"author"];
-    [authorLabel sizeToFit];
-    
-    UILabel *scoreLabel = [[UILabel alloc] init];
-    scoreLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:14.0];
-    scoreLabel.numberOfLines = 1;
-    scoreLabel.textColor = [UIColor blackColor];
-    scoreLabel.backgroundColor = [UIColor clearColor];
-    scoreLabel.text = [_reddit storyDataForIndex:indexPath.row withKey:@"domain"];
-    [scoreLabel sizeToFit];
-    
-    CGFloat cellHeight = titleLabel.frame.size.height + authorLabel.frame.size.height + scoreLabel.frame.size.height + (2 * CELL_PADDING);
-    
-    if (!thumbnailEmpty && cellHeight < THUMBNAIL_SIZE + (2 * CELL_PADDING) )
-    {
-        return THUMBNAIL_SIZE + (2 * CELL_PADDING);
-    }
-
-    return cellHeight;
-}
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
     if ( _reddit.numStoriesLoaded == indexPath.row + AUTO_FETCH_BUFFER )
-    {
-        [self prefetchStories];
+    {        
+        [self prefetchStories]; // Infinite scroll
     }
     
     static NSString *cellIdentifier = @"cellIdentifierStories";
-        
+    
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     if (!cell)
     {
         cell = [[StoryTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
                                          reuseIdentifier:cellIdentifier];
     }
-
+    
     UILabel *titleLabel = (UILabel *)[cell.contentView viewWithTag:1];
     UIImageView *imageView = (UIImageView *)[cell.contentView viewWithTag:2];
     UILabel *storyUrlLabel = (UILabel *)[cell.contentView viewWithTag:3];
@@ -192,8 +155,6 @@ enum NEW_MENU_OPTIONS { NEW_OPTION, RISING_OPTION };
     [imageView setImageWithURL:[NSURL URLWithString:[_reddit storyDataForIndex:indexPath.row withKey:@"thumbnail"]]
               placeholderImage:nil];
     
-
-
     // Calcuate the offset for the labels around the thumbnail
     NSInteger thumbnailOffset = imageView.frame.size.width + (CELL_PADDING * 2);
     BOOL thumbnailEmpty = [EmptyThumbnailObject isThumbnailEmpty:[_reddit storyDataForIndex:indexPath.row withKey:@"thumbnail"]];
@@ -204,33 +165,21 @@ enum NEW_MENU_OPTIONS { NEW_OPTION, RISING_OPTION };
     }
     
     
-    //
-    // Title 
-    //
-    
     titleLabel.frame = CGRectMake( thumbnailOffset , CELL_PADDING, 320 - thumbnailOffset - CELL_PADDING, 0);
-    titleLabel.text = [StoryViewController parseString:[NSString stringWithFormat:@"%@", [_reddit storyDataForIndex:indexPath.row withKey:@"title"]]];
+    titleLabel.text = [NSString stringWithFormat:@"%@", [_reddit storyDataForIndex:indexPath.row withKey:@"title"]];
     titleLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:14.0];
     [titleLabel sizeToFit];
-    //titleLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin;
+    
     
     NSInteger titleOffset = titleLabel.frame.size.height + TITLE_PADDING;
-    
-    //
-    // Story url
-    //
     
     storyUrlLabel.frame = CGRectMake( thumbnailOffset, titleOffset, 0, 0);
     storyUrlLabel.text = [_reddit storyDataForIndex:indexPath.row withKey:@"domain"];
     [storyUrlLabel sizeToFit];
-
+    
     
     NSInteger runningOffset = thumbnailOffset + storyUrlLabel.frame.size.width + CELL_PADDING;
     
-    
-    //
-    // Date Label
-    //
     
     dateLabel.frame = CGRectMake(runningOffset, titleOffset, 0, 0);
     dateLabel.text = [TimeAgoObject dateDiff:[_reddit storyDataForIndex:indexPath.row withKey:@"created_utc"]];
@@ -239,18 +188,11 @@ enum NEW_MENU_OPTIONS { NEW_OPTION, RISING_OPTION };
     
     runningOffset += dateLabel.frame.size.width + CELL_PADDING;
     
-    //
-    // Story Score
-    //
     
     scoreLabel.frame = CGRectMake(runningOffset, titleOffset, 0, 0);
     scoreLabel.text = [NSString stringWithFormat:@"%@", [_reddit storyDataForIndex:indexPath.row withKey:@"score"]];
     [scoreLabel sizeToFit];
-
     
-    //
-    // Number of comments
-    //
     
     titleOffset += storyUrlLabel.frame.size.height;
     
@@ -261,9 +203,6 @@ enum NEW_MENU_OPTIONS { NEW_OPTION, RISING_OPTION };
     
     runningOffset = thumbnailOffset + commentsCount.frame.size.width + CELL_PADDING;
     
-    //
-    // Author of Post
-    //
     
     authorLabel.frame = CGRectMake( runningOffset, titleOffset, 0, 0);
     authorLabel.text = [_reddit storyDataForIndex:indexPath.row withKey:@"author"];
@@ -271,45 +210,29 @@ enum NEW_MENU_OPTIONS { NEW_OPTION, RISING_OPTION };
     
     runningOffset = runningOffset + authorLabel.frame.size.width + CELL_PADDING;
     
-    //
-    // Sub reddit of the story
-    //
-    
     subReddit.frame = CGRectMake( runningOffset, titleOffset, 0, 0);
     subReddit.text = [_reddit storyDataForIndex:indexPath.row withKey:@"subreddit"];
     [subReddit sizeToFit];
-    
-    
-    [cell.contentView addSubview: imageView];
-    
-    
+
     return cell;
 }
 
-
-
-
-+(NSString*)parseString:(NSString*)str
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    str  = [str stringByReplacingOccurrencesOfString:@"&ndash;" withString:@"-"];
-    str  = [str stringByReplacingOccurrencesOfString:@"&rdquo;" withString:@"\""];
-    str  = [str stringByReplacingOccurrencesOfString:@"&ldquo;" withString:@"\""];
-    str  = [str stringByReplacingOccurrencesOfString:@"&oacute;" withString:@"o"];
-    str  = [str stringByReplacingOccurrencesOfString:@"&#039;" withString:@"'"];
-    str  = [str stringByReplacingOccurrencesOfString:@"&amp;" withString:@"&"];
-    return str;
+    return 1;
 }
-                       
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
 }
 
-#pragma mark - Adding new stories to the tableview
+#pragma mark - Adding new stories to the TableView
 
 - (void) loadMoreStories
 {
+    // The method is for loading more stories and just appending them to the end of the list.
+    
     [self showLoadingHUD];
     
     // Load the inital stories
@@ -326,6 +249,8 @@ enum NEW_MENU_OPTIONS { NEW_OPTION, RISING_OPTION };
 
 - (void) loadMoreStoriesIfChange
 {
+    // This method is for when there is a change to the subreddit and we need to wipe out all of the old stories and get new ones.
+    
     if ([_reddit didSubRedditChange])
     {
         [self showLoadingHUD];
@@ -347,24 +272,27 @@ enum NEW_MENU_OPTIONS { NEW_OPTION, RISING_OPTION };
 
 - (void) prefetchStories
 {
+    // Used to create the infinte scroll effect
+    
     [_reddit retrieveMoreStoriesWithCompletionBlock:^{
         
         dispatch_async(dispatch_get_main_queue(), ^{
+            
             [_storyTableView reloadData];
             [self.pullToRefreshView finishLoading];
         });
     }];
 }
 
+#pragma mark - Navigation Title
+
 - (void) updateNavigationTitle
 {
-    UIView *titleView = [NavigationTitleView createTitleWithSubReddit:_reddit.subreddit andSortOption:_reddit.sortCategory];
-    self.navigationItem.titleView = titleView;
+    self.navigationItem.titleView = [NavigationTitleView createTitleWithSubReddit:_reddit.subreddit
+                                                                    andSortOption:_reddit.sortCategory];
 }
 
-
 #pragma mark - Pull To Refresh
-
 
 - (void)pullToRefreshViewDidStartLoading:(SSPullToRefreshView *)view
 {    
@@ -450,58 +378,6 @@ enum NEW_MENU_OPTIONS { NEW_OPTION, RISING_OPTION };
     [alert show];
 }
 
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if ( actionSheet.tag == MAIN_MENU )
-    {
-        if( buttonIndex == NEW )
-        {
-            UIActionSheet *sheet = [Resources createActionSheetWithButtons:[NSArray arrayWithObjects:@"New", @"Rising", nil]
-                                                                   WithTag:NEW_MENU
-                                                                 ForCaller:self];
-            [sheet showInView:self.view];
-        }
-        else if ( buttonIndex == CONTROVERSIAL || buttonIndex == TOP )
-        {
-            UIActionSheet *sheet = [Resources createActionSheetWithButtons:[NSArray arrayWithObjects:@"This Hour",
-                                                                                                @"Today",
-                                                                                                @"This Month",
-                                                                                                @"This Year",
-                                                                                                @"All Time", nil]
-                                                                   WithTag:buttonIndex + 1
-                                                                 ForCaller:self];
-            [sheet showInView:self.view];
-        }
-        else if( buttonIndex == HOT )
-        {
-            [_reddit changeSortFilterTo:@"" WithSortName:@"" WithSortTime:-1];
-            [self loadMoreStoriesIfChange];
-        }
-    }
-    else if( actionSheet.tag == NEW_MENU )
-    {
-        if ( buttonIndex == NEW_OPTION )
-        {
-            [_reddit changeSortFilterTo:@"new" WithSortName:@"new" WithSortTime:-1];
-            [self loadMoreStoriesIfChange];
-        }
-        else if( buttonIndex == RISING_OPTION )
-        {
-            [_reddit changeSortFilterTo:@"new" WithSortName:@"rising" WithSortTime:-1];
-            [self loadMoreStoriesIfChange];
-        }
-    }
-    else if( actionSheet.tag == CONTROVERSIAL_MENU )
-    {
-        [_reddit changeSortFilterTo:@"controversial" WithSortName:@"controversial" WithSortTime:buttonIndex];
-        [self loadMoreStoriesIfChange];
-    }
-    else if( actionSheet.tag == TOP_MENU )
-    {
-        [_reddit changeSortFilterTo:@"top" WithSortName:@"top" WithSortTime:buttonIndex];
-        [self loadMoreStoriesIfChange];
-    }
-}
 
 #pragma mark - Loading HUD
 
