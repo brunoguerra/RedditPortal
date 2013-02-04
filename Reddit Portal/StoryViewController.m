@@ -324,10 +324,12 @@
                                                        message:nil];
         
         [alert setCancelButtonWithTitle:@"New" block:^{
+            
             [_reddit changeSortFilterTo:@"new" WithSortName:@"new" WithSortTime:-1];
             [self loadMoreStoriesIfChange];
         }];
         [alert setCancelButtonWithTitle:@"Rising" block:^{
+            
             [_reddit changeSortFilterTo:@"new" WithSortName:@"rising" WithSortTime:-1];
             [self loadMoreStoriesIfChange];
         }];
