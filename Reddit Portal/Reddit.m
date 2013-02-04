@@ -175,7 +175,7 @@ enum SORTED_TIME {HOUR, DAY, WEEK, MONTH, YEAR, ALL};
                                                             }
                                                             
                                                             _nextPageToken = [resultsDictionary objectForKey:@"after"];
-                                                            _numStoriesLoaded += STORIES_PER_PAGE;
+                                                            _numStoriesLoaded = _stories.count;
                                                             _subRedditChanged = FALSE;
                                                             completionBlock();
                                                         }
@@ -194,7 +194,7 @@ enum SORTED_TIME {HOUR, DAY, WEEK, MONTH, YEAR, ALL};
     
     if ( index >= [_stories count] )
     {
-        return nil;
+        return @"";
     }
     
     return [[_stories objectAtIndex:index] objectForKey:key];

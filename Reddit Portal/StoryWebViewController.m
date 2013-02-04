@@ -87,7 +87,7 @@
     if( _isOnStoryWebController )
     {
         [YRDropdownView showDropdownInView:self.view
-                                     title:[StoryViewController parseString:[_redditStory objectForKey:@"title"]]
+                                     title:[_redditStory objectForKey:@"title"]
                                     detail:[NSString stringWithFormat:@"%@    comments: %@",
                                                       [_redditStory objectForKey:@"author"],
                                                 [_redditStory objectForKey:@"num_comments"]]];
